@@ -1,0 +1,17 @@
+{
+  "name": "gpehub",
+  "version": "1.0.0",
+  "description": "GPE Club Toolbox",
+  "main": "static/js/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/BroWo1/GPE-Hub",
+  "keywords": [
+    "Electron"
+  ],
+  "author": "Will",
+  "devDependencies": {
+    "electron": "^34.0.1"
+  }
+}

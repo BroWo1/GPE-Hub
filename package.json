@@ -21,12 +21,6 @@
     "@material/web": "^2.2.0"
   },
   "build": {
-    "publish": {
-      "provider": "github",
-      "owner": "BroWo1",
-      "repo": "GPE-Hub",
-      "token": "${GH_TOKEN}"
-    },
     "appId": "com.gpeclub.gpehub",
     "productName": "GPEHub",
     "files": [

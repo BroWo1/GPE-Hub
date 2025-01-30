@@ -12,12 +12,15 @@ function createWindow () {
     height: 600,
     icon: "static/imgs/logo.ico",
     webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js')
     }
   })
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
+  mainWindow.setMenu(null)
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

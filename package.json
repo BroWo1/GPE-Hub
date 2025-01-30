@@ -4,7 +4,8 @@
   "description": "GPE Club Toolbox",
   "main": "static/js/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder"
   },
   "repository": "https://github.com/BroWo1/GPE-Hub",
   "keywords": [
@@ -12,6 +13,37 @@
   ],
   "author": "Will",
   "devDependencies": {
-    "electron": "^34.0.1"
+    "electron": "^34.0.1",
+    "electron-builder": "^25.1.8",
+    "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "@material/web": "^2.2.0"
+  },
+  "build": {
+    "appId": "com.gpeclub.gpehub",
+    "productName": "GPEHub",
+    "files": [
+      "static/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "icon": "static/imgs/logo.icns",
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "icon": "static/imgs/logo.ico",
+      "target": "nsis"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
   }
 }

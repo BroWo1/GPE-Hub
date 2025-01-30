@@ -16,3 +16,10 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${type}-version`, process.versions[type])
   }
 })
+
+// preload.js
+const { contextBridge, shell } = require('electron');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  openExternalLink: (url) => shell.openExternal(url)
+});

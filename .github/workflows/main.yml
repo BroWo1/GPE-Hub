@@ -10,23 +10,24 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      # Step to checkout your code
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Set GitHub Token to the environment variable
       - name: Set GitHub Token
         run: echo "GH_TOKEN=${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV
 
-      - name: Use GitHub Token
-        run: |
-          echo "Using GitHub Token: $GH_TOKEN"
-
+      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
 
+      # Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # Build the Electron app
       - name: Build the Electron app
         run: npm run build

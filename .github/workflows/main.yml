@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      # Checkout code
+      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -28,4 +28,6 @@ jobs:
       - name: Build the Electron app
         run: npm run build
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Pass GH_TOKEN as environment variable to the build process
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Pass GH_TOKEN as an environment variable
+
+      # Optionally, you could add a step here to upload the artifact or further publish steps

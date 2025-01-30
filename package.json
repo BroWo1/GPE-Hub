@@ -21,6 +21,7 @@
     "@material/web": "^2.2.0"
   },
   "build": {
+    "publish": "always",
     "appId": "com.gpeclub.gpehub",
     "productName": "GPEHub",
     "files": [

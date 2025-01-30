@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Use GitHub Token for authentication
+        run: |
+          echo "::set-env name=GH_TOKEN::${{ secrets.GH_TOKEN }}"
+            
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:

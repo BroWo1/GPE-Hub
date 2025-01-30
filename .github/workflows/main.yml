@@ -10,13 +10,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      # Step to checkout your code
+      # Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # Set GitHub Token to the environment variable
-      - name: Set GitHub Token
-        run: echo "GH_TOKEN=${{ secrets.GH_TOKEN }}" >> $GITHUB_ENV
 
       # Set up Node.js
       - name: Set up Node.js
@@ -28,6 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Build the Electron app
+      # Build the Electron app and pass GH_TOKEN as an environment variable
       - name: Build the Electron app
         run: npm run build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Pass GH_TOKEN as environment variable to the build process

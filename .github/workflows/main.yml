@@ -10,24 +10,19 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
 
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Build the Electron app and pass GH_TOKEN as an environment variable
-      - name: Build the Electron app
-        run: npm run build
+      # Build the Electron app AND force publishing
+      - name: Build and publish the Electron app
+        run: npx electron-builder --publish always
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Pass GH_TOKEN as an environment variable
-
-      # Optionally, you could add a step here to upload the artifact or further publish steps
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}

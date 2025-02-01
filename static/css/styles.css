@@ -422,3 +422,99 @@ input[type="checkbox"].checkbox2:checked::after {
   background: rgba(255, 255, 255, 0.5);
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
+#progressInfo {
+      padding-bottom: 10px;
+      font-size: 16px;
+
+    }
+
+    /* Progress container styled with a glassy look */
+    .progress {
+      background: rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+      border-radius: 5px;
+      box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+      overflow: hidden; /* Ensures the inner bar doesn't exceed the rounded borders */
+      height: 15px;
+      position: relative;
+    }
+
+    /* The filling bar with a smooth width transition */
+    .progress-bar {
+      background: rgba(255, 255, 255, 0.5);
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      transition: width 0.3s ease;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    /* The switch container */
+/* The switch container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide the default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider background styled with a glassy look */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border-radius: 34px; /* Fully rounded for a pill shape */
+  transition: background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* The knob (ball) inside the slider */
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 2px;
+  top: 50%; /* Position at the middle vertically */
+  transform: translate(0, -50%); /* Center the ball */
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+/* When the switch is checked, change the slider styling */
+.switch input:checked + .slider {
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid white;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* When checked, move the knob to the right while maintaining vertical centering */
+.switch input:checked + .slider::before {
+  transform: translate(26px, -50%);
+}
+
+/* Optional: Hover effect for the slider to mimic button hover */
+.switch:hover .slider {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  border: 2px solid white;
+}

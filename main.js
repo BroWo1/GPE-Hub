@@ -23,11 +23,11 @@ function createWindow () {
     }
   })
 
-  mainWindow.loadFile(path.join(__dirname, 'index.html'))
+  mainWindow.loadFile(path.join(__dirname, 'views', 'index.html'))
   mainWindow.on('ready-to-show', () =>{
     mainWindow.show()
   })
-  //mainWindow.setMenu(null)
+  mainWindow.setMenu(null)
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -107,14 +107,19 @@ app.on('before-quit', () => {
 // Handling 'set-cookie' from renderer process
 ipcMain.on('set-cookie', (event, name, value) => {
   const cookieName = `${name}_set_name`;
+  const thirtyDaysFromNow = Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60; // seconds since epoch
+
   session.defaultSession.cookies.set({
-    url: 'http://localhost',  // Adjust the URL as per your app's needs
+    url: 'http://localhost',
     name: cookieName,
     value: value || '',
-    path: '/'
-  }).then(() => {
+    path: '/',
+    expirationDate: thirtyDaysFromNow  // cookie will expire in 30 days
+  })
+  .then(() => {
     event.reply('cookie-set-success');
-  }).catch((error) => {
+  })
+  .catch((error) => {
     event.reply('cookie-set-failure', error);
   });
 });
@@ -133,5 +138,20 @@ ipcMain.handle('get-cookie', async (event, name) => {
   } catch (error) {
     console.error('Failed to retrieve cookie:', error);
     return null;  // Return null in case of an error
+  }
+});
+const { shell} = require('electron');
+
+ipcMain.on('open-external-link', (event, url) => {
+  shell.openExternal(url);
+});
+
+// Listen for our IPC message to toggle DevTools
+ipcMain.on('toggle-devtools', (event, shouldOpen) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (shouldOpen) {
+    win.webContents.openDevTools();
+  } else {
+    win.webContents.closeDevTools();
   }
 });

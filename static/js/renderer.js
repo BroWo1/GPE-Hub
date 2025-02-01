@@ -1,17 +1,18 @@
 // renderer.js
+console.log('Preload loaded')
 window.addEventListener('DOMContentLoaded', () => {
-  // Select all elements with the data-external-link attribute
   const externalElements = document.querySelectorAll('[data-external-link]');
 
   externalElements.forEach((element) => {
     element.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent default behavior if necessary
+      event.preventDefault();
 
-      // Retrieve the URL from the data attribute
       const url = element.getAttribute('data-external-link');
+      console.log('Clicked element; window.electronAPI:', window.electronAPI);
 
       if (url) {
-        // Use the exposed API to open the URL in the default browser
+        // Log the function reference before calling it
+        console.log('openExternalLink exists?', typeof window.electronAPI.openExternalLink);
         window.electronAPI.openExternalLink(url);
       } else {
         console.warn('No URL found for this element.');

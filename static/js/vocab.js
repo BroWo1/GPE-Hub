@@ -43,78 +43,47 @@ var viewed = [];
 
 let vocabData = [];  // Initialize as an array
 async function loadKnownWords() {
-    knownWords = [];
-
-    // Await the result of getCookie for 'knownWords'
+    let knownWords = [];
     const knownWordsCookie = await getCookie('knownWords');
 
-    if (knownWordsCookie !== null && knownWordsCookie !== '') {
-        // Only attempt to parse if the cookie is not empty
-        try {
-            knownWords = JSON.parse(knownWordsCookie);
-
-            // Ensure it's an array, if not, reset to an empty array
-            if (!Array.isArray(knownWords)) {
-                knownWords = [];
-            }
-        } catch (error) {
-            // If JSON parsing fails, reset to an empty array
-            console.error('Error parsing cookie value:', error);
-            knownWords = [];
-        }
+    if (knownWordsCookie !== null && Array.isArray(knownWordsCookie)) {
+        knownWords = knownWordsCookie;
+        console.log('Loaded known words from cookie:', knownWords);
+    } else {
+        console.log('No valid cookie value found, using empty array');
     }
 
-    // Return the known words array
     return knownWords;
 }
 
 async function loadUnknownWords() {
-    unknownWords = [];
-
-    // Await the result of getCookie for 'unknownWords'
+    let unknownWords = [];
     const unknownWordsCookie = await getCookie('unknownWords');
 
-    if (unknownWordsCookie !== null && typeof unknownWordsCookie === 'string' && unknownWordsCookie.trim() !== '') {
-        // Log the cookie value for debugging
-        console.log('Cookie value:', unknownWordsCookie);
-
-        // Trim any leading or trailing spaces or non-printable characters
-        const trimmedCookie = unknownWordsCookie.trim();
-
-        // Only attempt to parse if the trimmed cookie is not empty
-        try {
-            unknownWords = JSON.parse(trimmedCookie);
-
-            // Ensure it's an array, if not, reset to an empty array
-            if (!Array.isArray(unknownWords)) {
-                unknownWords = [];
-            }
-        } catch (error) {
-            // If JSON parsing fails, reset to an empty array
-            console.error('Error parsing cookie value:', error);
-            unknownWords = [];
-        }
+    if (unknownWordsCookie !== null && Array.isArray(unknownWordsCookie)) {
+        unknownWords = unknownWordsCookie;
+        console.log('Loaded unknown words from cookie:', unknownWords);
     } else {
-        // If the cookie value is invalid or empty, reset to an empty array
         console.log('No valid cookie value found, using empty array');
-        unknownWords = [];
     }
 
-    // Return the unknown words array
     return unknownWords;
 }
 
+
 // Example usage:
 
-loadUnknownWords().then(unknownWords => {
-    console.log('Unknown Words:', unknownWords);  // Logs the unknown words
+loadUnknownWords().then(unknownWords1 => {
+    console.log('Unknown Words:', unknownWords1);  // Logs the unknown words
+    unknownWords = unknownWords1
 });
 
 
 // Example usage:
 
-loadKnownWords().then(knownWords => {
-    console.log('Known Words:', knownWords);  // Logs the known words
+loadKnownWords().then(knownWords1 => {
+    console.log('Known Words:', knownWords1);  // Logs the known words
+    knownWords = knownWords1
 });
 
 console.log(unknownWords);
@@ -139,10 +108,12 @@ function getCookie(name) {
 
 
 async function setCookie(name, value) {
+    name= name+set_name
     await window.electron.setCookie(name, value);  // Call the exposed method from preload
 }
 
 async function getCookie(name) {
+    name = name+set_name
     try {
         // Use await to get the resolved value from the main process
         const value = await window.electron.getCookie(name);
@@ -186,7 +157,7 @@ function fetchData() {
     // Path to the local JSON file
     const urlParams = new URLSearchParams(window.location.search);
       const selectedOption = urlParams.get("set") || "1";
-    const filePath = 'static/vocab/set'+selectedOption+'.json'; // Adjust the path based on your setup
+    const filePath = '../static/vocab/set'+selectedOption+'.json'; // Adjust the path based on your setup
 
     fetch(filePath)
         .then(response => {
@@ -403,7 +374,6 @@ function displayProgress(){
         progress.innerText = percentage.toString() + '%';
         progressBar.style.width = percentage.toString() + '%';
         progressInfo.innerText = 'Progress: ' + knownWords.length.toString() + '/' + vocabData.length.toString() + ' words known';
-        return;
     }
 
 function displayFlashcard(index) {

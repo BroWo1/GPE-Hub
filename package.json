@@ -24,9 +24,12 @@
     "appId": "com.gpeclub.gpehub",
     "productName": "GPEHub",
     "files": [
+      "main.js",
       "static/**/*",
       "node_modules/**/*",
-      "package.json"
+      "package.json",
+      "views/**/*",
+      "MathJax/**/*"
     ],
     "directories": {
       "buildResources": "assets"

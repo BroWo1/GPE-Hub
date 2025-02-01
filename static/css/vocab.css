@@ -90,9 +90,10 @@
 }
 .top1{
     position: fixed;
+      top: 10%;
     right: 10%;
-    top: 8%;
     z-index: 9999;
+    display: block;
 }
         @media (max-width: 650px) {
           .flashcard-container {

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
+    <link href="../static/css/styles.css" rel="stylesheet">
+    <link rel="shortcut icon" href = "../static/imgs/logo.ico">
+    <title>GPE Hub</title>
+  </head>
+  <body>
+  <nav class="sidebar">
+      <a href="index.html" class="nav-item">
+      <img src="../static/imgs/home_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Home" width="30" height="30" />
+      <span>Home</span>
+    </a>
+    <a href="vocab.html" class="nav-item">
+      <img src="../static/imgs/cards_star_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Vocab" width="30" height="30" />
+      <span>Vocab</span>
+    </a>
+    <a href="apphys2.html" class="nav-item">
+      <img src="../static/imgs/school_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="AI" width="30" height="30" />
+      <span>School</span>
+    </a>
+    <a href="#" class="nav-item active">
+      <img src="../static/imgs/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Settings" width="30" height="30" />
+      <span>Settings</span>
+    </a>
+  </nav>
+  <div style="padding-left: 90px; text-align: center;">
+    <h1>Settings</h1>
+    <div style="display: flex; align-items: center; justify-content: center;">
+    <p style="display: inline-block; margin-right: 10px; font-size: 25px; font-weight: bold">Developer mode</p>
+    <label class="switch" style="display: inline-block">
+      <!-- Give the input an ID to target it from JavaScript -->
+      <input type="checkbox" id="devToolsSwitch">
+      <span class="slider"></span>
+    </label>
+    </div>
+  </div>
+
+    <!-- You can also require other files to run in this process -->
+    <script src="../static/js/renderer.js"></script>
+    <script src="../static/js/index.js"></script>
+    <script>
+      const devToolsSwitch = document.getElementById('devToolsSwitch');
+      devToolsSwitch.addEventListener('change', (event) => {
+        window.electronAPI.sendToggleDevTools(event.target.checked);
+      });
+
+    </script>
+  </body>
+</html>

@@ -18,11 +18,13 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 // preload.js
-const { contextBridge, shell , ipcRenderer} = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  openExternalLink: (url) => shell.openExternal(url)
+  openExternalLink: (url) => ipcRenderer.send('open-external-link', url),
+  sendToggleDevTools: (state) => ipcRenderer.send('toggle-devtools', state)
 });
+
 // preload.js
 
 // Check if contextBridge and ipcRenderer are available

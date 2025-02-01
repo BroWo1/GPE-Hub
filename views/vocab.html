@@ -4,33 +4,34 @@
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
-    <link href="static/css/styles.css" rel="stylesheet">
-      <link href="static/css/vocab.css" rel="stylesheet">
-    <link rel="shortcut icon" href = "static/imgs/logo.ico">
+    <link href="../static/css/styles.css" rel="stylesheet">
+      <link href="../static/css/vocab.css" rel="stylesheet">
+    <link rel="shortcut icon" href = "../static/imgs/logo.ico">
     <title>Vocab</title>
   </head>
   <body>
   <nav class="sidebar">
       <a href="index.html" class="nav-item">
-      <img src="static/imgs/home_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Home" width="30" height="30" />
+      <img src="../static/imgs/home_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Home" width="30" height="30" />
       <span>Home</span>
     </a>
-    <a data-external-link="https://www.gpeclub.com" href="#" class="nav-item">
-      <img src="static/imgs/auto_awesome_24dp_FFFFFF.svg" alt="AI" width="30" height="30" />
-      <span>AI</span>
-    </a>
     <a href="#" class="nav-item active">
-      <img src="static/imgs/cards_star_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Vocab" width="30" height="30" />
+      <img src="../static/imgs/cards_star_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Vocab" width="30" height="30" />
       <span>Vocab</span>
     </a>
-    <a href="#" class="nav-item">
-      <img src="static/imgs/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Settings" width="30" height="30" />
+    <a href="apphys2.html" class="nav-item">
+      <img src="../static/imgs/school_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="AI" width="30" height="30" />
+      <span>School</span>
+    </a>
+    <a href="settings.html" class="nav-item">
+      <img src="../static/imgs/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Settings" width="30" height="30" />
       <span>Settings</span>
     </a>
   </nav>
   <div style="padding-left: 90px">
+      <h1 style="text-align: center">SAT Vocabulary</h1>
         <div class="flashcard-container">
-            
+            <div class="parent">
             <div class="dropdown top1">
                 <!-- The button text is set dynamically based on the query parameter -->
                 <button class="dropdown-toggle" id="dropdown-toggle" ></button>
@@ -38,14 +39,15 @@
                   <!-- Items will be generated dynamically -->
                 </ul>
               </div>
+            </div>
                 <div id="response-1"></div>
-                <div class="col-lg-3 mx-auto">
+
                     <div id="progressInfo" style="padding-bottom: 10px"></div>
                     <div class="progress" role="progressbar" aria-label="Progress 20px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                       <div class="progress-bar" style="width: 25%" id="progress"></div>
                     </div>
                     <br>
-                </div>
+
 
               <button id="known" type="button" class="button2" style="margin-right: 10px">Know (1)</button>
               <button id="unknown" type="button" class="button2" >Don't Know (2)</button>
@@ -93,8 +95,8 @@
           </div>
 
     <!-- You can also require other files to run in this process -->
-    <script src="static/js/renderer.js"></script>
-    <script src="static/js/vocab.js"></script>
-      <script src="static/js/index.js"></script>
+    <script src="../static/js/renderer.js"></script>
+    <script src="../static/js/vocab.js"></script>
+      <script src="../static/js/index.js"></script>
   </body>
 </html>

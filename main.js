@@ -1,6 +1,9 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Tray, Menu} = require('electron')
+const { app, BrowserWindow, Tray, Menu, ipcMain, session} = require('electron')
 const path = require('node:path')
+
+const userDataPath = path.join(process.env.LOCALAPPDATA || '', 'GPEHub');
+app.setPath('userData', userDataPath);
 
 let tray = null
 let mainWindow = null
@@ -10,17 +13,21 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    icon: "static/imgs/logo.ico",
+    minHeight: 400,
+    minWidth: 600,
+    icon: path.join(__dirname, 'static', 'imgs', 'logo.ico'),
     webPreferences: {
       contextIsolation: true,
-      nodeIntegration: true,
-      preload: path.join(__dirname, 'preload.js')
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'static', 'js', 'preload.js')
     }
   })
 
-  // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
-  mainWindow.setMenu(null)
+  mainWindow.loadFile(path.join(__dirname, 'index.html'))
+  mainWindow.on('ready-to-show', () =>{
+    mainWindow.show()
+  })
+  //mainWindow.setMenu(null)
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -36,7 +43,7 @@ function createWindow () {
 
 function createTray() {
   // Initialize tray with icon
-  tray = new Tray("static/imgs/logo.ico") // Update the path as necessary
+  tray = new Tray(path.join(__dirname, 'static', 'imgs', 'logo.ico')) // Update the path as necessary
 
   // Define a context menu for the tray icon
   const contextMenu = Menu.buildFromTemplate([
@@ -96,3 +103,35 @@ app.on('window-all-closed', function () {
 app.on('before-quit', () => {
   app.isQuitting = true
 })
+
+// Handling 'set-cookie' from renderer process
+ipcMain.on('set-cookie', (event, name, value) => {
+  const cookieName = `${name}_set_name`;
+  session.defaultSession.cookies.set({
+    url: 'http://localhost',  // Adjust the URL as per your app's needs
+    name: cookieName,
+    value: value || '',
+    path: '/'
+  }).then(() => {
+    event.reply('cookie-set-success');
+  }).catch((error) => {
+    event.reply('cookie-set-failure', error);
+  });
+});
+
+// Handling 'get-cookie' from renderer process and returning the value
+ipcMain.handle('get-cookie', async (event, name) => {
+  const cookieName = `${name}_set_name`;
+  try {
+    const cookies = await session.defaultSession.cookies.get({ url: 'http://localhost' }); // Adjust URL
+    const cookie = cookies.find(cookie => cookie.name === cookieName);
+    if (cookie) {
+      return cookie.value;  // Return the cookie value
+    } else {
+      return null;  // Return null if the cookie is not found
+    }
+  } catch (error) {
+    console.error('Failed to retrieve cookie:', error);
+    return null;  // Return null in case of an error
+  }
+});

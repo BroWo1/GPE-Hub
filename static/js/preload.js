@@ -18,8 +18,15 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 // preload.js
-const { contextBridge, shell } = require('electron');
+const { contextBridge, shell , ipcRenderer} = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
   openExternalLink: (url) => shell.openExternal(url)
+});
+// preload.js
+
+// Check if contextBridge and ipcRenderer are available
+contextBridge.exposeInMainWorld('electron', {
+  setCookie: (name, value) => ipcRenderer.send('set-cookie', name, value),
+  getCookie: (name) => ipcRenderer.invoke('get-cookie', name)
 });

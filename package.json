@@ -2,7 +2,7 @@
   "name": "gpehub",
   "version": "1.0.0",
   "description": "GPE Club Toolbox",
-  "main": "static/js/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder"

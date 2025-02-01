@@ -65,7 +65,7 @@ a {
       backdrop-filter: blur(8px);
       background: rgba(255, 255, 255, 0.3);
       /* transition for the width with delay */
-      transition: width 0.3s ease 0.3s, border-radius 0.3s ease 0.3s;
+      transition: width 0.3s ease 0.3s, border-radius 0.3s ease 0.3s, box-shadow 0.3s, border 0.3s;
       /* Rounding and border */
       border-radius: 15px;
       border: 2px solid rgba(255, 255, 255, 0.4);
@@ -79,9 +79,11 @@ a {
     }
 
     /* Change the sidebar width on hover */
-    .sidebar:hover {
+    .sidebar:hover, .sidebar.expanded{
       width: 200px;
       border-radius: 35px;
+        border: 2px solid white;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
 
     /* Navigation items */
@@ -94,7 +96,7 @@ a {
       text-align: center;
       border-radius: 10px;
       /* Smooth transitions */
-      transition: background-color 0.2s, border 0.2s, width 0.3s ease 0.3s, border-radius 0.3s;
+      transition: background-color 0.2s, border 0.2s, width 0.3s ease 0.3s, border-radius 0.3s, box-shadow 0.3s;
       color: #000;
       text-decoration: none;
       display: block;
@@ -103,15 +105,21 @@ a {
         box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
     }
 
+    .nav-item.active{
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+
     /* On hover of the sidebar, nav-items expand in width */
-    .sidebar:hover .nav-item {
+    .sidebar:hover .nav-item , .sidebar.expanded .nav-item{
       width: 145px;
       border-radius: 30px;
     }
 
-    .nav-item:hover {
+    .nav-item:hover{
       background-color: rgba(255, 255, 255, 0.25);
       border: 2px solid #fff;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
 
     .nav-item img {
@@ -207,6 +215,14 @@ a {
           background: rgba(255, 255, 255, .3);
           border: 2px solid rgba(255, 255, 255, 0.5);
             color: white;
+            position: relative;
+        }
+        .button2.lg{
+            font-size: 20px;
+            font-weight: 500;
+            border: 2px solid transparent;
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+            color: #1e1e1e;
         }
 
         .button2:hover{
@@ -254,7 +270,7 @@ a {
       border: 2px solid rgba(255, 255, 255, 0.4);
       border-radius: 15px;
       padding: 16px;
-      transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border 0.3s ease;
         box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
         position: relative;
     }
@@ -263,24 +279,146 @@ a {
       transform: scale(1.03);
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         background: rgba(255, 255, 255, 0.5);
+        border: 2px solid white;
     }
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #2f2f2f;
+    background: rgba(255, 255, 255, 0);
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.5);
     border-radius: 3px;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
-    transition: background 0.3s;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Apply styles to an input of type checkbox with class "checkbox2" */
+input[type="checkbox"].checkbox2 {
+  -webkit-appearance: none; /* Remove default checkbox in Safari */
+  -moz-appearance: none;    /* Remove default checkbox in Firefox */
+  appearance: none;         /* Remove default checkbox in modern browsers */
+
+  /* size and positioning */
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  border-radius: 4px; /* Slight rounding, similar to your button corners */
+
+  /* background and border */
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+
+  /* blur effect */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  /* shadow and transition */
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect (similar to .button2:hover) */
+input[type="checkbox"].checkbox2:hover {
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid white;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* The checkmark (using ::after pseudo-element) */
+input[type="checkbox"].checkbox2:checked::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown toggle styled like .button2 */
+.dropdown-toggle {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 10px; /* Rounded corners */
+  transition: background-color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  outline: none;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  position: relative;
+  font-size: 16px;
+}
+
+.dropdown-toggle:hover {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  border: 2px solid white;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 5px); /* Position below the toggle */
+  left: 0;
+  min-width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+    max-height: 65vh;
+    overflow-y: auto;
+
+}
+
+/* Show the dropdown menu when hovering over the container */
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Dropdown items */
+.dropdown-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  color: white;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }

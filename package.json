@@ -1,7 +1,7 @@
 {
   "name": "gpehub",
-  "version": "1.0.1",
-  "description": "GPE Club Toolbox",
+  "version": "1.0.2",
+  "description": "GPEHub",
   "main": "main.js",
   "scripts": {
     "start": "electron .",

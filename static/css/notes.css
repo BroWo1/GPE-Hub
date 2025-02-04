@@ -1,0 +1,279 @@
+/* Main CSS */
+body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+#container {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    width: 75vw;
+    height: 600px;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+    border: 4px solid rgba(255, 255, 255, 0.4);
+    transition: 0.3s ease;
+}
+@media (max-height: 732px) {
+    #container{
+        height: 75vh;
+    }
+}
+
+#list-header {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+}
+
+.blankDiv {
+    background-color: transparent;
+    border: none;
+    padding: 20px;
+    border-radius: 8px;
+    height: 200px;
+    width: 200px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#addNoteDiv {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    height: 75px;
+    width: 75px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+#addNoteDiv:hover {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+
+#addNoteDiv i {
+    font-size: 70px;
+    color: gainsboro;
+}
+
+
+/* List CSS */
+#list-container {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+@keyframes popupEntrance1 {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+li.enter {
+    animation: popupEntrance1 0.3s ease forwards; /* Exit animation */
+}
+li {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    margin: 5px 0;
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Added to align buttons to the right */
+    height: 200px;
+    width: 200px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+li span {
+    font-size: 12px;
+    flex-grow: 1;
+    word-wrap: break-word;
+    overflow-y: scroll;
+}
+
+#editBtn,
+#deleteBtn {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    border: 2px solid transparent;
+    padding: 5px 10px;
+    margin: 0 5px; /* Adjusted margin for spacing */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 12px;
+    width: 60px;
+    transition: 0.3s ease;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+
+}
+
+#deleteBtn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+#editBtn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+
+@keyframes popupEntrance {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes popupExit {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+}
+
+#popupContainer {
+    transition: 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    animation: popupEntrance 0.3s ease forwards; /* Apply animation */
+}
+#popupContainer.exit {
+    animation: popupExit 0.3s ease forwards; /* Exit animation */
+}
+@media (max-width: 500px) {
+          #popupContainer{
+              width: 200px;
+              height: 150px;
+          }
+}
+
+
+textarea {
+    width: 300px;
+    height: 200px;
+    margin: 10px 0;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    font-family: Roboto;
+}
+
+#btn-container {
+    display: flex;
+}
+
+
+
+/* Editing Popup CSS */
+#editing-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    animation: popupEntrance 0.3s ease forwards; /* Apply animation */
+}
+#editing-container.exit {
+    animation: popupExit 0.3s ease forwards; /* Exit animation */
+}
+
+#submitBtn, #closeBtn {
+    width: 100px;
+    background-color: rgba(255, 255, 255, 0.3);;
+    border: 2px solid transparent;
+    color: #222529;
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s ease;
+}
+
+#closeBtn {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+#submitBtn:hover, #closeBtn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}

@@ -2,8 +2,18 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain, session} = require('electron')
 const path = require('node:path')
 
-const userDataPath = path.join(process.env.LOCALAPPDATA || '', 'GPEHub');
+let userDataPath;
+if (process.platform === 'win32') {
+  userDataPath = path.join(process.env.LOCALAPPDATA, 'GPEHub');
+} else if (process.platform === 'darwin') {
+  // You can use the default or customize it, e.g., in the user's home directory
+  userDataPath = path.join(process.env.HOME, 'Library', 'Application Support', 'GPEHub');
+} else {
+  // For Linux or other platforms
+  userDataPath = path.join(process.env.HOME, '.config', 'GPEHub');
+}
 app.setPath('userData', userDataPath);
+
 
 let tray = null
 let mainWindow = null

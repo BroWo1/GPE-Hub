@@ -412,3 +412,4 @@ function getNum(){
     numKnown.textContent = 'Known words count: ' + knownWords.length.toString();
     numUnknown.textContent = 'Unknown words count: ' + unknownWords.length.toString();
 }
+

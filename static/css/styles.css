@@ -25,10 +25,43 @@
   src: url('../fonts/Roboto-Bold.ttf') format('truetype');
 }
 
+/* Default light mode variables */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+
+    --hover: rgba(50, 50, 50, 0.25);
+    --background3: rgba(50, 50, 50, 0.15);
+    --border: rgba(50, 50, 50, 0.15);
+    --solid: rgba(50, 50, 50, 0.05);
+    --button15: rgba(50, 50, 50, 0.1);
+    --active: rgba(50, 50, 50, 0.25);
+    --glow: 4px 8px 12px rgba(0, 0, 0, 0.3);
+    --glow-button: 2px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode variables */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #2f2f2f;
+        --text-color: white;
+
+        --hover: rgba(255, 255, 255, 0.25);
+        --background3: rgba(255, 255, 255, 0.3);
+        --border: rgba(255, 255, 255, 0.4);
+        --solid: white;
+        --button15: rgba(255, 255, 255, 0.15);
+        --active: rgba(255, 255, 255, 0.4);
+        --glow: 0 0 10px rgba(255, 255, 255, 0.5);
+        --glow-button: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
+
 body {
   font-family: 'Roboto', sans-serif;
-  background: #2f2f2f;
-  color: white;
+  background: var(--background-color);
+  color: var(--text-color);
 }
 
 span {
@@ -63,12 +96,12 @@ a {
       width: 80px;
       /* Glass effect */
       backdrop-filter: blur(8px);
-      background: rgba(255, 255, 255, 0.3);
+      background: var(--background3);
       /* transition for the width with delay */
       transition: width 0.3s ease 0.3s, border-radius 0.3s ease 0.3s, box-shadow 0.3s, border 0.3s;
       /* Rounding and border */
       border-radius: 15px;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      border: 2px solid var(--border);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -83,8 +116,8 @@ a {
     .sidebar:hover, .sidebar.expanded{
       width: 200px;
       border-radius: 35px;
-        border: 2px solid white;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        border: 2px solid var(--solid);
+        box-shadow: var(--glow);
     }
 
     /* Navigation items */
@@ -93,7 +126,7 @@ a {
       height: 35px;
       padding: 12px;
       margin: 8px 0;
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--button15);
       text-align: center;
       border-radius: 10px;
       /* Smooth transitions */
@@ -107,7 +140,7 @@ a {
     }
 
     .nav-item.active{
-      background: rgba(255, 255, 255, 0.4);
+      background: var(--active);
     }
 
 
@@ -118,9 +151,9 @@ a {
     }
 
     .nav-item:hover{
-      background-color: rgba(255, 255, 255, 0.25);
+      background-color: var(--hover);
       border: 2px solid #fff;
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        box-shadow: var(--glow-button);
     }
 
     .nav-item img {

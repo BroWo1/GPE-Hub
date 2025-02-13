@@ -30,5 +30,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 // Check if contextBridge and ipcRenderer are available
 contextBridge.exposeInMainWorld('electron', {
   setCookie: (name, value) => ipcRenderer.send('set-cookie', name, value),
-  getCookie: (name) => ipcRenderer.invoke('get-cookie', name)
+  getCookie: (name) => ipcRenderer.invoke('get-cookie', name),
+  fetchItems: () => ipcRenderer.invoke('fetch-items'),
+    submitRating: (itemId, rating) => ipcRenderer.invoke('submit-rating', { itemId, rating })
 });

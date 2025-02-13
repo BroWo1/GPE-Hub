@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, Tray, Menu, ipcMain, session} = require('electron')
 const path = require('node:path')
+const axios = require('axios');
 
 let userDataPath;
 if (process.platform === 'win32') {
@@ -39,8 +40,29 @@ function createWindow () {
   })
   mainWindow.setMenu(null)
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  ipcMain.handle('fetch-items', async () => {
+    try {
+        const response = await axios.get('http://117.72.120.34:8000/items');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching items:', error);
+        return [];
+    }
+});
+
+// Submit the rating to the server
+ipcMain.handle('submit-rating', async (event, { itemId, rating }) => {
+    try {
+        const response = await axios.post('http://117.72.120.34:8000/rate', {
+            itemId,
+            rating
+        });
+        return { message: 'Rating submitted' };
+    } catch (error) {
+        console.error('Error submitting rating:', error);
+        return { message: 'Error submitting rating' };
+    }
+});
 
   mainWindow.on('close', (event) => {
     if (!app.isQuitting) {

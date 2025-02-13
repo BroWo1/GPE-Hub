@@ -18,7 +18,8 @@
     "electron-rebuild": "^3.2.9"
   },
   "dependencies": {
-    "@material/web": "^2.2.0"
+    "@material/web": "^2.2.0",
+    "axios": "^1.7.9"
   },
   "build": {
     "appId": "com.gpeclub.gpehub",

@@ -20,3 +20,54 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+// Fetch the items from the server (via IPC)
+async function fetchItems() {
+    try {
+        const items = await window.electron.fetchItems(); // Call the main process through IPC
+        displayItems(items);
+    } catch (error) {
+        console.error('Error fetching items:', error);
+    }
+}
+
+// Display the items with average ratings out of 10 (rounded to the nearest tenth)
+function displayItems(items) {
+    const itemListDiv = document.getElementById('item-list');
+    itemListDiv.innerHTML = ''; // Clear previous items
+
+    items.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('item');  // Add the card class here
+        itemDiv.innerHTML = `
+            <h3>${item.name}</h3>
+            <p>Average Rating: ${item.averageRating}/10</p>
+            <label for="rating">Rate (1-10): </label>
+            <input type="number" id="rating-${item.id}" class="rating-input" min="1" max="10" />
+            <button onclick="submitRating(${item.id})" class="rating-button">Submit</button>
+        `;
+        itemListDiv.appendChild(itemDiv);
+    });
+}
+
+// Send the rating to the server (via IPC)
+async function submitRating(itemId) {
+    const ratingInput = document.getElementById(`rating-${itemId}`);
+    const rating = parseInt(ratingInput.value);
+
+    if (rating >= 1 && rating <= 10) {
+        try {
+            const response = await window.electron.submitRating(itemId, rating); // Call the main process through IPC
+            alert(response.message);
+            fetchItems(); // Refresh the item list with updated ratings
+        } catch (error) {
+            console.error('Error submitting rating:', error);
+            alert('You can only rate an item once!');
+        }
+    } else {
+        alert('Please enter a rating between 1 and 10.');
+    }
+}
+
+// Fetch items on page load
+fetchItems();
+

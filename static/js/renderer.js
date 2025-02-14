@@ -40,7 +40,8 @@ function displayItems(items) {
         itemDiv.classList.add('item');  // Add the card class here
         itemDiv.innerHTML = `
             <h3>${item.name}</h3>
-            <p>Average Rating: ${item.averageRating}/10</p>
+            <p>Rating: ${item.averageRating}/10</p>
+            <p>Numbers of rating: ${item.numRaters}</p>
             <label for="rating">Rate (1-10): </label>
             <input type="number" id="rating-${item.id}" class="rating-input" min="1" max="10" />
             <button onclick="submitRating(${item.id})" class="rating-button">Submit</button>

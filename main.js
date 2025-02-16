@@ -24,8 +24,8 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    minHeight: 400,
-    minWidth: 600,
+    minHeight: 475,
+    minWidth: 633,
     icon: path.join(__dirname, 'static', 'imgs', 'logo.ico'),
     webPreferences: {
       contextIsolation: true,

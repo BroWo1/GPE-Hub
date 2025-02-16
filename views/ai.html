@@ -5,9 +5,9 @@
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
     <link href="../static/css/styles.css" rel="stylesheet">
-    <link href="../static/css/notes.css" rel="stylesheet">
+      <link href="../static/css/ai.css" rel="stylesheet">
     <link rel="shortcut icon" href = "../static/imgs/logo.ico">
-    <title>GPE Hub</title>
+    <title>AI Toolbox</title>
   </head>
   <body>
   <nav class="sidebar">
@@ -15,7 +15,7 @@
       <img src="../static/imgs/home_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Home" width="30" height="30" />
       <span>Home</span>
     </a>
-      <a href="ai.html" class="nav-item">
+      <a href="#" class="nav-item active">
       <img src="../static/imgs/auto_awesome_24dp_FFFFFF.svg" alt="Settings" width="30" height="30" />
       <span>AI</span>
     </a>
@@ -23,7 +23,7 @@
       <img src="../static/imgs/cards_star_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Vocab" width="30" height="30" />
       <span>Vocab</span>
     </a>
-    <a href="#" class="nav-item active">
+    <a href="notes.html" class="nav-item">
           <img src="../static/imgs/sticky_note_2_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Notes" width="30" height="30" />
           <span>Notes</span>
         </a>
@@ -32,22 +32,24 @@
       <span>Settings</span>
     </a>
   </nav>
-  <div style="padding-left: 90px; text-align: center;">
-    <h1 class="md-typescale-display-large">Sticky Notes</h1>
-    <div id="container">
-
-        <div id="list-container">
-            <ul id="notes-list"></ul>
+  <div style="padding-left: 100px;">
+    <div class="twoCardsContainer">
+        <div class="leftCard">
+            <div class="card3Left">
+                Input
+            </div>
+            <div class="card3Left">
+                Response
+            </div>
+        </div>
+        <div class="card3">
+            Apps
         </div>
     </div>
-      <div id="addNoteDiv" onclick="popup()">
-                <img src="../static/imgs/add_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Settings" width="75" height="75" />
-            </div>
   </div>
 
     <!-- You can also require other files to run in this process -->
     <script src="../static/js/renderer.js"></script>
     <script src="../static/js/index.js"></script>
-  <script src="../static/js/notes.js"></script>
   </body>
 </html>

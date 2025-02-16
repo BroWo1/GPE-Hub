@@ -1,0 +1,49 @@
+html, body {
+    height: 100%; /* Make sure the body and html take up the full height */
+    margin: 0;
+    overflow: hidden; /* Prevent page from scrolling */
+}
+
+.twoCardsContainer {
+    display: grid;
+    grid-template-columns: 4fr 3fr;
+    gap: 10px;
+    padding: 10px;
+    height: 100vh; /* Ensure the container fills the screen */
+}
+.leftCard {
+    display: grid;
+    grid-template-rows: 2fr 3fr;
+    gap: 0px; /* Reduced the gap between cards */
+}
+
+
+
+.card3 {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 8px;
+    height: calc(100% - 20px); /* Remove the fixed height */
+    width: calc(100% - 10px); /* Adjust for padding */
+    display: flex;
+    justify-content: center;
+    box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    overflow-y: auto;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+.card3Left {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 8px;
+    height: calc(100% - 20px); /* Remove the fixed height */
+    width: calc(100% - 10px); /* Adjust for padding */
+    display: flex;
+    justify-content: center;
+    box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    overflow-y: auto;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+}

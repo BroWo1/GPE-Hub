@@ -83,13 +83,24 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 if (window.electron) {
                     const response = await window.electron.chatGPTRequest(query);
-                    document.getElementById('responseOutput').innerText = response;
+
+                    // Log the entire response to check its structure
+                    console.log('Received response from server:', response);
+
+                    // Since response is a string, directly set it
+                    if (response) {
+                        document.getElementById('responseOutput').innerText = response;
+                    } else {
+                        console.error('Received empty response');
+                        document.getElementById('responseOutput').innerText = 'Error: No response received';
+                    }
                 } else {
                     console.error('Electron context is not available.');
                 }
             } catch (error) {
                 console.error('Error fetching response:', error);
             }
+
         });
     } else {
         console.error('Button not found!');

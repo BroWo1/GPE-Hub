@@ -14,7 +14,6 @@ html, body {
 .leftCard {
     display: grid;
     grid-template-rows: 2fr 3fr;
-    gap: 0px; /* Reduced the gap between cards */
 }
 
 
@@ -23,7 +22,7 @@ html, body {
     background-color: rgba(255, 255, 255, 0.15);
     padding: 20px;
     border-radius: 8px;
-    height: calc(100% - 20px); /* Remove the fixed height */
+    height: calc(100vh - 20px);
     width: calc(100% - 10px); /* Adjust for padding */
     display: flex;
     justify-content: center;
@@ -33,17 +32,132 @@ html, body {
     border: 2px solid rgba(255, 255, 255, 0.4);
     box-sizing: border-box; /* Include padding and border in the width calculation */
 }
+
 .card3Left {
     background-color: rgba(255, 255, 255, 0.15);
     padding: 20px;
     border-radius: 8px;
-    height: calc(100% - 20px); /* Remove the fixed height */
+    height: calc(calc(100vh * 0.6) - 20px); /* Remove the fixed height */
     width: calc(100% - 10px); /* Adjust for padding */
     display: flex;
+    flex-direction: column;
+    box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    overflow-y: auto;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+.card3Left1 {
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 8px;
+    height: calc(calc(100vh * 0.4) - 20px); /* Remove the fixed height */
+    width: calc(100% - 10px); /* Adjust for padding */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
     justify-content: center;
     box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     overflow-y: auto;
     border: 2px solid rgba(255, 255, 255, 0.4);
     box-sizing: border-box; /* Include padding and border in the width calculation */
+    text-align: center;
+}
+
+#settings {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    height: 75px;
+    width: 75px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+#settings:hover {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+@keyframes popupEntrance {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes popupExit {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+}
+#popupContainer {
+    transition: 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    animation: popupEntrance 0.3s ease forwards; /* Apply animation */
+}
+#popupContainer.exit {
+    animation: popupExit 0.3s ease forwards; /* Exit animation */
+}
+@media (max-width: 500px) {
+          #popupContainer{
+              width: 200px;
+              height: 150px;
+          }
+}
+#btn-container {
+    display: flex;
+}
+#submitBtn, #closeBtn {
+    width: 100px;
+    background-color: rgba(255, 255, 255, 0.3);;
+    border: 2px solid transparent;
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s ease;
+}
+
+#closeBtn {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+#submitBtn:hover, #closeBtn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }

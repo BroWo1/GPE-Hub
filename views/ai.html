@@ -35,14 +35,15 @@
   <div style="padding-left: 100px;">
     <div class="twoCardsContainer">
     <div class="leftCard">
-        <div class="card3Left">
-            <label for="inputAI">Input:</label>
-            <textarea id="inputAI" name="w3review" rows="4" cols="50" class="input1"></textarea>
+        <div class="card3Left1">
+            <label for="inputAI"><strong>Input:</strong></label>
+            <textarea id="inputAI" rows="4" cols="50" class="input1"></textarea>
             <button class="rating-button" id="sendQueryButton">Send</button>
         </div>
         <div class="card3Left">
-            <p><strong>Response:</strong></p>
-            <div id="responseOutput"></div>
+            <label style="text-align: center;"><strong>Response:</strong></label>
+            <br>
+            <div id="responseOutput" ></div>
         </div>
     </div>
 
@@ -51,9 +52,13 @@
         </div>
     </div>
   </div>
+  <div id="settings" onclick="popup()">
+                <img src="../static/imgs/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Settings" width="55" height="55" />
+            </div>
 
     <!-- You can also require other files to run in this process -->
     <script src="../static/js/renderer.js"></script>
     <script src="../static/js/index.js"></script>
+    <script src="../static/js/ai.js"></script>
   </body>
 </html>

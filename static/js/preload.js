@@ -32,5 +32,22 @@ contextBridge.exposeInMainWorld('electron', {
   setCookie: (name, value) => ipcRenderer.send('set-cookie', name, value),
   getCookie: (name) => ipcRenderer.invoke('get-cookie', name),
   fetchItems: () => ipcRenderer.invoke('fetch-items'),
-    submitRating: (itemId, rating) => ipcRenderer.invoke('submit-rating', { itemId, rating })
+    submitRating: (itemId, rating) => ipcRenderer.invoke('submit-rating', { itemId, rating }),
+  chatGPTRequest: async (query) => {
+        try {
+            const response = await fetch('http://117.72.120.34:3000/api/chatgpt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query }),
+            });
+
+            const data = await response.json();
+            return data.response;
+        } catch (error) {
+            console.error('Error:', error);
+            return 'Error: Unable to connect to the server.';
+        }
+    },
 });

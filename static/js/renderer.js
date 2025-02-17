@@ -59,17 +59,39 @@ async function submitRating(itemId) {
     if (rating >= 1 && rating <= 10) {
         try {
             const response = await window.electron.submitRating(itemId, rating); // Call the main process through IPC
-            alert(response.message);
+            //alert(response.message);
             fetchItems(); // Refresh the item list with updated ratings
         } catch (error) {
             console.error('Error submitting rating:', error);
-            alert('You can only rate an item once!');
+            //alert('You can only rate an item once!');
         }
     } else {
-        alert('Please enter a rating between 1 and 10.');
+        //alert('Please enter a rating between 1 and 10.');
     }
 }
 
 // Fetch items on page load
 fetchItems();
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sendButton = document.getElementById('sendQueryButton');
+    if (sendButton) {
+        sendButton.addEventListener('click', async () => {
+            const query = document.getElementById('inputAI').value;  // Get the input from the textarea
+
+            try {
+                if (window.electron) {
+                    const response = await window.electron.chatGPTRequest(query);
+                    document.getElementById('responseOutput').innerText = response;
+                } else {
+                    console.error('Electron context is not available.');
+                }
+            } catch (error) {
+                console.error('Error fetching response:', error);
+            }
+        });
+    } else {
+        console.error('Button not found!');
+    }
+});

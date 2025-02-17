@@ -34,16 +34,18 @@
   </nav>
   <div style="padding-left: 100px;">
     <div class="twoCardsContainer">
-        <div class="leftCard">
-            <div class="card3Left">
-                <label for="w3review">Input:</label>
-                <textarea id="w3review" name="w3review" rows="4" cols="50" class="input1">
-                </textarea>
-            </div>
-            <div class="card3Left">
-                Response
-            </div>
+    <div class="leftCard">
+        <div class="card3Left">
+            <label for="inputAI">Input:</label>
+            <textarea id="inputAI" name="w3review" rows="4" cols="50" class="input1"></textarea>
+            <button class="rating-button" id="sendQueryButton">Send</button>
         </div>
+        <div class="card3Left">
+            <p><strong>Response:</strong></p>
+            <div id="responseOutput"></div>
+        </div>
+    </div>
+
         <div class="card3">
             Apps
         </div>

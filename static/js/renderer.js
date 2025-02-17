@@ -20,6 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
 // Fetch the items from the server (via IPC)
 async function fetchItems() {
     try {

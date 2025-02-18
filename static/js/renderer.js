@@ -45,7 +45,7 @@ function displayItems(items) {
             <p>Numbers of rating: ${item.numRaters}</p>
             <label for="rating">Rate (1-10): </label>
             <input type="number" id="rating-${item.id}" class="rating-input" min="1" max="10" />
-            <button onclick="submitRating(${item.id})" class="rating-button">Submit</button>
+            <button onclick="submitRating(${item.id}); popup();" class="rating-button">Submit</button>
         `;
         itemListDiv.appendChild(itemDiv);
     });

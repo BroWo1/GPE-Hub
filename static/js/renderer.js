@@ -79,10 +79,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sendButton) {
         sendButton.addEventListener('click', async () => {
             const query = document.getElementById('inputAI').value;  // Get the input from the textarea
+            const isChecked = sessionStorage.getItem("maxModeChecked") === "true";
+            const model = isChecked ? 'qwen2.5-vl-72b-instruct' : 'qwen-omni-turbo';
+            const mode = sessionStorage.getItem("mode") || "chatbot";
+            var prompt1;
+            if(mode === "translate") {
+                prompt1 = "Translate the following text to English, if it is English, translate it to Chinese"
+            }else{
+                prompt1 = "You are a helpful assistant.";
+            }
+
 
             try {
                 if (window.electron) {
-                    const response = await window.electron.chatGPTRequest(query);
+                    const response = await window.electron.chatGPTRequest(query, model, prompt1);
 
                     // Log the entire response to check its structure
                     console.log('Received response from server:', response);

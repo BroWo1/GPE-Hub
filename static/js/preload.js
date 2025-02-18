@@ -33,14 +33,14 @@ contextBridge.exposeInMainWorld('electron', {
   getCookie: (name) => ipcRenderer.invoke('get-cookie', name),
   fetchItems: () => ipcRenderer.invoke('fetch-items'),
     submitRating: (itemId, rating) => ipcRenderer.invoke('submit-rating', { itemId, rating }),
-  chatGPTRequest: async (query) => {
+  chatGPTRequest: async (query, model, prompt1) => {
         try {
             const response = await fetch('http://117.72.120.34:3000/api/chatgpt', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ query }),
+                body: JSON.stringify({ query, model, prompt1 }),
             });
 
             const data = await response.json();

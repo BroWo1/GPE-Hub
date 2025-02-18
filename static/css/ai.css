@@ -25,12 +25,13 @@ html, body {
     height: calc(100vh - 20px);
     width: calc(100% - 10px); /* Adjust for padding */
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     overflow-y: auto;
     border: 2px solid rgba(255, 255, 255, 0.4);
     box-sizing: border-box; /* Include padding and border in the width calculation */
+
 }
 
 .card3Left {
@@ -128,6 +129,7 @@ html, body {
     align-items: center;
     justify-content: center;
     animation: popupEntrance 0.3s ease forwards; /* Apply animation */
+    z-index: 10000;
 }
 #popupContainer.exit {
     animation: popupExit 0.3s ease forwards; /* Exit animation */
@@ -160,4 +162,42 @@ html, body {
     background-color: rgba(255, 255, 255, 0.5);
     border: 2px solid white;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.appCard {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    width: 80%;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    height: 45px;
+    transition: 0.3s ease all;
+}
+
+.appCard:hover, .appCard.active {
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.appCardButton {
+
+    background-color: rgba(255, 255, 255, 0.15);
+    height: 65px;
+    width: 65px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.appCardText {
+    margin-left: 20px;
+    font-size: 20px;
+    color: white;
 }

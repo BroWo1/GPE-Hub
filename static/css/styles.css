@@ -642,6 +642,7 @@ input[type="checkbox"].checkbox2:checked::after {
       transition: background-color 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
+        box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     }
 
     .rating-button:hover {
@@ -670,6 +671,7 @@ input[type="checkbox"].checkbox2:checked::after {
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
         font-family: 'Roboto', sans-serif;
+        box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     }
     .input1:focus{
         background: rgba(255, 255, 255, 0.5);

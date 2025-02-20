@@ -85,6 +85,30 @@ function createTray() {
         mainWindow.show()
       }
     },
+      {
+      label: 'AI', // New menu item
+      click: () => {
+        // Create a new BrowserWindow for ai.html
+        let aiWindow = new BrowserWindow({
+          width: 800,
+          height: 600,
+          minHeight: 475,
+          minWidth: 633,
+          icon: path.join(__dirname, 'static', 'imgs', 'logo.ico'),
+          webPreferences: {
+            contextIsolation: true,
+            nodeIntegration: false,
+            preload: path.join(__dirname, 'static', 'js', 'preload.js')
+          }
+        })
+
+        aiWindow.loadFile(path.join(__dirname, 'views', 'ai.html'))
+        aiWindow.on('ready-to-show', () => {
+          aiWindow.show()
+        })
+        aiWindow.setMenu(null)
+      }
+    },
     {
       label: 'Quit',
       click: () => {

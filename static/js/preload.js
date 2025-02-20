@@ -50,4 +50,32 @@ contextBridge.exposeInMainWorld('electron', {
             return 'Error: Unable to connect to the server.';
         }
     },
+    imageRequest: async (model, imageBase64) => {
+    try {
+        const response = await fetch('http://117.72.120.34:3000/image', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                model,
+                imageBase64 // Send the Base64-encoded image
+            }),
+        });
+
+        // Check if the response status is OK (200)
+        if (response.ok) {
+            const data = await response.json();
+            return data.response;
+        } else {
+            const errorMessage = await response.text();  // Get the error message if not a successful response
+            console.error('Error response from server:', errorMessage);
+            return `Error: ${response.status} - ${errorMessage}`;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return 'Error: Unable to connect to the server.';
+    }
+}
+
 });

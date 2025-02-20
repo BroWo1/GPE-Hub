@@ -210,4 +210,5 @@ ipcMain.on('toggle-devtools', (event, shouldOpen) => {
   } else {
     win.webContents.closeDevTools();
   }
+
 });

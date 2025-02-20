@@ -75,20 +75,19 @@ fetchItems();
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const sendButton = document.getElementById('sendQueryButton');
-    if (sendButton) {
-        sendButton.addEventListener('click', async () => {
-            const query = document.getElementById('inputAI').value;  // Get the input from the textarea
+    document.body.addEventListener('click', async (event) => {
+        if (event.target && event.target.id === 'sendQueryButton') {
+            const query = document.getElementById('inputAI').value;
             const isChecked = sessionStorage.getItem("maxModeChecked") === "true";
             const model = isChecked ? 'qwen2.5-vl-72b-instruct' : 'qwen-omni-turbo';
             const mode = sessionStorage.getItem("mode") || "chatbot";
-            var prompt1;
-            if(mode === "translate") {
-                prompt1 = "Translate the following text to English, if it is English, translate it to Chinese"
-            }else{
+            let prompt1;
+
+            if (mode === "translate") {
+                prompt1 = "Translate the following text to English, if it is English, translate it to Chinese";
+            } else {
                 prompt1 = "You are a helpful assistant.";
             }
-
 
             try {
                 if (window.electron) {
@@ -110,9 +109,52 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error('Error fetching response:', error);
             }
-
-        });
-    } else {
-        console.error('Button not found!');
-    }
+        }
+    });
 });
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.addEventListener('click', async (event) => {
+        if (event.target && event.target.id === 'uploadBtn') {
+            const isChecked = sessionStorage.getItem("maxModeChecked") === "true";
+            const model = isChecked ? 'qwen2.5-vl-72b-instruct' : 'qwen-omni-turbo';
+
+            // Capture the image from an <input type="file"> or from an <img> element
+            const imageInput = document.getElementById('fileInput'); // Assuming you have an input to select image
+            const file = imageInput.files[0];
+            let imageBase64 = '';
+
+            if (file) {
+                // Convert image to base64 string
+                const reader = new FileReader();
+                reader.onloadend = async () => {
+                    imageBase64 = reader.result.split(',')[1]; // Extract Base64 string
+
+                    try {
+                        if (window.electron) {
+                            console.log(imageBase64.length); // Log the length of the Base64 string
+
+                            const response = await window.electron.imageRequest(model, imageBase64);
+
+                            // Log the entire response to check its structure
+                            console.log('Received response from server:', response);
+
+                            // Display the response in the DOM
+                            if (response) {
+                                document.getElementById('responseOutput').innerText = response;
+                            } else {
+                                console.error('Received empty response');
+                                document.getElementById('responseOutput').innerText = 'Error: No response received';
+                            }
+                        } else {
+                            console.error('Electron context is not available.');
+                        }
+                    } catch (error) {
+                        console.error('Error fetching response:', error);
+                    }
+                };
+                reader.readAsDataURL(file); // Read the image file as Data URL
+            }
+        }
+    });
+});
+

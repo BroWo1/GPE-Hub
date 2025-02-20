@@ -34,6 +34,8 @@ function popup() {
 document.addEventListener("DOMContentLoaded", function (){
     var chatbotButton = document.getElementById('chatbot');
     var translateButton = document.getElementById('translate');
+    var imageButton = document.getElementById('image');
+    const input = document.getElementById('input');
     // Set initial state based on sessionStorage value
 function updateMode() {
     var modeSelect = sessionStorage.getItem("mode") || "chatbot";
@@ -41,9 +43,29 @@ function updateMode() {
     if (modeSelect === "chatbot") {
         chatbotButton.classList.add('active');
         translateButton.classList.remove('active');
-    } else {
+        imageButton.classList.remove('active')
+        input.innerHTML = `
+        <label for="inputAI" style="font-size: 20px;"><strong>Input</strong></label>
+            <textarea id="inputAI" rows="4" cols="50" class="input1"></textarea>
+            <button class="rating-button" id="sendQueryButton">Send</button>
+        `
+    } else if (modeSelect === "translate") {
         translateButton.classList.add('active');
         chatbotButton.classList.remove('active');
+        imageButton.classList.remove('active')
+        input.innerHTML = `
+        <label for="inputAI" style="font-size: 20px;"><strong>Input</strong></label>
+            <textarea id="inputAI" rows="4" cols="50" class="input1"></textarea>
+            <button class="rating-button" id="sendQueryButton">Send</button>
+            `
+    } else{
+        imageButton.classList.add('active');
+        chatbotButton.classList.remove('active');
+        translateButton.classList.remove('active');
+        input.innerHTML = `
+        <input type="file" id="fileInput" />
+        <button id="uploadBtn">Upload</button>
+        `
     }
 }
 
@@ -72,6 +94,14 @@ translateButton.addEventListener('click', function(event) {
         updateMode(); // Update button states
     }
     console.log("Translate mode");
+});
+
+imageButton.addEventListener('click', function(event) {
+   event.preventDefault();
+   if (sessionStorage.getItem("mode") !== "image") {
+       sessionStorage.setItem("mode", "image");
+       updateMode();
+   }
 });
 });
 

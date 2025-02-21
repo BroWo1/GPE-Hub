@@ -88,7 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 prompt1 = "You are a helpful assistant.";
             }
-
+            const loading = document.createElement("div");
+            loading.className = "load";
+            document.body.appendChild(loading);
             try {
                 if (window.electron) {
                     const response = await window.electron.chatGPTRequest(query, model, prompt1);
@@ -98,7 +100,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Since response is a string, directly set it
                     if (response) {
+                        loading.className = "load exit";
+
                         document.getElementById('responseOutput').innerText = response;
+                        setTimeout(() => {
+                            loading.remove()
+                        }, 300);
+
                     } else {
                         console.error('Received empty response');
                         document.getElementById('responseOutput').innerText = 'Error: No response received';

@@ -673,7 +673,60 @@ input[type="checkbox"].checkbox2:checked::after {
         font-family: 'Roboto', sans-serif;
         box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     }
+    .input1:hover{
+        background: rgba(255, 255, 255, 0.4);
+    }
     .input1:focus{
         background: rgba(255, 255, 255, 0.5);
+        border: 2px solid white;
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
+
+    .upload{
+        background: rgba(255, 255, 255, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        height: 100px;
+        border-radius: 10px;
+        box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+        transition: 0.3s ease all;
+        backdrop-filter: blur(8px);
+    }
+    .upload:hover{
+        background: rgba(255, 255, 255, 0.5);
+        border: 2px solid white;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+@keyframes Entrance {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes Exit {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+.load {
+    width: 125px;
+    height: 125px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(8px);
+    animation: Entrance 0.3s ease;
+}
+.load.exit {
+    animation: Exit 0.3s ease; /* Exit animation */
+}

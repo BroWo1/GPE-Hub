@@ -43,10 +43,9 @@ html, body {
     display: flex;
     flex-direction: column;
     box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    overflow-y: auto;
     border: 2px solid rgba(255, 255, 255, 0.4);
     box-sizing: border-box; /* Include padding and border in the width calculation */
+    position: relative;
 }
 .card3Left1 {
     background-color: rgba(255, 255, 255, 0.15);
@@ -91,7 +90,7 @@ html, body {
 @keyframes popupEntrance {
     0% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) scale(0.8);
     }
     100% {
         opacity: 1;
@@ -106,7 +105,7 @@ html, body {
     }
     100% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) scale(0.8);
     }
 }
 #popupContainer {
@@ -119,7 +118,7 @@ html, body {
     height: 300px;
     background-color: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(8px);
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     padding: 20px;
     border-radius: 8px;
@@ -146,13 +145,15 @@ html, body {
 #submitBtn, #closeBtn {
     width: 100px;
     background-color: rgba(255, 255, 255, 0.3);;
-    border: 2px solid transparent;
+     border: 2px solid rgba(255,255,255,0.5);
     font-size: 14px;
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
     margin: 10px;
     transition: 0.3s ease;
+    backdrop-filter: blur(8px);
+    z-index: 10;
 }
 
 #closeBtn {
@@ -200,4 +201,78 @@ html, body {
     margin-left: 20px;
     font-size: 20px;
     color: white;
+}
+
+
+.expend {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    position: absolute;
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+.expend:hover {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+#response {
+    transition: 0.3s ease;
+    position: fixed;
+    top: 50%;
+    left: calc(50% + 45px);
+    transform: translate(-50%, -50%);
+    width: 55%;
+    height: 90%;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+
+    animation: popupEntrance 0.3s ease forwards; /* Apply animation */
+    z-index: 9999;
+}
+#response.exit {
+    animation: popupExit 0.3s ease forwards; /* Exit animation */
+}
+
+.close {
+    position: absolute;  /* Change from fixed to absolute */
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 10px;
+}
+
+.content {
+    position: fixed;
+    bottom: 75px;
+    top: 10px;
+    overflow: hidden;
+    overflow-y: auto;
+    margin-right: 10px
+}
+.text {
+    position: absolute;
+    top: 50px;
+    bottom: 10px;
+    overflow: hidden;
+    overflow-y: auto;
+    margin-right: 10px;
 }

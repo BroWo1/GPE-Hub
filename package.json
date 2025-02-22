@@ -1,6 +1,6 @@
 {
   "name": "gpehub",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "GPEHub",
   "main": "main.js",
   "scripts": {
@@ -9,7 +9,11 @@
   },
   "repository": "https://github.com/BroWo1/GPE-Hub",
   "keywords": [
-    "Electron"
+    "GPEHub",
+    "GPE Club",
+    "AI",
+    "Game Programming Engineering",
+    "GPE"
   ],
   "author": "Will",
   "devDependencies": {
@@ -21,6 +25,7 @@
     "@material/web": "^2.2.0",
     "axios": "^1.7.9",
     "express": "^4.21.2",
+    "marked": "^15.0.7",
     "node-fetch": "^3.3.2",
     "openai": "^4.85.1"
   },

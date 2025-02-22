@@ -20,9 +20,25 @@ window.addEventListener('DOMContentLoaded', () => {
 // preload.js
 const { contextBridge, ipcRenderer } = require('electron');
 
+// Construct the absolute path to the marked.min.js file
 contextBridge.exposeInMainWorld('electronAPI', {
   openExternalLink: (url) => ipcRenderer.send('open-external-link', url),
-  sendToggleDevTools: (state) => ipcRenderer.send('toggle-devtools', state)
+  sendToggleDevTools: (state) => ipcRenderer.send('toggle-devtools', state),
+    convertMarkdown: async (markdownText) => {
+        // Send the markdown text to the main process for parsing
+        const htmlContent = await ipcRenderer.invoke('parse-markdown', markdownText);
+
+        // Log htmlContent to see if it's a string
+        console.log("HTML content received:", htmlContent);
+
+        // Ensure that htmlContent is a string before returning
+        if (typeof htmlContent === 'string') {
+            return htmlContent;
+        } else {
+            console.error('Error: Parsed content is not a string');
+            return '';
+        }
+    }
 });
 
 // preload.js
@@ -45,6 +61,7 @@ contextBridge.exposeInMainWorld('electron', {
 
             const data = await response.json();
             return data.response;
+
         } catch (error) {
             console.error('Error:', error);
             return 'Error: Unable to connect to the server.';

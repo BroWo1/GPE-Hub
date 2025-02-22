@@ -49,6 +49,18 @@ function createWindow () {
         return [];
     }
 });
+  const fs = require('fs');
+const marked = require('marked');
+ipcMain.handle('parse-markdown', async (event, markdownText) => {
+    // Parse the markdown text and return the result
+    const html = marked.parse(markdownText);
+
+    // Log the parsed HTML to ensure it's a string
+    console.log("Parsed HTML:", html);
+
+    return html; // Send back the parsed HTML
+});
+
 
 // Submit the rating to the server
 ipcMain.handle('submit-rating', async (event, { itemId, rating }) => {

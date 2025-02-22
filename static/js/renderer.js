@@ -1,24 +1,24 @@
 // renderer.js
 console.log('Preload loaded')
 window.addEventListener('DOMContentLoaded', () => {
-  const externalElements = document.querySelectorAll('[data-external-link]');
+    const externalElements = document.querySelectorAll('[data-external-link]');
 
-  externalElements.forEach((element) => {
-    element.addEventListener('click', (event) => {
-      event.preventDefault();
+    externalElements.forEach((element) => {
+        element.addEventListener('click', (event) => {
+            event.preventDefault();
 
-      const url = element.getAttribute('data-external-link');
-      console.log('Clicked element; window.electronAPI:', window.electronAPI);
+            const url = element.getAttribute('data-external-link');
+            console.log('Clicked element; window.electronAPI:', window.electronAPI);
 
-      if (url) {
-        // Log the function reference before calling it
-        console.log('openExternalLink exists?', typeof window.electronAPI.openExternalLink);
-        window.electronAPI.openExternalLink(url);
-      } else {
-        console.warn('No URL found for this element.');
-      }
+            if (url) {
+                // Log the function reference before calling it
+                console.log('openExternalLink exists?', typeof window.electronAPI.openExternalLink);
+                window.electronAPI.openExternalLink(url);
+            } else {
+                console.warn('No URL found for this element.');
+            }
+        });
     });
-  });
 });
 
 // Fetch the items from the server (via IPC)
@@ -73,7 +73,6 @@ async function submitRating(itemId) {
 // Fetch items on page load
 fetchItems();
 
-
 document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', async (event) => {
         if (event.target && event.target.id === 'sendQueryButton') {
@@ -88,29 +87,33 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 prompt1 = "You are a helpful assistant.";
             }
+
             const loading = document.createElement("div");
             loading.className = "load";
+            const spinner = document.createElement("div");
+            spinner.className = "spinner";
+            loading.appendChild(spinner);
             document.body.appendChild(loading);
+
             try {
                 if (window.electron) {
                     const response = await window.electron.chatGPTRequest(query, model, prompt1);
 
                     // Log the entire response to check its structure
                     console.log('Received response from server:', response);
-
+                    const responseMD = await window.electronAPI.convertMarkdown(response);
+                    sessionStorage.setItem('responseMD', responseMD);
                     // Since response is a string, directly set it
                     if (response) {
-                        loading.className = "load exit";
-
-                        document.getElementById('responseOutput').innerText = response;
-                        setTimeout(() => {
-                            loading.remove()
-                        }, 300);
-
+                        document.getElementById('responseOutput').innerHTML = responseMD;
                     } else {
                         console.error('Received empty response');
-                        document.getElementById('responseOutput').innerText = 'Error: No response received';
+                        document.getElementById('responseOutput').innerHTML = 'Error: No response received';
                     }
+                    loading.className = "load exit";
+                    setTimeout(() => {
+                        loading.remove()
+                    }, 300);
                 } else {
                     console.error('Electron context is not available.');
                 }
@@ -131,6 +134,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const file = imageInput.files[0];
             let imageBase64 = '';
 
+            const loading = document.createElement("div");
+            loading.className = "load";
+            const spinner = document.createElement("div");
+            spinner.className = "spinner";
+            loading.appendChild(spinner);
+            document.body.appendChild(loading);
+
             if (file) {
                 // Convert image to base64 string
                 const reader = new FileReader();
@@ -145,14 +155,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             // Log the entire response to check its structure
                             console.log('Received response from server:', response);
-
+                            const responseMD = await window.electronAPI.convertMarkdown(response);
+                            sessionStorage.setItem('responseMD', responseMD);
                             // Display the response in the DOM
                             if (response) {
-                                document.getElementById('responseOutput').innerText = response;
+                                document.getElementById('responseOutput').innerHTML = responseMD;
                             } else {
                                 console.error('Received empty response');
-                                document.getElementById('responseOutput').innerText = 'Error: No response received';
+                                document.getElementById('responseOutput').innerHTML = 'Error: No response received';
                             }
+                            loading.className = "load exit";
+                            setTimeout(() => {
+                                loading.remove()
+                            }, 300);
                         } else {
                             console.error('Electron context is not available.');
                         }

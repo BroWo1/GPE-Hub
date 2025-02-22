@@ -1,3 +1,4 @@
+
 function popup() {
     if(document.getElementById("popupContainer")) {
         return;
@@ -120,6 +121,44 @@ function closePopup() {
         // After the exit animation duration (e.g., 0.5s), you can hide or remove the popup
         setTimeout(() => {
             popupContainer.remove()
+        }, 300);
+    }
+}
+
+
+function expend() {
+    if(document.getElementById("response")) {
+        return;
+    }
+    const response = document.createElement("div");
+    var storedResponseMD = '';
+    if(sessionStorage.getItem('responseMD') !== null){
+        storedResponseMD = sessionStorage.getItem('responseMD');
+    }
+
+    response.innerHTML = `
+    <div id="response">
+        
+        <div class="content">
+            <p>${storedResponseMD}</p>
+        </div>
+        <div class="close">
+            <button id="closeBtn" onclick="closeExpend()" >Close</button>
+        </div>
+    </div>
+    `;
+    const isChecked = sessionStorage.getItem("maxModeChecked") === "true";
+    document.body.appendChild(response);
+}
+
+function closeExpend() {
+    const response = document.getElementById("response");
+    if(response) {
+        response.classList.add('exit');
+
+        // After the exit animation duration (e.g., 0.5s), you can hide or remove the popup
+        setTimeout(() => {
+            response.remove()
         }, 300);
     }
 }

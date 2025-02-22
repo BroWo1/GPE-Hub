@@ -2,9 +2,8 @@
 body {
     margin: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
     min-height: 100vh;
+
 }
 
 #container {
@@ -12,8 +11,7 @@ body {
     border-radius: 8px;
     box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    width: 75vw;
-    height: 600px;
+    width: calc(0.9*calc(100% - 90px));
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
@@ -22,11 +20,10 @@ body {
     overflow-y: scroll;
     border: 2px solid rgba(255, 255, 255, 0.4);
     transition: 0.3s ease;
-}
-@media (max-height: 732px) {
-    #container{
-        height: 75vh;
-    }
+    position: fixed;
+    top: 125px;
+    bottom: 20px;
+    left: calc(90px + calc(0.05*calc(100% - 90px)));
 }
 
 #list-header {
@@ -162,7 +159,7 @@ li span {
 @keyframes popupEntrance {
     0% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) scale(0.8);
     }
     100% {
         opacity: 1;
@@ -177,7 +174,7 @@ li span {
     }
     100% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) scale(0.8);
     }
 }
 

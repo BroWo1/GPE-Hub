@@ -79,13 +79,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const query = document.getElementById('inputAI').value;
             const isChecked = sessionStorage.getItem("maxModeChecked") === "true";
             const model = isChecked ? 'qwen2.5-vl-72b-instruct' : 'qwen-omni-turbo';
-            const mode = sessionStorage.getItem("mode") || "chatbot";
+            var mode = sessionStorage.getItem("mode") || "chatbot";
+            if (document.title === "GPE Hub"){
+                mode = "search";
+            }
             let prompt1;
 
             if (mode === "translate") {
                 prompt1 = "Translate the following text to English, if it is English, translate it to Chinese";
-            } else {
+            } else if(mode === "chatbot") {
                 prompt1 = "You are a helpful assistant.";
+            }else{
+                prompt1 = "You are an assistant to help the user navigate through the GPEHub or answer any other questions that can be unrelated to the club. Here is some knowledge about the GPE club that created this software:" +
+                    " GPE club is a club founded by Tsinghua International School students Will and Andy, also containing other members such as Andrew and Jeffrey, aiming to help the THIS students with their studies. " +
+                    "The GPEHub contains features such as AI Toolbox, SAT Vocabulary Practices, and Sticky Notes."
             }
 
             const loading = document.createElement("div");
@@ -104,7 +111,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const responseMD = await window.electronAPI.convertMarkdown(response);
                     sessionStorage.setItem('responseMD', responseMD);
                     // Since response is a string, directly set it
+
                     if (response) {
+                        const element = document.querySelector('.response-box');
+                        console.log(element);
+                        if (element) {
+                          element.style.display = 'block';
+                          console.log('displayed')
+                        }
                         document.getElementById('responseOutput').innerHTML = responseMD;
                     } else {
                         console.error('Received empty response');

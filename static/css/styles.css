@@ -57,6 +57,7 @@
     }
 }
 */
+
 :root {
         --background-color: #161b22;
         --text-color: white;
@@ -89,6 +90,11 @@ h1 {
 a {
     color: inherit; /* Takes the color of the parent element */
     text-decoration: none; /* Removes underline */
+    -webkit-user-drag: none; /* Prevent dragging on Webkit-based browsers */
+}
+
+img{
+    -webkit-user-drag: none; /* Prevent dragging on Webkit-based browsers */
 }
 
 .material-symbols-outlined {
@@ -219,7 +225,7 @@ a {
                 box-shadow 0.3s ease,
                 border 0.3s ease,
                 background 0.3s ease;
-
+            color: white;
 
 
         }
@@ -284,21 +290,20 @@ a {
         }
         .response-box {
             /* Basic box styling */
-            padding: 10px; /* Space inside the box */
+            padding: 5px; /* Space inside the box */
+            padding-left: 20px;  /* Additional space for the left side of the text */
+              padding-right: 20px;
             margin: 10px auto; /* Space around the box */
-            background:
-                linear-gradient(rgba(255, 255, 255, .7), rgba(255, 255, 255, .7)) padding-box,
-            linear-gradient(to right,
-              #F5F5FA, #E3F2FD, #D4E8F8, #D9F5E4, #FBE4D6, #F9D2F1, #D7C8F6, #BFD3FA
-            ) border-box;
-          border: 4px solid transparent;
-            border-radius: 12px; /* Rounded corners */
-            -webkit-backdrop-filter: blur(5px);
-          backdrop-filter: blur(5px);
+            background: rgba(255,255,255,0.3);
+          border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 10px; /* Rounded corners */
+          backdrop-filter: blur(8px);
             /* Optional shadow for a card-like effect */
             box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
-            display: none;
             max-width: 700px;
+            width: 80%;
+            text-align: left;
+            display: none;
         }
 /* Cards Container - flexible number of cards based on window size */
     .card-container {

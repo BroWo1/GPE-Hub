@@ -258,7 +258,7 @@ html, body {
     flex-direction: column;
 
     animation: popupEntrance 0.3s ease forwards; /* Apply animation */
-    z-index: 9999;
+    z-index: 10;
 }
 #response.exit {
     animation: popupExit 0.3s ease forwards; /* Exit animation */
@@ -277,7 +277,7 @@ html, body {
     top: 10px;
     overflow: hidden;
     overflow-y: auto;
-    margin-right: 10px
+    margin-right: 10px;
 }
 .text {
     position: absolute;

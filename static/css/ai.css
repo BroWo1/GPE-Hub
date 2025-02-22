@@ -13,7 +13,7 @@ html, body {
 }
 .leftCard {
     display: grid;
-    grid-template-rows: 2fr 3fr;
+    grid-template-rows: 9fr 11fr;
 }
 
 
@@ -38,7 +38,7 @@ html, body {
     background-color: rgba(255, 255, 255, 0.15);
     padding: 20px;
     border-radius: 8px;
-    height: calc(calc(100vh * 0.6) - 20px); /* Remove the fixed height */
+    height: calc(calc(100vh * 0.55) - 20px); /* Remove the fixed height */
     width: calc(100% - 10px); /* Adjust for padding */
     display: flex;
     flex-direction: column;
@@ -51,7 +51,7 @@ html, body {
     background-color: rgba(255, 255, 255, 0.15);
     padding: 20px;
     border-radius: 8px;
-    height: calc(calc(100vh * 0.4) - 20px); /* Remove the fixed height */
+    height: calc(calc(100vh * 0.45) - 20px); /* Remove the fixed height */
     width: calc(100% - 10px); /* Adjust for padding */
     display: flex;
     flex-direction: column; /* Stack elements vertically */
@@ -172,7 +172,7 @@ html, body {
     border: 2px solid rgba(255, 255, 255, 0.4);
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.3);
-    width: 80%;
+    margin-right: 0px;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     height: 45px;
     transition: 0.3s ease all;
@@ -195,12 +195,23 @@ html, body {
     cursor: pointer;
     font-size: 16px;
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease;
 }
 
 .appCardText {
     margin-left: 20px;
     font-size: 20px;
     color: white;
+    transition: 0.3s ease;
+}
+@media (max-width: 700px) {
+          .appCardText{
+              font-size: 16px;
+          }
+        .appCard {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
 }
 
 
@@ -236,8 +247,8 @@ html, body {
     transform: translate(-50%, -50%);
     width: 55%;
     height: 90%;
-    background-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(16px);
     border: 2px solid rgba(255, 255, 255, 0.5);
     box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
     padding-left: 25px;

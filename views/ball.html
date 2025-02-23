@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      background: transparent;
+      overflow: hidden;
+      -webkit-app-region: drag;
+    }
+    .ball {
+      width: 60px;
+      height: 60px;
+      background-color: #3498db; /* Customize your color */
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+
+    }
+    .ball:hover{
+        background-color: #2980b9; /* Customize your color */
+    }
+  </style>
+</head>
+<body>
+  <div class="ball" id="ball"></div>
+    <script>
+
+      document.getElementById('ball').addEventListener('click', () => {
+        window.electronAPI.openMenu();
+      });
+    </script>
+
+</body>
+</html>

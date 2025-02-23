@@ -7,7 +7,28 @@
     <link href="../static/css/styles.css" rel="stylesheet">
       <link href="../static/css/ai.css" rel="stylesheet">
     <link rel="shortcut icon" href = "../static/imgs/logo.ico">
+      <script>
+          window.MathJax = {
+            tex: {
+              inlineMath: [['\\(', '\\)'], ['[', ']']],
+              displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                linebreaks: { automatic: true, width: "100%" }
+
+            },
+            options: {
+              skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+          };
+        </script>
+      <script id="MathJax-script" async
+            src="../MathJax/es5/tex-mml-chtml.js"></script>
     <title>AI Toolbox</title>
+      <style>
+          .MathJax_Display {
+        overflow-x: auto;
+        word-wrap: break-word;
+      }
+      </style>
   </head>
   <body>
   <nav class="sidebar">

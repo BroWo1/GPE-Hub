@@ -139,7 +139,7 @@ function expend() {
     response.innerHTML = `
     <div id="response">
         
-        <div class="content">
+        <div class="content" id="responseOutput1">
             <p>${storedResponseMD}</p>
         </div>
         <div class="close">
@@ -149,6 +149,8 @@ function expend() {
     `;
     const isChecked = sessionStorage.getItem("maxModeChecked") === "true";
     document.body.appendChild(response);
+    MathJax.typesetPromise([document.getElementById('responseOutput1')])
+        .catch(err => console.error("MathJax typeset failed: ", err));
 }
 
 function closeExpend() {

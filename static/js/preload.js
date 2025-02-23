@@ -38,7 +38,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
             console.error('Error: Parsed content is not a string');
             return '';
         }
-    }
+    },
+    openMenu: () => ipcRenderer.send('open-menu'),
 });
 
 // preload.js

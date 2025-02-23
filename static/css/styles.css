@@ -352,18 +352,21 @@ img{
 
 ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
+    transition: 0.3s ease all;
 }
 
 ::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0);
     border-radius: 5px;
+    transition: 0.3s ease all;
 }
 
 ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.5);
     border-radius: 3px;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition: 0.3s ease all;
 }
 
 ::-webkit-scrollbar-thumb:hover {

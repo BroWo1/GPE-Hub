@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target && event.target.id === 'sendQueryButton') {
             const query = document.getElementById('inputAI').value;
             const isChecked = sessionStorage.getItem("maxModeChecked") === "true";
-            const model = isChecked ? 'qwen2.5-vl-72b-instruct' : 'qwen-omni-turbo';
+            const model = isChecked ? 'qwen-vl-max' : 'qwen-omni-turbo';
             var mode = sessionStorage.getItem("mode") || "chatbot";
             if (document.title === "GPE Hub"){
                 mode = "search";
@@ -120,6 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
                           console.log('displayed')
                         }
                         document.getElementById('responseOutput').innerHTML = responseMD;
+                        MathJax.typesetPromise([document.getElementById('responseOutput')])
+                        .catch(err => console.error("MathJax typeset failed: ", err));
                     } else {
                         console.error('Received empty response');
                         document.getElementById('responseOutput').innerHTML = 'Error: No response received';
@@ -141,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.addEventListener('click', async (event) => {
         if (event.target && event.target.id === 'uploadBtn') {
             const isChecked = sessionStorage.getItem("maxModeChecked") === "true";
-            const model = isChecked ? 'qwen2.5-vl-72b-instruct' : 'qwen-omni-turbo';
+            const model = isChecked ? 'qwen-vl-max' : 'qwen-omni-turbo';
 
             // Capture the image from an <input type="file"> or from an <img> element
             const imageInput = document.getElementById('fileInput'); // Assuming you have an input to select image
@@ -174,6 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             // Display the response in the DOM
                             if (response) {
                                 document.getElementById('responseOutput').innerHTML = responseMD;
+                                MathJax.typesetPromise([document.getElementById('responseOutput')])
+                        .catch(err => console.error("MathJax typeset failed: ", err));
                             } else {
                                 console.error('Received empty response');
                                 document.getElementById('responseOutput').innerHTML = 'Error: No response received';

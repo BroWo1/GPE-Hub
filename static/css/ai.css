@@ -277,7 +277,9 @@ html, body {
     top: 10px;
     overflow: hidden;
     overflow-y: auto;
+    overflow-x: scroll;
     margin-right: 10px;
+    width: calc(100% - 40px);
 }
 .text {
     position: absolute;
@@ -285,5 +287,6 @@ html, body {
     bottom: 10px;
     overflow: hidden;
     overflow-y: auto;
-    margin-right: 10px;
+    overflow-x: scroll;
+    width: calc(100% - 42px);
 }

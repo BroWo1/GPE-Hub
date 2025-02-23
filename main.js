@@ -18,6 +18,26 @@ app.setPath('userData', userDataPath);
 
 let tray = null
 let mainWindow = null
+let ballWindow;
+
+function createBallWindow() {
+  ballWindow = new BrowserWindow({
+    width: 60,
+    height: 60,
+    frame: false,              // Remove the title bar
+    transparent: true,         // Make the background transparent
+    alwaysOnTop: true,         // Keep window always on top
+    resizable: false,
+    skipTaskbar: true,         // Don’t show in taskbar
+    webPreferences: {
+      nodeIntegration: false,   // Enable Node integration (or use preload/contextBridge in newer Electron versions)
+      contextIsolation: true,  // (Set to true with preload if you need more security)
+      preload: path.join(__dirname, 'static', 'js', 'preload.js')
+    }
+  });
+
+  ballWindow.loadFile(path.join(__dirname, 'views', 'ball.html')); // Load the HTML that draws the ball
+}
 
 function createWindow () {
   // Create the browser window.
@@ -49,6 +69,7 @@ function createWindow () {
         return [];
     }
 });
+
   const fs = require('fs');
 const marked = require('marked');
 ipcMain.handle('parse-markdown', async (event, markdownText) => {
@@ -60,6 +81,19 @@ ipcMain.handle('parse-markdown', async (event, markdownText) => {
 
     return html; // Send back the parsed HTML
 });
+
+ipcMain.on('open-menu', (event) => {
+  const menuTemplate = [
+    { label: 'Option 1', click: () => console.log('Option 1 selected') },
+    { label: 'Option 2', click: () => console.log('Option 2 selected') },
+    { type: 'separator' },
+    { label: 'Quit', click: () => app.quit() }
+  ];
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  // Use the sender's window for popup
+  menu.popup({ window: BrowserWindow.fromWebContents(event.sender) });
+});
+
 
 
 // Submit the rating to the server
@@ -151,6 +185,7 @@ function createTray() {
 app.whenReady().then(() => {
   createWindow()
   createTray()
+  createBallWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

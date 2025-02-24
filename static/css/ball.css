@@ -45,9 +45,9 @@ justify-content: center;
     .ball {
       width: 50px;
       height: 50px;
-      background-color: #626365; /* Customize your color */
+      background-color: #3a3d43; /* Customize your color */
       border-radius: 50%;
-      border: 2px solid #8f8f91;
+      border: 2px solid #898b8e;
       cursor: pointer;
       box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
       transition: 0.3s ease all;
@@ -65,10 +65,9 @@ justify-content: center;
     .ball1 {
       width: 0px;
       height: 25px;
-      background-color: rgba(255, 255, 255, 0.3); /* Customize your color */
+      background-color: #3a3d43; /* Customize your color */
       border-radius: 50%;
-      border: 2px solid #8f8f91;
-      cursor: pointer;
+      border: 2px solid #898b8e;
       box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
       transition: 0.3s ease all;
         flex-shrink: 0;
@@ -85,15 +84,16 @@ justify-content: center;
   opacity: 1;
                 -webkit-app-region: drag;
 
+
     }
         .ball:hover, ball1:hover{
-        background-color: #8f8f91; /* Customize your color */
+        background-color: #898b8e; /* Customize your color */
         border: 2px solid white;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     }
 .float {
-  background-color: #626365;
-  border: 2px solid #8f8f91;
+  background-color: #3a3d43;
+  border: 2px solid #898b8e;
   border-radius: 25px;
   height: 50px;
   width: 0px;
@@ -108,7 +108,7 @@ justify-content: center;
     padding-left: 10px;
 }
 .float:focus{
-    background-color: #8f8f91; /* Customize your color */
+    background-color: #898b8e; /* Customize your color */
         border: 2px solid white;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     border-radius: 12px;
@@ -121,7 +121,7 @@ justify-content: center;
 }
 
 .float:hover{
-            background-color: #8f8f91; /* Customize your color */
+            background-color: #898b8e; /* Customize your color */
         border: 2px solid white;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
@@ -134,8 +134,8 @@ justify-content: center;
     top: 80px;
     padding-left: 10px;
     padding-right: 10px;
-    background: #626365;
-    border: 2px solid #8f8f91;
+    background: #3a3d43;
+    border: 2px solid #898b8e;
     border-radius: 10px;
     backdrop-filter: blur(8px);
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
@@ -177,8 +177,8 @@ justify-content: center;
     width: 50px;
     height: 50px;
     border-radius: 8px;
-    background: #626365;
-    border: 2px solid #8f8f91;
+    background: #3a3d43;
+    border: 2px solid #898b8e;
     box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
     position: absolute;
     top: 50%;
@@ -194,7 +194,7 @@ justify-content: center;
 .load .spinner {
     width: 25px;
     height: 25px;
-    border: 6px solid #626365;
+    border: 6px solid #3a3d43;
     border-top: 6px solid rgba(255, 255, 255, 0.8);
     border-radius: 50%;
     animation: spin 1s linear infinite;

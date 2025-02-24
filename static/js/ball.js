@@ -26,29 +26,32 @@ dragC.addEventListener('mouseout', () => {
 });
 
 
-document.getElementById('ball').addEventListener('', () => {
-        window.electronAPI.openMenu();
-      });
-document.getElementById('ball').addEventListener('click', () =>{
-    if(!animation){
-        if(isClicked){
-        float.classList.remove('expanded');
-        drag.classList.remove('drag');
-        document.getElementById('responseOutput').classList.remove('on');
-        animation = true;
-        setTimeout(() => {
-            window.resizeTo(70, 70);
-            animation = false;
-        }, 300);
-        isClicked = false;
-    }else{
-        float.classList.add('expanded');
-    drag.classList.add('drag');
-    isClicked = true;
-    window.resizeTo(400, 70)
-    }
+document.getElementById('ball').addEventListener('contextmenu', (event) => {
+    event.preventDefault(); // Prevent the default context menu from appearing
+    window.electronAPI.openMenu();
+});
+document.getElementById('ball').addEventListener('click', () => {
+    if (!animation) {
+        if (isClicked) {
+            float.classList.remove('expanded');
+            drag.classList.remove('drag');
+            document.getElementById('responseOutput').classList.remove('on');
+            animation = true;
+            setTimeout(() => {
+                window.resizeTo(70, 70);
+                animation = false;
+                window.electronAPI.snapToRight();
+            }, 300);
+            isClicked = false;
+        } else {
+            float.classList.add('expanded');
+            drag.classList.add('drag');
+            isClicked = true;
+            window.resizeTo(400, 70);
+        }
     }
 });
+
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('input').addEventListener('keydown', async (event) => {

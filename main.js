@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Tray, Menu, ipcMain, session} = require('electron')
+const { app, BrowserWindow, Tray, Menu, ipcMain, session, screen} = require('electron')
 const path = require('node:path')
 const axios = require('axios');
 
@@ -18,26 +18,83 @@ app.setPath('userData', userDataPath);
 
 let tray = null
 let mainWindow = null
-let ballWindow;
+let ballWindow = null;
 
 function createBallWindow() {
-  ballWindow = new BrowserWindow({
-    width: 70,
-    height: 70,
-    frame: false,              // Remove the title bar
-    transparent: true,         // Make the background transparent
-    alwaysOnTop: true,         // Keep window always on top
-    resizable: false,
-    skipTaskbar: true,         // Don’t show in taskbar
-    webPreferences: {
-      nodeIntegration: false,   // Enable Node integration (or use preload/contextBridge in newer Electron versions)
-      contextIsolation: true,  // (Set to true with preload if you need more security)
-      preload: path.join(__dirname, 'static', 'js', 'preload.js')
-    }
-  });
+  if (ballWindow === null) {
+    ballWindow = new BrowserWindow({
+      width: 70,
+      height: 70,
+      frame: false,              // Remove the title bar
+      transparent: true,         // Make the background transparent
+      alwaysOnTop: true,         // Keep window always on top
+      resizable: false,
+      skipTaskbar: true,         // Don’t show in taskbar
+      webPreferences: {
+        nodeIntegration: false,   // Enable Node integration (or use preload/contextBridge in newer Electron versions)
+        contextIsolation: true,  // (Set to true with preload if you need more security)
+        preload: path.join(__dirname, 'static', 'js', 'preload.js')
+      }
+    });
 
-  ballWindow.loadFile(path.join(__dirname, 'views', 'ball.html')); // Load the HTML that draws the ball
+    // Set the window to always be on top with a specific level
+    ballWindow.setAlwaysOnTop(true, 'screen-saver');
+
+    ballWindow.loadFile(path.join(__dirname, 'views', 'ball.html')); // Load the HTML that draws the ball
+  }
+
+function snapToRight() {
+    const bounds = ballWindow.getBounds();
+    const { x, y, width, height } = bounds;
+    const screenBounds = screen.getPrimaryDisplay().workArea;
+
+    const targetX = screenBounds.width - width;
+    const targetY = y; // Maintain current Y position
+
+    const edgeThreshold = 500; // Distance from the right edge to trigger snapping
+
+    if (screenBounds.width - (x + width) <= edgeThreshold) {
+        const duration = 500; // Total duration of the movement in milliseconds
+        const startTime = Date.now(); // Start time of the animation
+
+        const easeInOut = (t) => {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        };
+
+        const moveWindow = () => {
+            const elapsed = Date.now() - startTime;
+            const t = Math.min(elapsed / duration, 1); // Normalize time (0 to 1)
+
+            const easingFactor = easeInOut(t); // Calculate easing factor
+            const newX = x + (targetX - x) * easingFactor;
+            ballWindow.setBounds({ x: newX, y: targetY, width, height });
+
+            if (t < 1) {
+                setTimeout(moveWindow, 16); // Call the function again after a short delay (16ms for ~60fps)
+            } else {
+                ballWindow.setBounds({ x: targetX, y: targetY, width, height }); // Ensure exact target position
+            }
+        };
+
+        setTimeout(moveWindow, 16); // Start the animation loop
+    }
 }
+
+ipcMain.on('create-ball-window', () => {
+  createBallWindow();
+});
+
+ipcMain.on('delete-ball-window', () => {
+  if (ballWindow !== null) {
+    ballWindow.close();
+    ballWindow = null;
+  }
+});
+
+ipcMain.on('snap-to-right', snapToRight);
+}
+
+
 
 function createWindow () {
   // Create the browser window.
@@ -84,10 +141,59 @@ ipcMain.handle('parse-markdown', async (event, markdownText) => {
 
 ipcMain.on('open-menu', (event) => {
   const menuTemplate = [
-    { label: 'Option 1', click: () => console.log('Option 1 selected') },
-    { label: 'Option 2', click: () => console.log('Option 2 selected') },
-    { type: 'separator' },
-    { label: 'Quit', click: () => app.quit() }
+    {
+      label: 'Open',
+      click: () => {
+        mainWindow.show()
+      }
+    },{ type: 'separator' },
+      {
+      label: 'AI', // New menu item
+      click: () => {
+        // Create a new BrowserWindow for ai.html
+        let aiWindow = new BrowserWindow({
+          width: 800,
+          height: 600,
+          minHeight: 475,
+          minWidth: 633,
+          icon: path.join(__dirname, 'static', 'imgs', 'logo.ico'),
+          webPreferences: {
+            contextIsolation: true,
+            nodeIntegration: false,
+            preload: path.join(__dirname, 'static', 'js', 'preload.js')
+          }
+        })
+
+        aiWindow.loadFile(path.join(__dirname, 'views', 'ai.html'))
+        aiWindow.on('ready-to-show', () => {
+          aiWindow.show()
+        })
+        aiWindow.setMenu(null)
+      }
+    },
+      {
+      label: 'Notes', // New menu item
+      click: () => {
+        // Create a new BrowserWindow for ai.html
+        let noteWindow = new BrowserWindow({
+          width: 800,
+          height: 600,
+          minHeight: 475,
+          minWidth: 633,
+          icon: path.join(__dirname, 'static', 'imgs', 'logo.ico'),
+          webPreferences: {
+            contextIsolation: true,
+            nodeIntegration: false,
+            preload: path.join(__dirname, 'static', 'js', 'preload.js')
+          }
+        })
+
+        noteWindow.loadFile(path.join(__dirname, 'views', 'notes.html'))
+        noteWindow.on('ready-to-show', () => {
+          noteWindow.show()
+        })
+        noteWindow.setMenu(null)
+      }}
   ];
   const menu = Menu.buildFromTemplate(menuTemplate);
   // Use the sender's window for popup
@@ -155,6 +261,7 @@ function createTray() {
         aiWindow.setMenu(null)
       }
     },
+      { type: 'separator' },
     {
       label: 'Quit',
       click: () => {

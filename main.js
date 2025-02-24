@@ -22,8 +22,8 @@ let ballWindow;
 
 function createBallWindow() {
   ballWindow = new BrowserWindow({
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     frame: false,              // Remove the title bar
     transparent: true,         // Make the background transparent
     alwaysOnTop: true,         // Keep window always on top

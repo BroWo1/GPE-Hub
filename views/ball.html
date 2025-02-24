@@ -2,35 +2,43 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <style>
-    body {
-      margin: 0;
-      background: transparent;
-      overflow: hidden;
-      -webkit-app-region: drag;
-    }
-    .ball {
-      width: 60px;
-      height: 60px;
-      background-color: #3498db; /* Customize your color */
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  <link href="../static/css/ball.css" rel="stylesheet">
+  <script>
+          window.MathJax = {
+            tex: {
+              inlineMath: [['\\(', '\\)'], ['[', ']']],
+              displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                linebreaks: { automatic: true, width: "100%" }
 
-    }
-    .ball:hover{
-        background-color: #2980b9; /* Customize your color */
-    }
-  </style>
+            },
+            options: {
+              skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+          };
+        </script>
+      <script id="MathJax-script" async
+            src="../MathJax/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-  <div class="ball" id="ball"></div>
-    <script>
+<div class="containerAll">
+<div class="container">
+  <div class="ball" id="ball" style="display: flex; align-items: center; justify-content: center">
+            <img src="../static/imgs/gpe.png" width="40" height="40">
+  </div>
+  <div class="float-container">
+    <input type="search" class="float" id="float" placeholder="Quick Ask..."></input>
+    <div style="padding-left: 10px" id="dragC">
+      <div class="ball1" id="drag">
+        <img src="../static/imgs/open_with_24dp_FFFFFF_FILL0_wght400_GRAD-25_opsz24.svg" width="25" height="25">
+      </div>
+    </div>
+  <div class="response" id="responseOutput">
 
-      document.getElementById('ball').addEventListener('click', () => {
-        window.electronAPI.openMenu();
-      });
-    </script>
-
+  </div>
+  </div>
+  <script src="../static/js/ball.js"></script>
+</div>
+  </div>
 </body>
+
 </html>

@@ -1,0 +1,238 @@
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/Roboto-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/Roboto-Bold.ttf') format('truetype');
+}
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+      margin: 0;
+      background: transparent;
+      overflow: hidden;
+justify-content: center;
+    align-items: center;
+    }
+
+
+.container{
+    display: flex;
+
+    padding-left: 10px;
+    padding-top: 10px;
+}
+.containerAll{
+    height: 70px;
+    width: 430px;
+    align-items: center;
+}
+    .ball {
+      width: 50px;
+      height: 50px;
+      background-color: #626365; /* Customize your color */
+      border-radius: 50%;
+      border: 2px solid #8f8f91;
+      cursor: pointer;
+      box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
+      transition: 0.3s ease all;
+        flex-shrink: 0;
+            backdrop-filter: blur(8px);
+
+    }
+
+    .float-container{
+        padding-left: 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+    }
+    .ball1 {
+      width: 0px;
+      height: 25px;
+      background-color: rgba(255, 255, 255, 0.3); /* Customize your color */
+      border-radius: 50%;
+      border: 2px solid #8f8f91;
+      cursor: pointer;
+      box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
+      transition: 0.3s ease all;
+        flex-shrink: 0;
+        visibility: hidden;
+        opacity: 0;
+            backdrop-filter: blur(8px);
+
+    }
+
+    .ball1.drag{
+              width: 25px;
+
+        visibility: visible;
+  opacity: 1;
+                -webkit-app-region: drag;
+
+    }
+        .ball:hover, ball1:hover{
+        background-color: #8f8f91; /* Customize your color */
+        border: 2px solid white;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+.float {
+  background-color: #626365;
+  border: 2px solid #8f8f91;
+  border-radius: 25px;
+  height: 50px;
+  width: 0px;
+  box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s ease all;
+    flex-shrink: 0;
+    color: white;
+    backdrop-filter: blur(8px);
+    font-size: 18px;
+    padding-left: 10px;
+}
+.float:focus{
+    background-color: #8f8f91; /* Customize your color */
+        border: 2px solid white;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+}
+
+.float.expanded {
+  width: 250px;
+  visibility: visible;
+  opacity: 1;
+}
+
+.float:hover{
+            background-color: #8f8f91; /* Customize your color */
+        border: 2px solid white;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+
+.response {
+    position: absolute;
+    width: 250px; /* Adjust width as needed */
+    /* Other existing styles */
+    top: 80px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #626365;
+    border: 2px solid #8f8f91;
+    border-radius: 10px;
+    backdrop-filter: blur(8px);
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s ease all;
+    max-height: 300px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.response.on{
+    visibility: visible;
+    opacity: 1;
+}
+
+@keyframes popupEntrance {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes popupExit {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+.load {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    background: #626365;
+    border: 2px solid #8f8f91;
+    box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(8px);
+    animation: popupEntrance 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;  /* Centers the spinner inside the container */
+}
+
+.load .spinner {
+    width: 25px;
+    height: 25px;
+    border: 6px solid #626365;
+    border-top: 6px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.load.exit {
+    animation: popupExit 0.3s ease; /* Exit animation */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    transition: 0.3s ease all;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0);
+    border-radius: 5px;
+    transition: 0.3s ease all;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 3px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease all;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}

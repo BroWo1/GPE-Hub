@@ -20,25 +20,26 @@
             src="../MathJax/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<div class="containerAll">
-<div class="container">
-  <div class="ball" id="ball" style="display: flex; align-items: center; justify-content: center">
-            <img src="../static/imgs/gpe.png" width="38" height="38">
-  </div>
-  <div class="float-container">
-    <input type="search" class="float" id="float" placeholder="Quick Ask..."></input>
-    <div style="padding-left: 10px" id="dragC">
-      <div class="ball1" id="drag" style="display: flex; align-items: center; justify-content: center">
-        <img src="../static/imgs/open_with_24dp_FFFFFF_FILL0_wght400_GRAD-25_opsz24.svg" width="24" height="24">
+  <div class="containerAll">
+    <div class="container">
+      <div class="ball" id="ball" style="display: flex; align-items: center; justify-content: center">
+        <img src="../static/imgs/gpe.png" width="38" height="38" id="logo">
+      </div>
+      <div class="float-container">
+        <input type="search" class="float" id="float" placeholder="Quick Ask..."></input>
+
+        <button class="uploadImg" id="uploadImgBtn"><img src="../static/imgs/photo_camera_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" width="24" height="24"></button>
+        <div style="padding-left: 10px" id="dragC">
+          <div class="ball1" id="drag" style="display: flex; align-items: center; justify-content: center">
+            <img src="../static/imgs/open_with_24dp_FFFFFF_FILL0_wght400_GRAD-25_opsz24.svg" width="24" height="24">
+          </div>
+        </div>
+        <div class="response" id="responseOutput">
+        </div>
       </div>
     </div>
-  <div class="response" id="responseOutput">
-
-  </div>
   </div>
   <script src="../static/js/ball.js"></script>
-</div>
-  </div>
 </body>
 
 </html>

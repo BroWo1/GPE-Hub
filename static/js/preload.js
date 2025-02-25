@@ -6,6 +6,9 @@
  *
  * https://www.electronjs.org/docs/latest/tutorial/sandbox
  */
+
+
+
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector)
@@ -99,6 +102,46 @@ contextBridge.exposeInMainWorld('electron', {
         console.error('Error:', error);
         return 'Error: Unable to connect to the server.';
     }
-}
+    
+},
+mixRequest: async (model, imageBase64, prompt1) => {
+    try {
+        const response = await fetch('http://117.72.120.34:3000/image', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                model,
+                imageBase64,
+                prompt1
+            }),
+        });
 
+        // Check if the response status is OK (200)
+        if (response.ok) {
+            const data = await response.json();
+            return data.response;
+        } else {
+            const errorMessage = await response.text();  // Get the error message if not a successful response
+            console.error('Error response from server:', errorMessage);
+            return `Error: ${response.status} - ${errorMessage}`;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return 'Error: Unable to connect to the server.';
+    }
+    
+},
+getLanguage: () => ipcRenderer.invoke('get-language'),
+  translate: (key) => ipcRenderer.invoke('translate', key),
+  captureScreenshot: () => ipcRenderer.invoke('capture-screenshot')
+});
+
+// In preload.js
+contextBridge.exposeInMainWorld('api', {
+  // ... other existing methods
+  translate: (key) => ipcRenderer.invoke('translate', key),
+  getLanguage: () => ipcRenderer.invoke('get-language'),
+  setLanguage: (language) => ipcRenderer.invoke('set-language', language)
 });

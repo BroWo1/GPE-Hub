@@ -12,50 +12,60 @@
   <nav class="sidebar">
       <a href="index.html" class="nav-item">
       <img src="../static/imgs/home_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Home" width="30" height="30" />
-      <span>Home</span>
+      <span data-i18n="home"></span>
     </a>
     <a href="ai.html" class="nav-item">
       <img src="../static/imgs/auto_awesome_24dp_FFFFFF.svg" alt="Settings" width="30" height="30" />
-      <span>AI</span>
+      <span data-i18n="ai"></span>
     </a>
     <a href="vocab.html" class="nav-item">
       <img src="../static/imgs/cards_star_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Vocab" width="30" height="30" />
-      <span>Vocab</span>
+      <span data-i18n="vocab"></span>
     </a>
     <a href="notes.html" class="nav-item">
           <img src="../static/imgs/sticky_note_2_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Notes" width="30" height="30" />
-          <span>Notes</span>
+          <span data-i18n="notes"></span>
         </a>
     <a href="#" class="nav-item active">
       <img src="../static/imgs/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Settings" width="30" height="30" />
-      <span>Settings</span>
+      <span data-i18n="settings"></span>
     </a>
   </nav>
-  ```html
-<!-- replace lines 34 to 49 -->
-<div style="padding-left: 90px; text-align: center;">
-  <h1>Settings</h1>
-  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    <div style="align-items: center;display: flex"  >
-      <p style="display: inline-block; margin-right: 10px; font-size: 25px; font-weight: bold">Developer mode</p>
-      <label class="switch" style="display: inline-block">
-        <!-- Give the input an ID to target it from JavaScript -->
-        <input type="checkbox" id="devToolsSwitch">
-        <span class="slider"></span>
-      </label>
+  <div style="padding-left: 90px; text-align: center;">
+    <h1 data-i18n="title"></h1>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="textLine">
+        <p style="display: inline-block; margin-right: 10px; font-size: 25px; font-weight: bold" data-i18n="developerMode"></p>
+        <label class="switch" style="display: inline-block">
+          <!-- Give the input an ID to target it from JavaScript -->
+          <input type="checkbox" id="devToolsSwitch">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="textLine">
+        <p style="display: inline-block; margin-right: 10px; font-size: 25px; font-weight: bold;" data-i18n="showGPEBall"></p>
+        <label class="switch" style="display: inline-block">
+          <!-- Give the input an ID to target it from JavaScript -->
+          <input type="checkbox" id="GPEBall">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="textLine">
+        <p style="display: inline-block; margin-right: 10px; font-size: 25px; font-weight: bold;" data-i18n="language"></p>
+        <div class="dropdown">
+          <button class="dropdown-toggle" id="languageSelector">English</button>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item" data-lang="en">English</li>
+            <li class="dropdown-item" data-lang="zh">中文</li>
+          </ul>
+        </div>
     </div>
-    <div style="align-items: center;display: flex">
-      <p style="display: inline-block; margin-right: 10px; font-size: 25px; font-weight: bold;">Show GPE Ball</p>
-      <label class="switch" style="display: inline-block">
-        <!-- Give the input an ID to target it from JavaScript -->
-        <input type="checkbox" id="GPEBall">
-        <span class="slider"></span>
-      </label>
+    
     </div>
-  </div>
   </div>
 
     <!-- You can also require other files to run in this process -->
+    <script src="../static/js/i18n.js"></script>
     <script src="../static/js/renderer.js"></script>
     <script src="../static/js/index.js"></script>
     <script>
@@ -77,6 +87,31 @@
         }
       });
 
+      // Language selector functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const languageSelector = document.getElementById('languageSelector');
+        const languageItems = document.querySelectorAll('.dropdown-item');
+        
+        // Load saved language preference or default to English
+        const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+        const savedLanguageText = document.querySelector(`.dropdown-item[data-lang="${savedLanguage}"]`)?.textContent || 'English';
+        languageSelector.textContent = savedLanguageText;
+        
+        // Handle language selection
+        languageItems.forEach(item => {
+          item.addEventListener('click', function() {
+            const lang = this.getAttribute('data-lang');
+            languageSelector.textContent = this.textContent;
+            localStorage.setItem('selectedLanguage', lang);
+            
+            // Here you would trigger your i18n translation function
+            // For example: changeLanguage(lang);
+            console.log(`Language changed to: ${lang}`);
+            window.api.setLanguage(lang);
+            location.reload();
+          });
+        });
+      });
     </script>
   </body>
 </html>

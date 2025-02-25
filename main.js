@@ -1,8 +1,12 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Tray, Menu, ipcMain, session, screen} = require('electron')
+const { app, BrowserWindow, Tray, Menu, ipcMain, session, screen, globalShortcut, desktopCapturer } = require('electron')
 const path = require('node:path')
 const axios = require('axios');
 const checkUpdate = require(path.join(__dirname, 'static', 'js', 'update.js'));
+const i18next = require('i18next');
+const i18nextFsBackend = require('i18next-fs-backend');
+const i18nextLanguageDetector = require('i18next-browser-languagedetector');
+
 
 let userDataPath;
 if (process.platform === 'win32') {
@@ -30,7 +34,7 @@ function createBallWindow() {
       transparent: true, // Try disabling transparency
       //alwaysOnTop: true,         // Keep window always on top
       resizable: false,
-      skipTaskbar: true,         // Don’t show in taskbar
+      skipTaskbar: true,         // Don't show in taskbar
       webPreferences: {
         nodeIntegration: false,   // Enable Node integration (or use preload/contextBridge in newer Electron versions)
         contextIsolation: true,  // (Set to true with preload if you need more security)
@@ -42,10 +46,49 @@ function createBallWindow() {
     ballWindow.setAlwaysOnTop(true, 'screen-saver');
     if (process.platform === 'darwin'){
         ballWindow.setVisibleOnAllWorkspaces(true);
-        app.dock.hide;
+        app.dock.hide();
     }
     ballWindow.loadFile(path.join(__dirname, 'views', 'ball.html')); // Load the HTML that draws the ball
   }
+}
+ipcMain.handle('translate', async (event, key) => {
+  return i18next.t(key);
+});
+
+ipcMain.handle('get-language', () => {
+  return i18next.language;
+});
+
+// Add this new handler to set the language
+ipcMain.handle('set-language', async (event, language) => {
+  try {
+    await i18next.changeLanguage(language);
+    return { success: true, language: i18next.language };
+  } catch (error) {
+    console.error('Error changing language:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('capture-screenshot', async () => {
+  const sources = await desktopCapturer.getSources({ 
+    types: ['screen'],
+    thumbnailSize: { width: 1920, height: 1080 }
+  });
+  
+  // Instead of trying to use navigator, just return the source information
+  // that the renderer process can use
+  if (sources.length > 0) {
+    const source = sources[0];
+    return {
+      id: source.id,
+      name: source.name,
+      thumbnail: source.thumbnail.toDataURL()
+    };
+  }
+  
+  throw new Error('No screen sources found');
+});
 
 function snapToRight() {
     const bounds = ballWindow.getBounds();
@@ -135,12 +178,15 @@ ipcMain.on('delete-ball-window', () => {
 
 ipcMain.on('snap-to-right', snapToRight);
 ipcMain.on('move-to-left', moveLeft);
-}
+
 
 
 
 
 function createWindow () {
+
+
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
@@ -154,6 +200,17 @@ function createWindow () {
       preload: path.join(__dirname, 'static', 'js', 'preload.js')
     }
   })
+
+i18next
+    .use(i18nextFsBackend)  // Use the correct backend module
+    .use(i18nextLanguageDetector)  // Use the correct language detector module
+    .init({
+      fallbackLng: 'en',
+      debug: true, // Add debug to see what's happening
+      backend: {
+        loadPath: path.join(__dirname, 'static', 'locales', '{{lng}}.json'), // Corrected path
+      },
+    });
 
   mainWindow.loadFile(path.join(__dirname, 'views', 'index.html'))
   mainWindow.on('ready-to-show', () =>{
@@ -340,12 +397,29 @@ app.whenReady().then(() => {
   createTray()
   createBallWindow()
 
+  
+  // Register global shortcut (Alt+B to toggle ball window)
+  globalShortcut.register('Alt+G', () => {
+    if (ballWindow === null) {
+      createBallWindow();
+    } else {
+      ballWindow.close();
+      ballWindow = null;
+    }
+  });
+  
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
+
+// Clean up shortcuts when app quits
+app.on('will-quit', () => {
+  // Unregister all shortcuts
+  globalShortcut.unregisterAll();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -379,6 +453,9 @@ ipcMain.on('set-cookie', (event, name, value) => {
     event.reply('cookie-set-failure', error);
   });
 });
+
+
+
 
 // Handling 'get-cookie' from renderer process and returning the value
 ipcMain.handle('get-cookie', async (event, name) => {

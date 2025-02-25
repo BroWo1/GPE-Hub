@@ -55,12 +55,34 @@ justify-content: center;
 
     }
 
-    .float-container{
+.float-container{
         padding-left: 10px;
         flex-shrink: 0;
         display: flex;
         align-items: center;
     }
+    
+    .uploadImg {
+        background-color: #3a3d43;
+        border: 2px solid #898b8e;
+        border-radius: 15px;
+        height: 30px; /* You can adjust the height as needed */
+        width: 0px; /* Ensures the button spans the full width of the input */
+        box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
+        color: white;
+        font-size: 18px;
+        position: absolute;
+        left: 80px;
+        top: 70px;
+        visibility: hidden;
+        opacity: 0;
+        transition: 0.3s ease all;
+    }
+    .uploadImg.expanded {
+        width: 60px;
+        visibility: visible;
+        opacity: 1;
+      }
     .ball1 {
       width: 0px;
       height: 25px;
@@ -119,18 +141,24 @@ justify-content: center;
   opacity: 1;
 }
 
-.float:hover{
+.float:hover, .uploadImg:hover{
             background-color: #898b8e; /* Customize your color */
         border: 2px solid white;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+.uploadImg.expanded.active{
+  background-color: #898b8e; /* Customize your color */
+        border: 2px solid white;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
 }
 
 
 .response {
     position: absolute;
-    width: 250px; /* Adjust width as needed */
+    width: 260px; /* Adjust width as needed */
     /* Other existing styles */
-    top: 80px;
+    top: 110px;
     padding-left: 10px;
     padding-right: 10px;
     background: #3a3d43;
@@ -235,3 +263,17 @@ justify-content: center;
     background: rgba(255, 255, 255, 0.7);
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
+
+img {
+    transition: none;
+  }
+  
+  img.spin {
+    transform: rotate(360deg);
+    transition: transform 0.5s ease;
+  }
+  
+  img.spinBack {
+    transform: rotate(-360deg);
+    transition: transform 0.5s ease;
+  }

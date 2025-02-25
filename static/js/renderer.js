@@ -1,5 +1,59 @@
 // renderer.js
-console.log('Preload loaded')
+console.log('Preload loaded')   
+
+// No need to access i18next directly
+// const i18next = window.i18next  <- Remove this line
+
+// Create translation functions that use the IPC bridge
+const i18n = {
+  changeLanguage: async (language) => {
+    // This would need to be implemented in the main process and exposed
+    // For now, we'll just store the language preference
+    localStorage.setItem('selectedLanguage', language);
+    updateUIWithTranslation();
+  },
+  t: async (key) => {
+    return await window.electron.translate(key);
+  }
+};
+
+window.onload = async () => {
+    // Get the current language from the main process
+    const language = await window.electron.getLanguage();
+    
+    // Update UI with translations
+    updateUIWithTranslation();
+};
+  
+async function updateUIWithTranslation() {
+  // Get elements with data-i18n attributes
+  document.querySelectorAll('[data-i18n]').forEach(async element => {
+    const key = element.getAttribute('data-i18n');
+    const translation = await window.electron.translate(key);
+    if (translation) {
+      element.textContent = translation;
+    }
+  });
+  
+  // For specific elements that need direct translation
+  if (document.getElementById('someElement')) {
+    const translation = await window.electron.translate('someKey');
+    document.getElementById('someElement').innerText = translation;
+  }
+}
+  
+// Example of how to dynamically change the language
+if (document.getElementById('changeLanguageButton')) {
+  document.getElementById('changeLanguageButton').addEventListener('click', async () => {
+    const newLang = 'fr'; // For example, change to French
+    
+    // You would need to implement this in the main process
+    // For now, just update the local storage and UI
+    localStorage.setItem('selectedLanguage', newLang);
+    await updateUIWithTranslation();
+  });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     const externalElements = document.querySelectorAll('[data-external-link]');
 

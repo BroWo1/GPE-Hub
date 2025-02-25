@@ -2,6 +2,7 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain, session, screen} = require('electron')
 const path = require('node:path')
 const axios = require('axios');
+const checkUpdate = require(path.join(__dirname, 'static', 'js', 'update.js'));
 
 let userDataPath;
 if (process.platform === 'win32') {
@@ -23,11 +24,11 @@ let ballWindow = null;
 function createBallWindow() {
   if (ballWindow === null) {
     ballWindow = new BrowserWindow({
-      width: 70,
-      height: 70,
+      width: 75,
+      height: 75,
       frame: false,              // Remove the title bar
-      transparent: true,         // Make the background transparent
-      alwaysOnTop: true,         // Keep window always on top
+      transparent: true, // Try disabling transparency
+      //alwaysOnTop: true,         // Keep window always on top
       resizable: false,
       skipTaskbar: true,         // Don’t show in taskbar
       webPreferences: {
@@ -39,7 +40,10 @@ function createBallWindow() {
 
     // Set the window to always be on top with a specific level
     ballWindow.setAlwaysOnTop(true, 'screen-saver');
-
+    if (process.platform === 'darwin'){
+        ballWindow.setVisibleOnAllWorkspaces(true);
+        app.dock.hide;
+    }
     ballWindow.loadFile(path.join(__dirname, 'views', 'ball.html')); // Load the HTML that draws the ball
   }
 
@@ -80,6 +84,44 @@ function snapToRight() {
     }
 }
 
+function moveLeft() {
+    const bounds = ballWindow.getBounds();
+    const { x, y, width, height } = bounds;
+    const screenBounds = screen.getPrimaryDisplay().workArea;
+
+    const targetX = screenBounds.width - 400;
+    const targetY = y; // Maintain current Y position
+
+    const edgeThreshold = 400; // Distance from the right edge to trigger snapping
+
+    if (screenBounds.width - (x + width) <= edgeThreshold) {
+        const duration = 300; // Total duration of the movement in milliseconds
+        const startTime = Date.now(); // Start time of the animation
+
+        const easeInOut = (t) => {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        };
+
+        const moveWindow = () => {
+            const elapsed = Date.now() - startTime;
+            const t = Math.min(elapsed / duration, 1); // Normalize time (0 to 1)
+
+            const easingFactor = easeInOut(t); // Calculate easing factor
+            const newX = x - (x - targetX) * easingFactor;
+            ballWindow.setBounds({ x: newX, y: targetY, width, height });
+
+            if (t < 1) {
+                setTimeout(moveWindow, 16); // Call the function again after a short delay (16ms for ~60fps)
+            } else {
+                ballWindow.setBounds({ x: targetX, y: targetY, width, height }); // Ensure exact target position
+            }
+        };
+
+        setTimeout(moveWindow, 16); // Start the animation loop
+    }
+
+}
+
 ipcMain.on('create-ball-window', () => {
   createBallWindow();
 });
@@ -92,7 +134,9 @@ ipcMain.on('delete-ball-window', () => {
 });
 
 ipcMain.on('snap-to-right', snapToRight);
+ipcMain.on('move-to-left', moveLeft);
 }
+
 
 
 
@@ -116,6 +160,8 @@ function createWindow () {
     mainWindow.show()
   })
   mainWindow.setMenu(null)
+
+    checkUpdate(mainWindow, ipcMain);
 
   ipcMain.handle('fetch-items', async () => {
     try {

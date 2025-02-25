@@ -126,16 +126,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.error('Received empty response');
                         document.getElementById('responseOutput').innerHTML = 'Error: No response received';
                     }
-                    loading.className = "load exit";
-                    setTimeout(() => {
-                        loading.remove()
-                    }, 300);
                 } else {
                     console.error('Electron context is not available.');
                 }
             } catch (error) {
                 console.error('Error fetching response:', error);
             }
+            loading.className = "load exit";
+                            setTimeout(() => {
+                                loading.remove()
+                            }, 300);
         }
     });
 });

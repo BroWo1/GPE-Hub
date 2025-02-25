@@ -1,0 +1,52 @@
+// electron-builder.json5
+
+{
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+
+  // Application metadata
+  appId: 'com.gpeclub.gpehub',
+  productName: 'GPEHub',
+  copyright: 'Copyright © Will',
+
+  // Directories
+  directories: {
+    output: 'release/${version}',
+    buildResources: 'assets',
+  },
+
+  // Files to include in the package
+  files: [
+    'main.js',
+    'static/**/*',
+    'node_modules/**/*',
+    'package.json',
+    'views/**/*',
+    'MathJax/**/*',
+  ],
+
+  // macOS specific configuration
+  mac: {
+    icon: 'static/imgs/logo.icns',
+    category: 'public.app-category.utilities',
+  },
+
+  // Windows specific configuration
+  win: {
+    icon: 'static/imgs/logo.ico',
+    target: 'nsis',
+  },
+
+  // NSIS installer configuration
+  nsis: {
+    oneClick: false,
+    perMachine: false,
+    allowToChangeInstallationDirectory: true,
+    deleteAppDataOnUninstall: false,
+  },
+
+  // Linux specific configuration
+  linux: {
+    target: ['AppImage', 'deb'],
+  },
+
+}

@@ -24,6 +24,7 @@
   "dependencies": {
     "@material/web": "^2.2.0",
     "axios": "^1.7.9",
+    "electron-updater": "^6.3.9",
     "express": "^4.21.2",
     "marked": "^15.0.7",
     "node-fetch": "^3.3.2",

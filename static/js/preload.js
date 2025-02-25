@@ -41,6 +41,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     },
     openMenu: () => ipcRenderer.send('open-menu'),
     snapToRight: () => ipcRenderer.send('snap-to-right'),
+    moveLeft: () => ipcRenderer.send('move-to-left'),
     createBallWindow: () => ipcRenderer.send('create-ball-window'),
     deleteBallWindow: () => ipcRenderer.send('delete-ball-window'),
     isBallWindowOpen: () => ipcRenderer.invoke('is-ball-window-open')

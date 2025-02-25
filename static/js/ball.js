@@ -30,6 +30,14 @@ document.getElementById('ball').addEventListener('contextmenu', (event) => {
     event.preventDefault(); // Prevent the default context menu from appearing
     window.electronAPI.openMenu();
 });
+function isWindowCloseToRightEdge() {
+    const windowWidth = window.innerWidth;
+    const screenWidth = window.screen.width;
+    const windowRightEdge = window.screenX + windowWidth;
+    const distanceToRightEdge = screenWidth - windowRightEdge;
+
+    return distanceToRightEdge < 400;
+}
 document.getElementById('ball').addEventListener('click', () => {
     if (!animation) {
         if (isClicked) {
@@ -38,16 +46,40 @@ document.getElementById('ball').addEventListener('click', () => {
             document.getElementById('responseOutput').classList.remove('on');
             animation = true;
             setTimeout(() => {
-                window.resizeTo(70, 70);
+                window.resizeTo(75, 75);
                 animation = false;
                 window.electronAPI.snapToRight();
             }, 300);
             isClicked = false;
         } else {
-            float.classList.add('expanded');
-            drag.classList.add('drag');
-            isClicked = true;
-            window.resizeTo(400, 70);
+            if(isWindowCloseToRightEdge()) {
+                animation = true;
+                window.electronAPI.moveLeft();
+                isClicked = true;
+                setTimeout(() => {
+                    window.resizeTo(375, 75);
+                }, 350);
+                setTimeout(() => {
+                    window.resizeTo(375, 75);
+                    float.classList.add('expanded');
+                drag.classList.add('drag');
+
+                    setTimeout(() => {
+                        animation = false;
+                    }, 300);
+                }, 400);
+
+            }else{
+                animation = true;
+                float.classList.add('expanded');
+                drag.classList.add('drag');
+                isClicked = true;
+                window.resizeTo(375, 75);
+                setTimeout(() => {
+                    animation = false;
+                }, 300);
+            }
+
         }
     }
 });
@@ -79,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response) {
                     const element = document.getElementById('responseOutput');
-                    window.resizeTo(400, 400);
+                    window.resizeTo(375, 375);
                     element.classList.add('on');
                     console.log(element);
                     if (element) {
@@ -106,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     });
 });
+      const isBall = sessionStorage.getItem("ballChecked") === "true" || sessionStorage.getItem("ballChecked") === null;
 
 
 /*

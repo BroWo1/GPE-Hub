@@ -764,3 +764,9 @@ input[type="checkbox"].checkbox2:checked::after {
         transform: rotate(360deg);
     }
 }
+
+.textLine{
+    display: flex;
+    align-items: center;
+    margin: auto;
+}

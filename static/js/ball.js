@@ -69,10 +69,10 @@ document.getElementById('ball').addEventListener('click', () => {
                 window.electronAPI.moveLeft();
                 isClicked = true;
                 setTimeout(() => {
-                    window.resizeTo(375, 115);
+                    window.resizeTo(425, 115);
                 }, 330);
                 setTimeout(() => {
-                    window.resizeTo(375, 115);
+                    window.resizeTo(425, 115);
                     float.classList.add('expanded');
                     btnContainer.classList.add('expanded');
                 drag.classList.add('drag');
@@ -94,7 +94,7 @@ document.getElementById('ball').addEventListener('click', () => {
                 drag.classList.add('drag');
                 logo.classList.add('spin');
                 isClicked = true;
-                window.resizeTo(375, 115);
+                window.resizeTo(425, 115);
                 setTimeout(() => {
                     animation = false;
                     
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response) {
                     const element = document.getElementById('responseOutput');
-                    window.resizeTo(375, 425);
+                    window.resizeTo(425, 450);
                     element.classList.add('on');
                     console.log(element);
                     if (element) {
@@ -294,3 +294,12 @@ async function openFileBase64(){
         // Handle case where filePath is not a valid string or is missing
     }
 }
+
+document.addEventListener('keydown', (event) => {
+    // Check for both Ctrl+W (Windows) and Cmd+W (Mac)
+    if ((event.ctrlKey || event.metaKey) && (event.key === 'w' || event.key === 'W')) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    }
+});

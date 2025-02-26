@@ -191,7 +191,7 @@ justify-content: center;
 }
 
 .float.expanded {
-  width: 250px;
+  width: 300px;
   visibility: visible;
   opacity: 1;
 }
@@ -211,7 +211,7 @@ justify-content: center;
 
 .response {
     position: absolute;
-    width: 260px; /* Adjust width as needed */
+    width: 300px; /* Adjust width as needed */
     /* Other existing styles */
     top: 110px;
     padding-left: 10px;
@@ -225,7 +225,7 @@ justify-content: center;
     visibility: hidden;
     opacity: 0;
     transition: 0.3s ease all;
-    max-height: 300px;
+    max-height: 325px;
     overflow: hidden;
     overflow-y: auto;
     overflow-x: auto;

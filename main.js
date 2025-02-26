@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Tray, Menu, ipcMain, session, screen, globalShortcut, desktopCapturer } = require('electron')
+const { app, BrowserWindow, Tray, Menu, ipcMain, session, screen, globalShortcut, desktopCapturer, dialog } = require('electron')
 const path = require('node:path')
 const axios = require('axios');
 const checkUpdate = require(path.join(__dirname, 'static', 'js', 'update.js'));
@@ -88,6 +88,15 @@ ipcMain.handle('capture-screenshot', async () => {
   }
   
   throw new Error('No screen sources found');
+});
+
+ipcMain.handle('dialog:openFile', async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile'],
+    filters: [{ name: 'Images', extensions: ['png'] }],
+  });
+  console.log(result.filePaths);
+  return result.filePaths;
 });
 
 function snapToRight() {

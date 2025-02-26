@@ -13,6 +13,8 @@ let uploadImgBtn = document.getElementById('uploadImgBtn');
 let haveImg = false;
 let uploadFile = document.getElementById('uploadFile');
 let maxMode = document.getElementById('maxMode');
+let btnContainer = document.querySelector('.btnContainer');
+let maxModeChecked = false;
 
 floatContainer.addEventListener('mouseover', () => {
     isHoveringFloatContainer = true;
@@ -47,9 +49,7 @@ document.getElementById('ball').addEventListener('click', () => {
     if (!animation) {
         if (isClicked) {
             float.classList.remove('expanded');
-            uploadImgBtn.classList.remove('expanded');
-            uploadFile.classList.remove('expanded');
-            maxMode.classList.remove('expanded');
+            btnContainer.classList.remove('expanded');
             drag.classList.remove('drag');
             document.getElementById('responseOutput').classList.remove('on');
             logo.classList.add('spinBack');
@@ -69,14 +69,12 @@ document.getElementById('ball').addEventListener('click', () => {
                 window.electronAPI.moveLeft();
                 isClicked = true;
                 setTimeout(() => {
-                    window.resizeTo(375, 100);
-                }, 350);
+                    window.resizeTo(375, 115);
+                }, 330);
                 setTimeout(() => {
-                    window.resizeTo(375, 100);
+                    window.resizeTo(375, 115);
                     float.classList.add('expanded');
-                    uploadImgBtn.classList.add('expanded');
-                    uploadFile.classList.add('expanded');
-                    maxMode.classList.add('expanded');
+                    btnContainer.classList.add('expanded');
                 drag.classList.add('drag');
                 logo.classList.add('spin');
 
@@ -86,19 +84,17 @@ document.getElementById('ball').addEventListener('click', () => {
                     setTimeout(() => {
                         logo.classList.remove('spin');
                     }, 500);
-                }, 400);
+                }, 360);
                 
 
             }else{
                 animation = true;
                 float.classList.add('expanded');
-                uploadImgBtn.classList.add('expanded');
-                uploadFile.classList.add('expanded');
-                maxMode.classList.add('expanded');
+                btnContainer.classList.add('expanded');
                 drag.classList.add('drag');
                 logo.classList.add('spin');
                 isClicked = true;
-                window.resizeTo(375, 100);
+                window.resizeTo(375, 115);
                 setTimeout(() => {
                     animation = false;
                     
@@ -117,7 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('input').addEventListener('keydown', async (event) => {
     if (event.key === "Enter") {
         const query = document.getElementById('float').value;
-        const model = 'qwen-omni-turbo';
+        let model = 'qwen-omni-turbo';
+        if(maxModeChecked){
+            model = 'qwen-vl-max';
+        }
+
         let imageBase64 = '';
         if(haveImg){
             imageBase64 = sessionStorage.getItem('screenshot');
@@ -189,11 +189,13 @@ document.addEventListener('mouseleave', () => {
  */
 
 uploadImgBtn.addEventListener('click', async () => {
-    if(haveImg){
+    if(uploadImgBtn.classList.contains('active')){
         haveImg = false;
         sessionStorage.removeItem('screenshot');
         uploadImgBtn.classList.remove('active');
     } else {
+        sessionStorage.removeItem('screenshot');
+        uploadFile.classList.remove('active');
         try {
             // Show loading animation
             const loading = document.createElement("div");
@@ -240,3 +242,55 @@ uploadImgBtn.addEventListener('click', async () => {
         }
     }
 });
+
+uploadFile.addEventListener('click', async () => {
+    if(uploadFile.classList.contains('active')){
+        uploadFile.classList.remove('active');
+        haveImg = false;
+        sessionStorage.removeItem('screenshot');
+    } else {
+        sessionStorage.removeItem('screenshot');
+        uploadImgBtn.classList.remove('active');
+        uploadFile.classList.add('active');
+        openFileBase64();
+        haveImg = true;
+    }
+});
+
+maxMode.addEventListener('click', () => {
+    if(maxModeChecked){
+        maxModeChecked = false;
+        maxMode.classList.remove('active');
+    }else{
+        maxMode.classList.add('active');
+        maxModeChecked = true;
+    }
+});
+
+async function openFileBase64(){
+    const filePaths = await window.electron.openFileDialog();
+    const filePath = filePaths[0];
+    console.log("File content from electron.openFile:", filePath); // Make sure this line is present
+    // Check if filePath is defined and is a string
+    if (filePath && typeof filePath === 'string') {
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const blob = await response.blob();
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64Only = reader.result.split(',')[1];
+                sessionStorage.setItem('screenshot', base64Only);
+            };
+            reader.readAsDataURL(blob); // Now using blob which should be correct type
+        } catch (error) {
+            console.error("Error fetching or reading file:", error);
+            // Handle error appropriately, maybe alert user
+        }
+    } else {
+        console.error("Invalid file path received:", filePath);
+        // Handle case where filePath is not a valid string or is missing
+    }
+}

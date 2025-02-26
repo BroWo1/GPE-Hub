@@ -135,7 +135,8 @@ mixRequest: async (model, imageBase64, prompt1) => {
 },
 getLanguage: () => ipcRenderer.invoke('get-language'),
   translate: (key) => ipcRenderer.invoke('translate', key),
-  captureScreenshot: () => ipcRenderer.invoke('capture-screenshot')
+  captureScreenshot: () => ipcRenderer.invoke('capture-screenshot'),
+  openFileDialog: () => ipcRenderer.invoke('dialog:openFile'),
 });
 
 // In preload.js

@@ -66,32 +66,78 @@ justify-content: center;
         background-color: #3a3d43;
         border: 2px solid #898b8e;
         border-radius: 15px;
-        height: 30px; /* You can adjust the height as needed */
-        width: 0px; /* Ensures the button spans the full width of the input */
+        height: 30px;
+        width: 60px;
         box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
         color: white;
         font-size: 18px;
+        transition: 0.3s ease all;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        overflow: hidden;
+    }
+
+      .uploadImg:hover{
+        width: 110px; /* Adjust width to accommodate text */
+        justify-content: flex-start; /* Align items to the start on hover */
+      }
+
+      .uploadImg span {
+        white-space: nowrap;
+        font-size: 14px;
+        transition: 0.3s ease all;
+      }
+
+      .uploadImg img {
+        transform: translateX(0); /* Initial position of the image */
         position: absolute;
-        left: 80px;
-        top: 70px;
+        left: 15px;
+        transition: 0.3s ease all;
+      }
+
+      .uploadImg:hover img {
+        left: 5px;
+      }
+
+      .uploadImg span {
+        position: absolute;
+        left: 30px;
         visibility: hidden;
         opacity: 0;
-        transition: 0.3s ease all;
     }
-    .uploadImg.expanded {
-        width: 60px;
+    
+    .uploadImg:hover span {
         visibility: visible;
         opacity: 1;
-      }
-
-      .uploadImg.pos2{
-        left: 150px;
-      }
-
-      .uploadImg.pos3{
-        left: 220px;
-      }
+    }
     
+      .uploadImg:hover::after {
+        /*content: '';  To keep the button from collapsing if you had other content */
+        opacity: 0;
+    }
+
+      .btnContainer{
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top:70px;
+        left:80px;
+        gap: 10px;
+        transition: 0.3s ease all;
+        visibility: hidden;
+        opacity: 0;
+        width: 0px;
+      }
+
+      .btnContainer.expanded{
+        visibility: visible;
+        opacity: 1;
+        width: 300px;
+      }
+
     .ball1 {
       width: 0px;
       height: 25px;
@@ -155,11 +201,11 @@ justify-content: center;
         border: 2px solid white;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
-.uploadImg.expanded.active{
+.uploadImg.active{
   background-color: #898b8e; /* Customize your color */
         border: 2px solid white;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-      border-radius: 10px;
+      border-radius: 8px;
 }
 
 

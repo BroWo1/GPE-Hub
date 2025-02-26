@@ -83,6 +83,15 @@ justify-content: center;
         visibility: visible;
         opacity: 1;
       }
+
+      .uploadImg.pos2{
+        left: 150px;
+      }
+
+      .uploadImg.pos3{
+        left: 220px;
+      }
+    
     .ball1 {
       width: 0px;
       height: 25px;
@@ -173,6 +182,7 @@ justify-content: center;
     max-height: 300px;
     overflow: hidden;
     overflow-y: auto;
+    overflow-x: auto;
 }
 .response.on{
     visibility: visible;

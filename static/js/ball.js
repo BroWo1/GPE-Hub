@@ -11,6 +11,8 @@ let animation = false;
 let logo = document.getElementById('logo');
 let uploadImgBtn = document.getElementById('uploadImgBtn');
 let haveImg = false;
+let uploadFile = document.getElementById('uploadFile');
+let maxMode = document.getElementById('maxMode');
 
 floatContainer.addEventListener('mouseover', () => {
     isHoveringFloatContainer = true;
@@ -46,6 +48,8 @@ document.getElementById('ball').addEventListener('click', () => {
         if (isClicked) {
             float.classList.remove('expanded');
             uploadImgBtn.classList.remove('expanded');
+            uploadFile.classList.remove('expanded');
+            maxMode.classList.remove('expanded');
             drag.classList.remove('drag');
             document.getElementById('responseOutput').classList.remove('on');
             logo.classList.add('spinBack');
@@ -71,6 +75,8 @@ document.getElementById('ball').addEventListener('click', () => {
                     window.resizeTo(375, 100);
                     float.classList.add('expanded');
                     uploadImgBtn.classList.add('expanded');
+                    uploadFile.classList.add('expanded');
+                    maxMode.classList.add('expanded');
                 drag.classList.add('drag');
                 logo.classList.add('spin');
 
@@ -87,6 +93,8 @@ document.getElementById('ball').addEventListener('click', () => {
                 animation = true;
                 float.classList.add('expanded');
                 uploadImgBtn.classList.add('expanded');
+                uploadFile.classList.add('expanded');
+                maxMode.classList.add('expanded');
                 drag.classList.add('drag');
                 logo.classList.add('spin');
                 isClicked = true;

@@ -13,27 +13,27 @@
   <nav class="sidebar">
       <a href="index.html" class="nav-item">
       <img src="../static/imgs/home_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Home" width="30" height="30" />
-      <span>Home</span>
+      <span data-i18n="home"></span>
     </a>
       <a href="ai.html" class="nav-item">
       <img src="../static/imgs/auto_awesome_24dp_FFFFFF.svg" alt="Settings" width="30" height="30" />
-      <span>AI</span>
+      <span data-i18n="ai"></span>
     </a>
     <a href="#" class="nav-item active">
       <img src="../static/imgs/cards_star_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Vocab" width="30" height="30" />
-      <span>Vocab</span>
+      <span data-i18n="Vocab"></span>
     </a>
     <a href="notes.html" class="nav-item">
           <img src="../static/imgs/sticky_note_2_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Notes" width="30" height="30" />
-          <span>Notes</span>
+          <span data-i18n="notes"></span>
         </a>
     <a href="settings.html" class="nav-item">
       <img src="../static/imgs/settings_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Settings" width="30" height="30" />
-      <span>Settings</span>
+      <span data-i18n="settings"></span>
     </a>
   </nav>
   <div style="padding-left: 90px">
-      <h1 style="text-align: center">SAT Vocabulary</h1>
+      <h1 style="text-align: center" data-i18n="vocab.SATVocab"></h1>
         <div class="flashcard-container">
             <div class="parent">
             <div class="dropdown top1">
@@ -53,8 +53,12 @@
                     <br>
 
 
-              <button id="known" type="button" class="button2" style="margin-right: 10px">Know (1)</button>
-              <button id="unknown" type="button" class="button2" >Don't Know (2)</button>
+              <button id="known" type="button" class="button2" style="margin-right: 10px  ">
+                <span data-i18n="vocab.Know"></span>
+              </button>
+              <button id="unknown" type="button" class="button2" >
+                <span data-i18n="vocab.Unknown"></span>
+              </button>
             <br>
             <div style="align-items: end; padding-bottom: 25px" >
                 <div id="numKnown" class="count"></div>
@@ -71,25 +75,31 @@
             </div>
             <div class="bottom1" style="">
                 <div style="text-align: center; position: relative;justify-content: center; top: 15%">
-              <button id="prevBtn" class="button2 lg" style="margin-right: 10px">(<-) Previous</button>
-              <button id="nextBtn" class="button2 lg">Next (->)</button>
+              <button id="prevBtn" class="button2 lg" style="margin-right: 10px"  >
+                <span data-i18n="vocab.Previous"></span>
+              </button>
+              <button id="nextBtn" class="button2 lg">
+                <span data-i18n="vocab.Next"></span>
+              </button>
                 </div>
             </div>
             <br><br>
             <div class="form-check">
               <input class="checkbox2" type="checkbox" value="" id="random">
               <label class="checkbox2">
-                Random Shuffle
+                <span data-i18n="vocab.RandomShuffle"></span>
               </label>
             </div>
             <div class="form-check" style="padding-bottom: 25px">
               <input class="checkbox2" type="checkbox" value="" id="practiceUnknown">
               <label class="checkbox2">
-                Only Unknown Words checked
+                <span data-i18n="vocab.OnlyUnknownWords"></span>
               </label>
             </div>
             <!-- Button trigger modal -->
-            <button type="button" class="button2" id="clear" data-bs-dismiss="modal">Reset Data</button>
+            <button type="button" class="button2" id="clear" data-bs-dismiss="modal">
+              <span data-i18n="vocab.ResetData"></span>
+            </button>
             <br><br><br><br>
         </div>
 

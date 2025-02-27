@@ -3,11 +3,41 @@
     "title": "Settings",
     "home": "Home",
     "ai": "AI",
-    "vocab": "Vocab",
+    "Vocab": "Vocab",
     "notes": "Notes",
     "settings": "Settings",
     "developerMode": "Developer mode",
     "showGPEBall": "Show GPE Ball",
-    "language": "Language"
+    "language": "Language",
+    "Cards": {
+      "TeacherRating": "Teacher Rating",
+      "TeacherRatingDescription": "Rate your teachers on GPEHub!",
+      "APPhysics2": "AP Physics 2",
+      "APPhysics2Description": "The review sheet for AP Physics 2",
+      "GPEClubWebsite": "GPE Club Website",
+      "GPEClubWebsiteDescription": "The official club website of the GPE Club",
+      "Trigonomis": "Trigonomis",
+      "TrigonomisDescription": "Play Trigonomis for free on Steam!"
+  },
+  "vocab": {
+    "SATVocab": "SAT Vocabulary",
+    "RandomShuffle": "Random Shuffle",
+    "OnlyUnknownWords": "Only Unknown Words",
+    "ResetData": "Reset Data",
+    "Know": "Know",
+    "Unknown": "Unknown",
+    "Previous": "Previous",
+    "Next": "Next"
+  },
+  "Notes": {
+    "StickyNotes": "Sticky Notes"
+  },
+  "AI": {
+    "Response": "Response",
+    "Apps": "Apps",
+    "Chatbot": "Chatbot",
+    "Translate": "Translate",
+    "Image": "Image"
+  }
   }
   

@@ -3,10 +3,40 @@
     "title": "设置",
     "home": "主页",
     "ai": "AI",
-    "vocab": "词汇",
+    "Vocab": "词汇",
     "notes": "笔记",
     "settings": "设置",
     "developerMode": "开发者模式",
     "showGPEBall": "显示GPE球",
-    "language": "语言"
+    "language": "语言",
+    "Cards":{
+      "TeacherRating": "老师评分",
+      "TeacherRatingDescription": "在GPEHub上评分你的老师！",
+      "APPhysics2": "AP物理2",
+      "APPhysics2Description": "AP物理2的复习资料",
+      "GPEClubWebsite": "GPEClub网站",
+      "GPEClubWebsiteDescription": "GPEClub的官方网站",
+      "Trigonomis": "Trigonomis",
+      "TrigonomisDescription": "在Steam上免费玩Trigonomis！"
+    },
+    "vocab": {
+      "SATVocab": "SAT词汇",
+      "RandomShuffle": "随机打乱",
+      "OnlyUnknownWords": "只显示生词",
+      "ResetData": "重置数据",
+      "Know": "知道",
+      "Unknown": "不知道",
+      "Previous": "上一个",
+      "Next": "下一个"
+    },
+    "Notes": {
+      "StickyNotes": "笔记"
+    },
+    "AI": {
+      "Response": "回答",
+      "Apps": "应用",
+      "Chatbot": "聊天",
+      "Translate": "翻译",
+      "Image": "图片"
+    }
 }

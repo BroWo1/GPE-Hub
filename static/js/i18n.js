@@ -15,6 +15,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   };
 
-  // Initial translation
-  translateElements();
+  // Initialize i18next with the stored language preference
+  const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+
+  // Initialize i18next
+  i18next
+    .init({
+      lng: savedLanguage,
+      fallbackLng: 'en',
+      // ... your other i18n settings
+    })
+    .then(() => {
+      // Update UI with translations immediately
+      translateElements();
+    });
 });

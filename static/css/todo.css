@@ -43,68 +43,57 @@ body {
 
 form {
     display: flex;
-    font-size: 1.7rem;
     justify-content: center;
-    margin: 15px 0;
-    padding: 0.8rem;
     width: 100%;
 }
 
-form input {
-    padding: 10px;
-    font-size: 17px;
-    border: none;
-    outline: none;
-    /* border-radius: 15; */
-    border-top-left-radius: 17px;
-    border-bottom-left-radius: 17px;
-    max-width: 500px;
-    transition: background-color 200ms ease-in-out;
-    width: 100%;
-}
+.todo-input {
+          width: 80%;
+          height: 50px;
+          padding: 0 10px;
+          font-size: 20px;
+            max-width: 1000px;
+            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
 
-/* Input themes */
-form input.standard-input {
-    background-color: #181a1a;
-    color: rgb(247, 226, 223);
-}
+          outline: none;
+          border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+
+          /* We use two backgrounds:
+             1) A white background for the input text (padding-box).
+             2) A rainbow gradient for the border (border-box).
+          */
+          background:rgba(255, 255, 255, 0.3);
 
 
-form input.light-input {
-    background-color: #AEB1B4;
-    color: #1a150e;
-}
+          /* Smooth transitions for border-radius and box-shadow */
 
-form input.light-input::placeholder {
-    color: #1a150e;
-    opacity: 0.7;
-}
+          /* Make the gradient background animate like a “rainbow flow” */
+        -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
 
-form input.darker-input {
-    background-color: #01394c;
-    color: white;
-}
+            transition:
+                border-radius 0.3s ease,
+                box-shadow 0.3s ease,
+                border 0.3s ease,
+                background 0.3s ease;
+            color: white;
 
-form input.darker-input::placeholder {
-    color: white;
-    opacity: 0.7;
-}
 
-form input:hover {
-    cursor: text;
-}
+        }
 
-form input.standard-input:hover {
-    background-color: rgb(0, 0, 0);
-}
+        .todo-input:hover {
+            background:rgba(255, 255, 255, .5);
+            border: 2px solid white;
+        }
 
-form input.light-input:hover {
-    background-color: #919699;
-}
-
-form input.darker-input:hover {
-    background-color: #013141;
-}
+        /* On focus: decrease border-radius & add a glow (box-shadow) */
+        .todo-input:focus {
+          border-radius: 12px;
+            background:rgba(255, 255, 255, .5);
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            border: 3px solid white;
+        }
 
 button {
     border: none;

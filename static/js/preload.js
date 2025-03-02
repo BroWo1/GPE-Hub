@@ -47,7 +47,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     moveLeft: () => ipcRenderer.send('move-to-left'),
     createBallWindow: () => ipcRenderer.send('create-ball-window'),
     deleteBallWindow: () => ipcRenderer.send('delete-ball-window'),
-    isBallWindowOpen: () => ipcRenderer.invoke('is-ball-window-open')
+    isBallWindowOpen: () => ipcRenderer.invoke('is-ball-window-open'),
+    updateTodos: (todos) => ipcRenderer.invoke('update-todos', todos),
+  focusApp: () => ipcRenderer.invoke('focus-app'),
+  onTodoNotified: (callback) => {
+    ipcRenderer.on('todo-notified', (event, todo) => callback(todo));
+  }
 });
 
 // preload.js
@@ -137,6 +142,9 @@ getLanguage: () => ipcRenderer.invoke('get-language'),
   translate: (key) => ipcRenderer.invoke('translate', key),
   captureScreenshot: () => ipcRenderer.invoke('capture-screenshot'),
   openFileDialog: () => ipcRenderer.invoke('dialog:openFile'),
+    sendNotification: (title, body) => {
+        ipcRenderer.send('send-notification', title, body);
+    }
 });
 
 // In preload.js

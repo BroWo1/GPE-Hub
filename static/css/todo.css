@@ -1,42 +1,14 @@
 
 
 body {
-    /* #363532, rgb(88, 111, 112) */
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    font-family: 'Work Sans', sans-serif;
-    min-height: 100vh;
-    padding-top: 3%;
+
+    text-align: center;
 }
 
 
 #header, #form, #datetime {
-    margin: 0 1rem;
-    min-height: 10vh;
-    width: 100%;
+    width: calc(100% - 90px)
 }
-
-#header {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    font-size: 3rem;
-    min-height: 25vh;
-    width: 100%;
-}
-
-/* Animation */
-#title {
-    border-right: solid 3px rgba(0, 0, 0, 0.75);
-    white-space: pre;
-    overflow: hidden;
-    letter-spacing: 0.20rem;
-    margin-top: 50px;
-    margin-bottom: 20px;
-    max-width: 480px;
-  }
 
 
 
@@ -44,11 +16,14 @@ body {
 form {
     display: flex;
     justify-content: center;
-    width: 100%;
+    width: calc(100% - 90px);
+    padding-left:90px;
+    gap: 10px;
 }
 
 .todo-input {
-          width: 80%;
+    box-sizing: border-box;
+          width: 80% !important;
           height: 50px;
           padding: 0 10px;
           font-size: 20px;
@@ -59,25 +34,13 @@ form {
           border-radius: 30px;
             border: 2px solid rgba(255, 255, 255, 0.4);
 
-          /* We use two backgrounds:
-             1) A white background for the input text (padding-box).
-             2) A rainbow gradient for the border (border-box).
-          */
           background:rgba(255, 255, 255, 0.3);
-
-
-          /* Smooth transitions for border-radius and box-shadow */
-
-          /* Make the gradient background animate like a “rainbow flow” */
         -webkit-backdrop-filter: blur(8px);
           backdrop-filter: blur(8px);
 
             transition:
-                border-radius 0.3s ease,
-                box-shadow 0.3s ease,
-                border 0.3s ease,
-                background 0.3s ease;
-            color: white;
+                0.3s ease all;
+            color: white;~
 
 
         }
@@ -86,89 +49,61 @@ form {
             background:rgba(255, 255, 255, .5);
             border: 2px solid white;
         }
-
-        /* On focus: decrease border-radius & add a glow (box-shadow) */
         .todo-input:focus {
           border-radius: 12px;
             background:rgba(255, 255, 255, .5);
           box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             border: 3px solid white;
         }
-
-button {
-    border: none;
-    outline: none;
-    transition: box-shadow 200ms ease, background-color 200ms ease-in-out;
-}
-
-button:hover {
-    cursor: pointer;
-}
-
-/* Button themes */
-button.standard-button {
-    background-color: rgb(247, 226, 223);
-    color: rgb(0, 0, 0);
-}
-
-button.standard-button:hover {
-    background-color: white;
-    box-shadow: #fff8 0 0 10px;
-}
-
-button.light-button {
-    background-color: white;
-    color: #1a150e;
-}
-
-button.light-button:hover {
-    background-color: #f0f0f0;
-}
-
-button.darker-button {
-    background-color: #002837;
+.todo-btn{
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 30px;
+    transition: 0.3s ease all;
+    width: 100px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     color: white;
 }
-
-button.darker-button:hover {
-    background-color: #001f29;
-}
-
-form button {
-    padding: 10px;
-    font-size: 17px;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    min-width: 100px;
+.todo-btn:hover{
+    background:rgba(255, 255, 255, .5);
+    border: 3px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
 }
 
 #myUnOrdList {
+    padding-top: 8px;
+}
+
+.todo-list {
+    width: calc(100% - 90px);
+    list-style: none;
     display: flex;
     justify-content: center;
     align-items: center;
     max-width: 1200px;
-}
-
-.todo-list {
-    min-width: 25%;
-
-    /* To remove the bullets of unordered list */
-    list-style: none;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .todo {
-    margin: 1rem;
-    /* background: rgb(247, 226, 223); */
-    /* color: black; */
-    font-size: 19px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.25em 0.5em;
-    border-radius: 30px;
-    transition: background-color 200ms ease-in-out;
+    border-radius: 16px;
+    padding-left: 5px;
+    padding-right: 5px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    height: 60px;
 }
 
+.todo.warning {
+    background: rgba(255, 100, 100, 0.3);
+    border: 2px solid rgba(255, 100, 100, 0.5);
+}
 
 .todo li{
     padding: 7px;
@@ -182,17 +117,31 @@ form button {
     overflow-wrap: anywhere;
 }
 
-.check-btn, .delete-btn {
-    font-size: 19px;
+.check-btn, .delete-btn, .time-btn {
+    height: 35px;
+    width: 60px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    transition: 0.3s ease all;
     cursor: pointer;
-    width: 2em;
-    height: 2em;
-    border-radius: 80%;
-    margin: 0 5px;
+    margin: 10px;
+}
+.check-btn:hover, .delete-btn:hover, .time-btn:hover {
+    background:rgba(255, 255, 255, .3);
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+.time-btn{
+    width: 35px;
 }
 
 .todo-item {
-    padding: 0rem 0.5rem;
+    height: 50px;
+    overflow-y: scroll;
 }
 
 .fa-trash, .fa-check {
@@ -210,4 +159,127 @@ form button {
     transition: 0.5s;
     transform: translateY(45rem) rotateZ(45deg);
     opacity: 0;
+}
+@keyframes popupEntrance {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes popupExit {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+/* Time modal styles */
+.time-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    animation: popupEntrance 0.3s ease;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+}
+.modal-content.exit{
+    animation: popupExit 0.3s ease;
+}
+
+
+.modal-datetime-input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-family: Roboto;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.modal-save-btn, .modal-cancel-btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease all;
+}
+
+.modal-save-btn:hover, .modal-cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.time-display {
+    margin-left: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+.time-container {
+    width:80px;
+    font-size: 8px;
+}
+
+.aiBtn{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    height: 65px;
+    width: 65px;
+    border-radius: 20px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: 0.3s ease all;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.aiBtn:hover{
+    background:rgba(255, 255, 255, .5);
+    border: 3px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
 }

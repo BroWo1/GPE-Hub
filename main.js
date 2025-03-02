@@ -1,12 +1,12 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Tray, Menu, ipcMain, session, screen, globalShortcut, desktopCapturer, dialog } = require('electron')
+const { app, BrowserWindow, Tray, Menu, ipcMain, session, screen, globalShortcut, desktopCapturer, dialog , Notification} = require('electron')
 const path = require('node:path')
 const axios = require('axios');
 const checkUpdate = require(path.join(__dirname, 'static', 'js', 'update.js'));
 const i18next = require('i18next');
 const i18nextFsBackend = require('i18next-fs-backend');
 const i18nextLanguageDetector = require('i18next-browser-languagedetector');
-
+app.setAppUserModelId('GPE Hub');
 
 let userDataPath;
 if (process.platform === 'win32') {
@@ -20,7 +20,7 @@ if (process.platform === 'win32') {
 }
 app.setPath('userData', userDataPath);
 
-
+let todos = [];
 let tray = null
 let mainWindow = null
 let ballWindow = null;
@@ -88,6 +88,15 @@ ipcMain.handle('capture-screenshot', async () => {
   }
   
   throw new Error('No screen sources found');
+});
+
+ipcMain.on('send-notification', (event, title, body) => {
+  new Notification({
+    title: title,
+    body: body,
+    icon: path.join(__dirname, 'static/imgs/notifications_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg')
+  }).show();
+  console.log('Notification sent:', title, body);
 });
 
 ipcMain.handle('dialog:openFile', async () => {
@@ -208,7 +217,8 @@ function createWindow () {
       nodeIntegration: false,
       preload: path.join(__dirname, 'static', 'js', 'preload.js')
     }
-  })
+  });
+  startBackgroundChecking(mainWindow);
 
 i18next
     .use(i18nextFsBackend)  // Use the correct backend module
@@ -237,7 +247,43 @@ i18next
         console.error('Error fetching items:', error);
         return [];
     }
+
 });
+
+function startBackgroundChecking(window) {
+  setInterval(() => {
+    const now = new Date();
+
+    todos.forEach(todo => {
+      if (todo.time && todo.time.dateTime) {
+        const scheduledTime = new Date(todo.time.dateTime);
+
+        if (now >= scheduledTime && !todo.notified) {
+          // Send notification using Electron's Notification API
+          const { Notification } = require('electron');
+          const notification = new Notification({
+            title: 'Todo Reminder',
+            body: todo.text,
+            icon: path.join(__dirname, 'static/imgs/gpelogo.png')
+          });
+
+          notification.show();
+            const win = mainWindow || BrowserWindow.getAllWindows()[0];
+          notification.on('click', () => {
+            win.focus();
+          });
+
+          // Mark as notified
+          todo.notified = true;
+
+          // Send update back to renderer
+          window.webContents.send('todo-notified', todo);
+        }
+      }
+    });
+  }, 60000); // Check every minute
+}
+
 
   const fs = require('fs');
 const marked = require('marked');
@@ -401,7 +447,31 @@ function createTray() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+ipcMain.on('focus-app', () => {
+  // Get the main window
+  const win = mainWindow || BrowserWindow.getAllWindows()[0];
+
+  if (win) {
+    // If window is minimized, restore it
+    if (win.isMinimized()) {
+      win.restore();
+    }
+
+    // Show and focus the window
+    win.show();
+    win.focus();
+
+    // You can also navigate to a specific page if needed
+    // win.loadFile(path.join(__dirname, 'views', 'todo.html'));
+  }
+});
 app.whenReady().then(() => {
+    app.name = 'GPE Hub';
+    ipcMain.handle('update-todos', (event, newTodos) => {
+    console.log('Received todos update:', newTodos.length);
+    todos = newTodos;
+    return true;
+  });
   createWindow()
   createTray()
   createBallWindow()

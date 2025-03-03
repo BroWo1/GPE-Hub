@@ -188,6 +188,8 @@ toDoDiv.appendChild(timeBtn);
 
         // Clearing the input
         toDoInput.value = '';
+
+        getTodos();
     }
 }
 
@@ -244,13 +246,11 @@ function getTodos() {
         todos = JSON.parse(localStorage.getItem('todos'));
     }
 
-    // Handle old format and sort by creation date
+    // Handle old format and add missing properties
     todos = todos.map(todo => {
         if (typeof todo === 'string') {
-            // Convert old string format to object
             return { text: todo, time: null, createdAt: 0 };
         } else if (!todo.createdAt) {
-            // Add createdAt to old objects that don't have it
             return { ...todo, createdAt: 0 };
         }
         return todo;
@@ -259,55 +259,104 @@ function getTodos() {
     // Save migrated data
     localStorage.setItem('todos', JSON.stringify(todos));
 
-    todos.forEach(function(todo) {
-        // Existing code for rendering todos...
-        const toDoDiv = document.createElement("div");
-        toDoDiv.classList.add("todo");
+    // Clear existing todos display
+    toDoList.innerHTML = '';
 
-        // Time btn
-        const timeBtn = document.createElement('button');
-        timeBtn.innerHTML = '<i class="fas fa-clock" style="pointer-events: none; display: flex;align-items: center;justify-content: center">' +
-    '<img src="../static/imgs/notifications_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Time" style="width: 24px; height: 24px; pointer-events: none;"></i>';
-        timeBtn.classList.add('time-btn');
-        toDoDiv.appendChild(timeBtn);
+    // Group todos by date
+    const todosByDate = {};
 
-        const newToDo = document.createElement('li');
-        newToDo.innerText = todo.text || todo; // Handle both old and new format
-        newToDo.classList.add('todo-item');
-        toDoDiv.appendChild(newToDo);
+    todos.forEach(todo => {
+        // Determine date to use for grouping (due date or creation date)
+        let dateKey = 'No Date';
+        let displayDate = 'Tasks without due date';
 
-        const timeContainer = document.createElement('div');
-        timeContainer.classList.add('time-container');
-        toDoDiv.appendChild(timeContainer);
-        // Check btn
-        const checked = document.createElement('button');
-        checked.innerHTML = '<i class="fas fa-check" style="pointer-events: none; display: flex;align-items: center;justify-content: center">' +
-            '<img src="../static/imgs/check_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Time" style="width: 24px; height: 24px; pointer-events: none;"></i>';
-        checked.classList.add("check-btn");
-        toDoDiv.appendChild(checked);
-
-        // Delete btn
-        const deleted = document.createElement('button');
-        deleted.innerHTML = '<i class="fas fa-trash" style="pointer-events: none; display: flex;align-items: center;justify-content: center">' +
-            '<img src="../static/imgs/delete_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Time" style="width: 24px; height: 24px; pointer-events: none;"></i>';
-        deleted.classList.add("delete-btn");
-        toDoDiv.appendChild(deleted);
-
-
-        // Display time if it exists
         if (todo.time && todo.time.dateTime) {
-            const timeDisplay = document.createElement('span');
-            timeDisplay.classList.add('time-display');
-
-            const date = new Date(todo.time.dateTime);
-            const formattedDate = date.toLocaleString();
-
-            timeDisplay.innerText = `Due: ${formattedDate}`;
-            timeContainer.appendChild(timeDisplay);
+            const dueDate = new Date(todo.time.dateTime);
+            dateKey = dueDate.toDateString();
+            displayDate = dateKey;
+        } else if (todo.createdAt) {
+            const creationDate = new Date(todo.createdAt);
+            dateKey = creationDate.toDateString();
+            displayDate = dateKey;
         }
 
-        // Append to list
-        toDoList.appendChild(toDoDiv);
+        // Create date group if it doesn't exist
+        if (!todosByDate[dateKey]) {
+            todosByDate[dateKey] = {
+                displayDate: displayDate,
+                todos: []
+            };
+        }
+
+        todosByDate[dateKey].todos.push(todo);
+    });
+
+    // Sort date groups chronologically
+    const sortedDateKeys = Object.keys(todosByDate).sort((a, b) => {
+        if (a === 'No Date') return 1;
+        if (b === 'No Date') return -1;
+        return new Date(a) - new Date(b);
+    });
+
+    // Create and append date groups with todos
+    sortedDateKeys.forEach(dateKey => {
+        const dateGroup = todosByDate[dateKey];
+
+        // Create date header
+        const dateHeader = document.createElement('div');
+        dateHeader.classList.add('date-header');
+        dateHeader.textContent = dateGroup.displayDate;
+        toDoList.appendChild(dateHeader);
+
+        // Create container for this date's todos
+        const dateContainer = document.createElement('div');
+        dateContainer.classList.add('date-container');
+        toDoList.appendChild(dateContainer);
+
+        // Add todos to this date container
+        dateGroup.todos.forEach(todo => {
+            const toDoDiv = document.createElement("div");
+            toDoDiv.classList.add("todo");
+
+            // Time btn
+            const timeBtn = document.createElement('button');
+            timeBtn.innerHTML = '<i class="fas fa-clock" style="pointer-events: none; display: flex;align-items: center;justify-content: center">' +
+                '<img src="../static/imgs/notifications_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Time" style="width: 24px; height: 24px; pointer-events: none;"></i>';
+            timeBtn.classList.add('time-btn');
+            toDoDiv.appendChild(timeBtn);
+
+            const newToDo = document.createElement('li');
+            newToDo.innerText = todo.text || todo;
+            newToDo.classList.add('todo-item');
+            toDoDiv.appendChild(newToDo);
+
+            const timeContainer = document.createElement('div');
+            timeContainer.classList.add('time-container');
+            toDoDiv.appendChild(timeContainer);
+
+            const checked = document.createElement('button');
+            checked.innerHTML = '<i class="fas fa-check" style="pointer-events: none; display: flex;align-items: center;justify-content: center">' +
+                '<img src="../static/imgs/check_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Time" style="width: 24px; height: 24px; pointer-events: none;"></i>';
+            checked.classList.add("check-btn");
+            toDoDiv.appendChild(checked);
+
+            const deleted = document.createElement('button');
+            deleted.innerHTML = '<i class="fas fa-trash" style="pointer-events: none; display: flex;align-items: center;justify-content: center">' +
+                '<img src="../static/imgs/delete_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="Time" style="width: 24px; height: 24px; pointer-events: none;"></i>';
+            deleted.classList.add("delete-btn");
+            toDoDiv.appendChild(deleted);
+
+            if (todo.time && todo.time.dateTime) {
+                const timeDisplay = document.createElement('span');
+                timeDisplay.classList.add('time-display');
+                const date = new Date(todo.time.dateTime);
+                const formattedDate = date.toLocaleString();
+                timeDisplay.innerText = `Due: ${formattedDate}`;
+                timeContainer.appendChild(timeDisplay);
+            }
+
+            dateContainer.appendChild(toDoDiv);
+        });
     });
 }
 

@@ -2,6 +2,8 @@
 const toDoInput = document.querySelector('.todo-input');
 const toDoBtn = document.querySelector('.todo-btn');
 const toDoList = document.querySelector('.todo-list');
+const aiBtn = document.querySelector('.aiBtn');
+let todosText;
 
 // Event Listeners
 toDoBtn.addEventListener('click', addToDo);
@@ -91,8 +93,10 @@ async function closeModal() {
     const modal = document.querySelector('.time-modal');
     const modalContent = document.querySelector('.modal-content');
     modalContent.classList.add('exit')
+    modal.classList.add('exit');
     setTimeout(() => {
         modalContent.classList.remove('exit');
+        modal.classList.remove('exit');
             modal.style.display = 'none';
 
         }, 300);
@@ -504,3 +508,245 @@ function testNotification(){
         console.log("Cannot send notification - permission not granted");
     }
 }
+function exportTodosForAI() {
+    // Get todos from localStorage
+    const todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+    // Initialize output string
+    let output = "TO-DO ITEMS:\n\n";
+
+    // Process each todo
+    todos.forEach((todo, index) => {
+        // Handle both old and new storage formats
+        const todoText = todo.text || todo;
+
+        // Start with the todo content
+        output += `[Task ${index + 1}]\n`;
+        output += `Name: ${todoText}\n`;
+
+        // Add due date if available
+        if (todo.time && todo.time.dateTime) {
+            const dueDate = new Date(todo.time.dateTime);
+            output += `Due: ${dueDate.toLocaleString()}\n`;
+        } else {
+            output += "Due: Not set\n";
+        }
+
+        // Add creation time
+        if (todo.createdAt) {
+            const creationDate = new Date(todo.createdAt);
+            output += `Created: ${creationDate.toLocaleString()}\n`;
+        } else {
+            output += "Created: Unknown\n";
+        }
+
+        // Add completion status
+        const todoElements = document.querySelectorAll('.todo-item');
+        let isCompleted = false;
+        todoElements.forEach(element => {
+            if (element.textContent === todoText && element.parentElement.classList.contains('completed')) {
+                isCompleted = true;
+            }
+        });
+        output += `Status: ${isCompleted ? 'Completed' : 'Not Completed'}\n\n`;
+    });
+
+    return output;
+}
+
+// Example usage:
+// Add this to your aiBtn click handler or create a new function
+function processWithAI() {
+    todosText = exportTodosForAI();
+    console.log(todosText); // For testing
+    // Send todosText to your AI service
+    // e.g., window.electronAPI.sendToAI(todosText);
+}
+
+aiBtn.addEventListener('click', processWithAI);
+// Create chat window UI
+function createChatWindow() {
+    // Create window container
+    const chatWindow = document.createElement('div');
+    chatWindow.classList.add('ai-chat-window');
+    chatWindow.style.display = 'none';
+
+    // Create header
+    const chatHeader = document.createElement('div');
+    chatHeader.classList.add('chat-header');
+    chatHeader.innerHTML = '<span>AI Assistant</span>';
+
+    // Add close button
+    const closeBtn = document.createElement('button');
+    closeBtn.classList.add('chat-close-btn');
+    closeBtn.innerHTML = '&times;';
+    closeBtn.addEventListener('click', toggleChatWindow);
+    chatHeader.appendChild(closeBtn);
+
+    // Create messages container
+    const chatMessages = document.createElement('div');
+    chatMessages.classList.add('chat-messages');
+
+    // Create input area
+    const chatInputArea = document.createElement('div');
+    chatInputArea.classList.add('chat-input-area');
+
+    const chatInput = document.createElement('input');
+    chatInput.classList.add('chat-input');
+    chatInput.type = 'text';
+    chatInput.placeholder = 'Ask me something...';
+
+    const sendBtn = document.createElement('button');
+    sendBtn.classList.add('chat-send-btn');
+    sendBtn.id = 'sendQueryButton';
+    sendBtn.innerHTML = '&#9658;';
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Assemble chat window
+    chatInputArea.appendChild(chatInput);
+    chatInputArea.appendChild(sendBtn);
+    chatWindow.appendChild(chatHeader);
+    chatWindow.appendChild(chatMessages);
+    chatWindow.appendChild(chatInputArea);
+
+    // Add to body
+    document.body.appendChild(chatWindow);
+
+    // Allow Enter key to send message
+    chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        // Prevent default form submission
+        e.preventDefault();
+        // Find the send button and click it
+        document.getElementById('sendQueryButton').click();
+    }
+});
+}
+
+// Toggle chat window visibility
+function toggleChatWindow() {
+    const chatWindow = document.querySelector('.ai-chat-window');
+    const aiButton = document.querySelector('.aiBtn');
+
+    if (chatWindow.style.display === 'none') {
+        // Update todos text when opening
+        todosText = exportTodosForAI();
+
+        // Show welcome message
+        const messages = document.querySelector('.chat-messages');
+        //if (!messages.hasChildNodes()) {
+            //addMessage('AI', 'Hello! I can help you manage your tasks. What would you like to know?');
+        //}
+
+        setTimeout(() => {
+            // Show window with animation
+        chatWindow.style.display = 'flex';
+        chatWindow.classList.add('open');
+        chatWindow.classList.add('on')
+            setTimeout(() => {
+            chatWindow.classList.remove('open');
+        }, 300)
+        }, 300)
+        aiButton.classList.add('hidden');
+    } else {
+        // Hide window with animation
+
+        chatWindow.classList.add('closing');
+
+        setTimeout(() => {
+            chatWindow.classList.remove('on')
+            chatWindow.style.display = 'none';
+            chatWindow.classList.remove('closing');
+            aiButton.classList.remove('hidden');
+        }, 300);
+    }
+}
+
+// Send message to AI
+function sendMessage() {
+    const input = document.querySelector('.chat-input');
+    const message = input.value.trim();
+
+    if (!message) return;
+    const messages = document.querySelector('.chat-messages');
+    if (messages.hasChildNodes()) {
+            messages.innerHTML = '';
+        }
+
+    // Add user message to chat
+    addMessage('User', message);
+    input.value = '';
+
+    // Process with AI (simulated response for now)
+    // In a real app, you would send the message to your AI service
+
+    exportTodosForAI()
+    const prompt = `You are a task management assistant, aiming the help the user with its todos. Here are the user's tasks: ${todosText}. Current time: ${new Date().toLocaleString()}.`;
+    sessionStorage.setItem('prompt', prompt);
+    sessionStorage.setItem('input', message)
+    // Wait for AI response using polling
+    const waitForAiResponse = () => {
+        const aiResponse = sessionStorage.getItem('output');
+        if (aiResponse) {
+            // Response found, remove "Thinking..." message
+            const messages = document.querySelector('.chat-messages');
+            const thinkingMessage = messages.lastElementChild;
+            if (thinkingMessage && thinkingMessage.querySelector('.message-text').textContent === 'Thinking...') {
+                messages.removeChild(thinkingMessage);
+            }
+
+            // Add the actual AI response
+            addMessage('AI', aiResponse);
+            sessionStorage.removeItem('output'); // Clean up after use
+            sessionStorage.removeItem('prompt')
+            sessionStorage.removeItem('input')
+        } else {
+            // No response yet, check again after delay
+            setTimeout(waitForAiResponse, 100); // Poll every 100ms
+        }
+    };
+
+    // Add loading message
+    addMessage('AI', 'Thinking...');
+    // Start polling for response
+    waitForAiResponse();
+    // If using electronAPI:
+    // window.electronAPI.sendToAI({ userMessage: message, todoData: todosText })
+    //    .then(response => addMessage('AI', response));
+}
+
+// Add message to chat
+function addMessage(sender, text) {
+    const messages = document.querySelector('.chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('chat-message', sender.toLowerCase() === 'user' ? 'user-message' : 'ai-message');
+
+    const messageSender = document.createElement('div');
+    messageSender.classList.add('message-sender');
+    messageSender.textContent = sender;
+
+    const messageText = document.createElement('div');
+    messageText.classList.add('message-text');
+    messageText.innerHTML = text;
+
+    messageDiv.appendChild(messageSender);
+    messageDiv.appendChild(messageText);
+    messages.appendChild(messageDiv);
+
+    // Scroll to bottom
+    messages.scrollTop = messages.scrollHeight;
+}
+
+// Helper to count todos
+function countTodos() {
+    const todos = JSON.parse(localStorage.getItem('todos')) || [];
+    return todos.length;
+}
+
+// Initialize chat UI and update event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    createChatWindow();
+    // Replace the AI button click handler
+    aiBtn.removeEventListener('click', processWithAI);
+    aiBtn.addEventListener('click', toggleChatWindow);
+});

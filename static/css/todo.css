@@ -151,7 +151,7 @@ form {
 
 
 .completed {
-    transition: 0.2s;
+    transition: 0.3s ease;
     text-decoration: line-through;
     opacity: 0.5;
 }
@@ -414,6 +414,10 @@ form {
     margin-bottom: 4px;
 }
 
+.message-text {
+    text-align: left;
+}
+
 .chat-input-area {
     display: flex;
     padding: 10px;
@@ -427,6 +431,15 @@ form {
     border: 2px solid rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.2);
     color: white;
+    transition: 0.3s ease all;
+}
+.chat-input:hover {
+    background:rgba(255, 255, 255, .5);
+    border: 2px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+.chat-input:focus{
+    border-radius: 8px;
 }
 
 .chat-send-btn {
@@ -447,6 +460,8 @@ form {
 .chat-send-btn:hover {
     background: rgba(255, 255, 255, 0.5);
     border: 2px solid white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
 }
 
 .aiBtn.hidden {

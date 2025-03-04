@@ -197,6 +197,38 @@ toDoDiv.appendChild(timeBtn);
     }
 }
 
+// Updated function to save completion status
+function saveCompletionStatus(todoElement) {
+    let todos = JSON.parse(localStorage.getItem('todos')) || [];
+    const todoText = todoElement.querySelector('.todo-item').innerText;
+    const isCompleted = todoElement.classList.contains('completed');
+
+    // Find the matching todo item
+    const todoIndex = todos.findIndex(item =>
+        (item.text && item.text === todoText) || item === todoText
+    );
+
+    if (todoIndex !== -1) {
+        // Handle both old and new storage format
+        if (typeof todos[todoIndex] === 'string') {
+            // Convert old format to new format
+            todos[todoIndex] = {
+                text: todos[todoIndex],
+                time: null,
+                completed: isCompleted,
+                createdAt: Date.now() // Add timestamp since we don't have the original
+            };
+        } else {
+            // Update existing object
+            todos[todoIndex].completed = isCompleted;
+        }
+
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }
+    updateElectronTodos();
+}
+
+// Update deletecheck function to save completion status
 function deletecheck(event) {
     const item = event.target;
 
@@ -215,6 +247,8 @@ function deletecheck(event) {
     // Check
     if (item.classList[0] === 'check-btn') {
         item.parentElement.classList.toggle("completed");
+        // Save completion status to localStorage
+        saveCompletionStatus(item.parentElement);
     }
 
     // Time selection - open modal instead of adding input directly
@@ -223,6 +257,7 @@ function deletecheck(event) {
     }
 }
 
+// Update savelocal function to include completed property
 function savelocal(todo) {
     let todos;
     if (localStorage.getItem('todos') === null) {
@@ -234,6 +269,7 @@ function savelocal(todo) {
     todos.push({
         text: todo,
         time: null,
+        completed: false, // Initialize as not completed
         createdAt: Date.now() // Add timestamp
     });
     localStorage.setItem('todos', JSON.stringify(todos));
@@ -242,6 +278,7 @@ function savelocal(todo) {
     updateElectronTodos();
 }
 
+// Update getTodos function to apply the completed class
 function getTodos() {
     let todos;
     if (localStorage.getItem('todos') === null) {
@@ -253,11 +290,11 @@ function getTodos() {
     // Handle old format and add missing properties
     todos = todos.map(todo => {
         if (typeof todo === 'string') {
-            return { text: todo, time: null, createdAt: 0 };
+            return { text: todo, time: null, completed: false, createdAt: 0 };
         } else if (!todo.createdAt) {
-            return { ...todo, createdAt: 0 };
+            return { ...todo, createdAt: 0, completed: todo.completed || false };
         }
-        return todo;
+        return { ...todo, completed: todo.completed || false };
     }).sort((a, b) => a.createdAt - b.createdAt);
 
     // Save migrated data
@@ -321,6 +358,11 @@ function getTodos() {
         dateGroup.todos.forEach(todo => {
             const toDoDiv = document.createElement("div");
             toDoDiv.classList.add("todo");
+
+            // Apply completed class if the todo is marked as completed
+            if (todo.completed) {
+                toDoDiv.classList.add("completed");
+            }
 
             // Time btn
             const timeBtn = document.createElement('button');
@@ -540,14 +582,8 @@ function exportTodosForAI() {
             output += "Created: Unknown\n";
         }
 
-        // Add completion status
-        const todoElements = document.querySelectorAll('.todo-item');
-        let isCompleted = false;
-        todoElements.forEach(element => {
-            if (element.textContent === todoText && element.parentElement.classList.contains('completed')) {
-                isCompleted = true;
-            }
-        });
+        // Add completion status from the stored property
+        const isCompleted = todo.completed || false;
         output += `Status: ${isCompleted ? 'Completed' : 'Not Completed'}\n\n`;
     });
 
@@ -599,7 +635,7 @@ function createChatWindow() {
     const sendBtn = document.createElement('button');
     sendBtn.classList.add('chat-send-btn');
     sendBtn.id = 'sendQueryButton';
-    sendBtn.innerHTML = '&#9658;';
+    sendBtn.innerHTML = '<img src="../static/imgs/send_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="" width="22px" height="22px">';
     sendBtn.addEventListener('click', sendMessage);
 
     // Assemble chat window

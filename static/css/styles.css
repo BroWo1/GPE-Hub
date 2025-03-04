@@ -160,6 +160,7 @@ img{
 
     .nav-item.active{
       background: var(--active);
+        box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     }
 
 
@@ -316,23 +317,56 @@ img{
     }
 
     /* Card class shares similar glass style with the nav bar */
-    .card {
-      backdrop-filter: blur(8px);
-      background: rgba(255, 255, 255, 0.3);
-      border: 2px solid rgba(255, 255, 255, 0.4);
-      border-radius: 15px;
-      padding: 16px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border 0.3s ease;
-        box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
-        position: relative;
-    }
+    /* Add these styles to your styles.css file */
 
-    .card:hover{
-      transform: scale(1.03);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        background: rgba(255, 255, 255, 0.5);
-        border: 2px solid white;
-    }
+/* Add these styles to your styles.css file */
+
+.card {
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 15px;
+  padding: 16px;
+  /* Important: Set initial transition for hover entry */
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, background 0.3s ease, border 0.3s ease;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transform-style: preserve-3d; /* Important for 3D effects */
+  transform: perspective(1000px) rotateX(0) rotateY(0) scale(1); /* Explicit initial state */
+  will-change: transform, box-shadow; /* Performance optimization */
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid white;
+  /* CSS fallback for when JavaScript is disabled */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Optional: Add a smooth transition for the card's content */
+.card * {
+  transition: transform 0.2s ease;
+  transform-style: preserve-3d;
+}
+
+/* Optional: Add a subtle shine effect */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* Makes sure it doesn't interfere with card interactions */
+}
+
+.card:hover::before {
+  opacity: 1;
+}
 
     .item-list {
             display: flex;

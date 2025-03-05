@@ -9,6 +9,7 @@
     "developerMode": "开发者模式",
     "showGPEBall": "显示GPE球",
     "language": "语言",
+  "todo": "待办",
     "Cards":{
       "TeacherRating": "老师评分",
       "TeacherRatingDescription": "在GPEHub上评分你的老师！",

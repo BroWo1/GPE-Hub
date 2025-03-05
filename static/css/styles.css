@@ -163,6 +163,10 @@ img{
         box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     }
 
+    .nav-item.active:hover{
+      background: rgba(255, 255, 255, 0.5);
+    }
+
 
     /* On hover of the sidebar, nav-items expand in width */
     .sidebar:hover .nav-item , .sidebar.expanded .nav-item{
@@ -178,7 +182,6 @@ img{
 
     .nav-item img {
       vertical-align: middle;
-      border-radius: 50%;
     }
 
     .nav-item span {
@@ -766,7 +769,7 @@ input[type="checkbox"].checkbox2:checked::after {
     background: rgba(255, 255, 255, 0.3);
     border: 2px solid rgba(255, 255, 255, 0.5);
     box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.3);
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

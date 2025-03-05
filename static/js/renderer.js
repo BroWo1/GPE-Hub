@@ -352,8 +352,8 @@ function applySidebarTiltEffect() {
         const mouseY = e.clientY - centerY;
 
         // Use very subtle rotation for sidebar - much less than cards
-        const rotateY = mouseX * 0.02;
-        const rotateX = -mouseY * 0.0125;
+        const rotateY = mouseX * 0.05;
+        const rotateX = -mouseY * 0.05;
 
         // Apply transform without affecting width transition
         this.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;

@@ -164,3 +164,69 @@ function closeExpend() {
         }, 300);
     }
 }
+// Add this new function to apply tilt effect to app cards
+function applyAppCardTiltEffect() {
+    const appCards = document.querySelectorAll('.appCard');
+
+    appCards.forEach(appCard => {
+        appCard.addEventListener('mouseenter', function() {
+            this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+            setTimeout(() => {
+                this.style.transition = 'none';
+            }, 300);
+        });
+
+        appCard.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const mouseX = e.clientX - centerX;
+            const mouseY = e.clientY - centerY;
+
+            const rotateY = mouseX * 0.1;
+            const rotateX = -mouseY * 0.1;
+
+            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+
+            const shadowX = mouseX * 0.05;
+            const shadowY = mouseY * 0.05;
+            this.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.2), 
+                                   0 8px 20px rgba(0, 0, 0, 0.15), 
+                                   0 0 10px rgba(255, 255, 255, 0.5)`;
+
+            // Also apply effect to the button and image inside
+            const button = this.querySelector('.appCardButton');
+            if (button) {
+                button.style.transform = `translateZ(5px)`;
+            }
+
+            const text = this.querySelector('.appCardText');
+            if (text) {
+                text.style.transform = `translateZ(3px)`;
+            }
+        });
+
+        appCard.addEventListener('mouseleave', function() {
+            this.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease, background 0.3s ease, border 0.3s ease';
+            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            this.style.boxShadow = '2px 4px 6px rgba(0, 0, 0, 0.3)';
+
+            // Reset inner elements
+            const button = this.querySelector('.appCardButton');
+            if (button) {
+                button.style.transform = '';
+            }
+
+            const text = this.querySelector('.appCardText');
+            if (text) {
+                text.style.transform = '';
+            }
+        });
+    });
+}
+
+// Update the DOMContentLoaded event handler to include the new function
+document.addEventListener('DOMContentLoaded', () => {
+    applyAppCardTiltEffect();
+});

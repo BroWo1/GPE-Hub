@@ -84,6 +84,8 @@ function displayNotes() {
         `;
         notesList.appendChild(listItem);
     });
+
+    applyNoteTiltEffect()
 }
 
 
@@ -169,3 +171,46 @@ function deleteNote(noteId) {
 }
 
 displayNotes();
+
+function applyNoteTiltEffect() {
+    const notes = document.querySelectorAll('#notes-list li');
+
+    notes.forEach(note => {
+        // Apply 3D properties
+        note.style.transformStyle = 'preserve-3d';
+        note.style.willChange = 'transform, box-shadow';
+
+        note.addEventListener('mouseenter', function() {
+            this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+            setTimeout(() => {
+                this.style.transition = 'none';
+            }, 300);
+        });
+
+        note.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const mouseX = e.clientX - centerX;
+            const mouseY = e.clientY - centerY;
+
+            const rotateY = mouseX * 0.05;
+            const rotateX = -mouseY * 0.05;
+
+            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+
+            const shadowX = mouseX * 0.05;
+            const shadowY = mouseY * 0.05;
+            this.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.2), 
+                                   0 8px 20px rgba(0, 0, 0, 0.15), 
+                                   0 0 10px rgba(255, 255, 255, 0.5)`;
+        });
+
+        note.addEventListener('mouseleave', function() {
+            this.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease, background 0.3s ease, border 0.3s ease';
+            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            this.style.boxShadow = '2px 4px 6px rgba(0, 0, 0, 0.3)';
+        });
+    });
+}

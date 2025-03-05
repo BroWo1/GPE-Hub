@@ -63,6 +63,7 @@ form {
     width: 100px;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
     color: white;
+    cursor: pointer;
 }
 .todo-btn:hover{
     background:rgba(255, 255, 255, .5);
@@ -299,6 +300,7 @@ form {
     align-items: center;
     cursor: pointer;
     backdrop-filter: blur(8px);
+    z-index: 1000;
 }
 .aiBtn:hover{
     background:rgba(255, 255, 255, .5);

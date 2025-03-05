@@ -215,6 +215,8 @@ function setupEventListeners() {
     let unknownIndex = 0;
     let Index = 0;
 
+    applyFlashcardTiltEffect();
+
     random.addEventListener('change', () => {
         israndom = random.checked;
     });
@@ -413,3 +415,59 @@ function getNum(){
     numUnknown.textContent = 'Unknown words count: ' + unknownWords.length.toString();
 }
 
+function applyFlashcardTiltEffect() {
+    const flashcardContainer = document.getElementById('flashcard')
+    const flashcard = document.getElementById('flashcard');
+
+    if (!flashcardContainer || !flashcard) return;
+
+    // Set necessary 3D properties
+    flashcardContainer.style.transformStyle = 'preserve-3d';
+    flashcardContainer.style.willChange = 'transform, box-shadow';
+
+    flashcardContainer.addEventListener('mouseenter', function() {
+        // Smooth entry animation
+        this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+        setTimeout(() => {
+            this.style.transition = 'none';  // Remove transition for smooth movement
+        }, 300);
+    });
+
+    flashcardContainer.addEventListener('mousemove', function(e) {
+        // Skip tilt if card is currently animating
+        if (flashcard.classList.contains('slide-in') ||
+            flashcard.classList.contains('slide-out')) {
+            return;
+        }
+
+        // Calculate center point of the card
+        const rect = this.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        // Get mouse position relative to center
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
+
+        // Calculate rotation (less intense than regular cards)
+        const rotateY = mouseX * 0.03;
+        const rotateX = -mouseY * 0.03;
+
+        // Apply tilt effect
+        this.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+        // Dynamic shadow based on tilt
+        const shadowX = mouseX * 0.03;
+        const shadowY = mouseY * 0.03;
+        this.style.boxShadow = `${shadowX}px ${shadowY}px 20px rgba(0, 0, 0, 0.2), 
+                              0 8px 20px rgba(0, 0, 0, 0.15), 
+                              0 0 10px rgba(255, 255, 255, 0.5)`;
+    });
+
+    flashcardContainer.addEventListener('mouseleave', function() {
+        // Smooth exit animation
+        this.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
+        this.style.transform = 'perspective(1200px) rotateX(0) rotateY(0)';
+        this.style.boxShadow = '2px 4px 6px rgba(0, 0, 0, 0.3)';
+    });
+}

@@ -7,6 +7,12 @@
 
 Downloads for Windows and MacOS are available at [Release](https://github.com/BroWo1/GPE-Hub/releases)
 
+## Features
+* ### AI Toolbox <br><br><img src="static/imgs/ai.png" width="400"><br>
+* ### SAT Vocab Flashcard <br><br><img src="static/imgs/sat.png" width="400"><br>
+* ### AI Todo List <br><br><img src="static/imgs/todo.png" width="400"><br>
+* ### GPE Ball <br><br><img src="static/imgs/ball.png" width="400"><br>
+
 ## !!! How to use (Macos)
  1. Download and install the software
  2. In terminal, enter the following code to enable MacOS to trust pieces of software from any developer

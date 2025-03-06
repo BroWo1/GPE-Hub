@@ -416,27 +416,57 @@ function getNum(){
 }
 
 function applyFlashcardTiltEffect() {
-    const flashcardContainer = document.getElementById('flashcard')
     const flashcard = document.getElementById('flashcard');
 
-    if (!flashcardContainer || !flashcard) return;
+    if (!flashcard) return;
 
-    // Set necessary 3D properties
-    flashcardContainer.style.transformStyle = 'preserve-3d';
-    flashcardContainer.style.willChange = 'transform, box-shadow';
+    // Set up custom properties to track tilt state
+    flashcard.tiltActive = false;
+    flashcard.lastRotateX = 0;
+    flashcard.lastRotateY = 0;
 
-    flashcardContainer.addEventListener('mouseenter', function() {
-        // Smooth entry animation
-        this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
-        setTimeout(() => {
-            this.style.transition = 'none';  // Remove transition for smooth movement
-        }, 300);
+    // Use this function to apply combined transforms
+    function applyTransforms(element, transforms) {
+        let transformString = '';
+
+        // Add any slide transform if present
+        if (transforms.translateX) {
+            transformString += `translateX(${transforms.translateX}) `;
+        }
+
+        // Add rotation transforms for tilt
+        if (transforms.rotateX !== undefined && transforms.rotateY !== undefined) {
+            transformString += `perspective(1200px) rotateX(${transforms.rotateX}deg) rotateY(${transforms.rotateY}deg)`;
+        }
+
+        // Apply the combined transform
+        element.style.transform = transformString.trim();
+    }
+
+    flashcard.addEventListener('mouseenter', function() {
+        // Only enable tilt if not in animation
+        if (!this.classList.contains('slide-in') &&
+            !this.classList.contains('slide-out') &&
+            !this.classList.contains('slide-in-active')) {
+
+            this.tiltActive = true;
+
+            // Smooth entry animation
+            this.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+            setTimeout(() => {
+                if (this.tiltActive) {
+                    this.style.transition = 'none';  // Remove transition for smooth movement
+                }
+            }, 300);
+        }
     });
 
-    flashcardContainer.addEventListener('mousemove', function(e) {
-        // Skip tilt if card is currently animating
-        if (flashcard.classList.contains('slide-in') ||
-            flashcard.classList.contains('slide-out')) {
+    flashcard.addEventListener('mousemove', function(e) {
+        // Skip tilt if card is currently animating or tilt is not active
+        if (!this.tiltActive ||
+            this.classList.contains('slide-in') ||
+            this.classList.contains('slide-out') ||
+            this.classList.contains('slide-in-active')) {
             return;
         }
 
@@ -453,8 +483,15 @@ function applyFlashcardTiltEffect() {
         const rotateY = mouseX * 0.03;
         const rotateX = -mouseY * 0.03;
 
+        // Store current rotation values
+        this.lastRotateX = rotateX;
+        this.lastRotateY = rotateY;
+
         // Apply tilt effect
-        this.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        applyTransforms(this, {
+            rotateX: rotateX,
+            rotateY: rotateY
+        });
 
         // Dynamic shadow based on tilt
         const shadowX = mouseX * 0.03;
@@ -464,10 +501,65 @@ function applyFlashcardTiltEffect() {
                               0 0 10px rgba(255, 255, 255, 0.5)`;
     });
 
-    flashcardContainer.addEventListener('mouseleave', function() {
+    flashcard.addEventListener('mouseleave', function() {
+        // Disable tilt
+        this.tiltActive = false;
+
         // Smooth exit animation
         this.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
-        this.style.transform = 'perspective(1200px) rotateX(0) rotateY(0)';
+
+        // Reset tilt but preserve any existing slide transforms
+        if (this.classList.contains('slide-out')) {
+            applyTransforms(this, {
+                translateX: '-100%',
+                rotateX: 0,
+                rotateY: 0
+            });
+        } else if (this.classList.contains('slide-in')) {
+            applyTransforms(this, {
+                translateX: '100%',
+                rotateX: 0,
+                rotateY: 0
+            });
+        } else {
+            applyTransforms(this, {
+                rotateX: 0,
+                rotateY: 0
+            });
+        }
+
         this.style.boxShadow = '2px 4px 6px rgba(0, 0, 0, 0.3)';
     });
+
+    // Modify the nextBtn click handler to disable tilt before animation
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+
+    // Store the original nextBtn click handler
+    const originalNextClickHandler = nextBtn.onclick;
+
+    // Replace with our modified handler
+    nextBtn.onclick = function(e) {
+        // Disable tilt during animation
+        flashcard.tiltActive = false;
+        flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+
+        // Call the original handler
+        if (originalNextClickHandler) {
+            originalNextClickHandler.call(this, e);
+        }
+    };
+
+    // Same for prevBtn
+    const originalPrevClickHandler = prevBtn.onclick;
+    prevBtn.onclick = function(e) {
+        // Disable tilt during animation
+        flashcard.tiltActive = false;
+        flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+
+        // Call the original handler
+        if (originalPrevClickHandler) {
+            originalPrevClickHandler.call(this, e);
+        }
+    };
 }

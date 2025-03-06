@@ -35,15 +35,7 @@
   <div style="padding-left: 90px">
       <h1 style="text-align: center" data-i18n="vocab.SATVocab"></h1>
         <div class="flashcard-container">
-            <div class="parent">
-            <div class="dropdown top1">
-                <!-- The button text is set dynamically based on the query parameter -->
-                <button class="dropdown-toggle" id="dropdown-toggle" ></button>
-                <ul class="dropdown-menu" id="dropdown-menu">
-                  <!-- Items will be generated dynamically -->
-                </ul>
-              </div>
-            </div>
+
                 <div id="response-1"></div>
 
                     <div id="progressInfo" style="padding-bottom: 10px"></div>
@@ -65,22 +57,16 @@
                 <div id="numUnknown" class="count"></div>
             </div>
 
-            <div class="flashcard" id="flashcard">
-              <div class="front" id="front" style="align-content: center">
-                <!-- Word will be displayed here -->
-              </div>
-              <div class="back" id="back" style="align-content: center">
-                <!-- Definition will be displayed here -->
-              </div>
-            </div>
-            <div class="bottom1" style="">
-                <div style="text-align: center; position: relative;justify-content: center; top: 15%">
-              <button id="prevBtn" class="button2 lg" style="margin-right: 10px"  >
-                <span data-i18n="vocab.Previous"></span>
-              </button>
-              <button id="nextBtn" class="button2 lg">
-                <span data-i18n="vocab.Next"></span>
-              </button>
+            <div class="flashcard-container" id="flashcard-container">
+                <!-- The container handles the tilt effect -->
+                <div class="flashcard" id="flashcard">
+                    <!-- The card handles the slide animations -->
+                    <div class="front" id="front">
+                        <!-- Word will be displayed here -->
+                    </div>
+                    <div class="back" id="back">
+                        <!-- Definition will be displayed here -->
+                    </div>
                 </div>
             </div>
             <br><br>
@@ -107,6 +93,25 @@
 
         </script>
           </div>
+  <div class="bottom1" style="">
+                <div style="text-align: center; position: relative;justify-content: center; top: 15%">
+              <button id="prevBtn" class="button2 lg" style="margin-right: 10px"  >
+                <span data-i18n="vocab.Previous"></span>
+              </button>
+              <button id="nextBtn" class="button2 lg">
+                <span data-i18n="vocab.Next"></span>
+              </button>
+                </div>
+            </div>
+  <div class="parent">
+            <div class="dropdown top1">
+                <!-- The button text is set dynamically based on the query parameter -->
+                <button class="dropdown-toggle" id="dropdown-toggle" ></button>
+                <ul class="dropdown-menu" id="dropdown-menu">
+                  <!-- Items will be generated dynamically -->
+                </ul>
+              </div>
+            </div>
 
     <!-- You can also require other files to run in this process -->
     <script src="../static/js/renderer.js"></script>

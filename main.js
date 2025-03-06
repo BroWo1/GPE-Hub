@@ -237,8 +237,6 @@ i18next
   })
   mainWindow.setMenu(null)
 
-    checkUpdate(mainWindow, ipcMain);
-
   ipcMain.handle('fetch-items', async () => {
     try {
         const response = await axios.get('http://117.72.120.34:8000/items');
@@ -475,6 +473,7 @@ app.whenReady().then(() => {
   createWindow()
   createTray()
   createBallWindow()
+    checkUpdate(mainWindow, ipcMain);
 
   
   // Register global shortcut (Alt+B to toggle ball window)

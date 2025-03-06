@@ -9,6 +9,17 @@
     transform-style: preserve-3d; /* 3D space for container */
 }
 
+/* Updated CSS to properly handle animations */
+.flashcard-container {
+    position: relative;
+    width: 500px;
+    height: 333px;
+    justify-content: center;
+    margin: 0 auto;
+    transition: width 0.3s ease, height 0.3s ease;
+    transform-style: preserve-3d; /* 3D space for container */
+}
+
 /* The card itself handles animations */
 .flashcard {
     width: 100%;
@@ -18,70 +29,80 @@
     text-align: center;
     transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
     position: relative; /* Ensure it has its own stacking context */
+    will-change: transform, opacity; /* Performance hint for the browser */
 }
 
-/* Slide animations affect only the card */
+/* Slide animations */
+.flashcard.slide-out {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
 .flashcard.slide-in {
-    transition: none;
     transform: translateX(100%);
     opacity: 0;
+    transition: none; /* No transition for setup */
 }
 
 .flashcard.slide-in-active {
     transform: translateX(0);
     opacity: 1;
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
 }
 
-.flashcard.slide-out {
-    transform: translateX(-100%);
-    opacity: 0;
+.flashcard div {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border: 5px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.3);
+    transition: transform 0.5s, border 0.3s, background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-        .flashcard div {
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          backface-visibility: hidden;
-          border: 5px solid rgba(255, 255, 255, 0.5);
-          border-radius: 8px;
-          padding: 20px;
-          box-sizing: border-box;
-          background-color: rgba(255, 255, 255, 0.3);
-          transition: transform 0.5s, border 0.3s, background-color 0.3s, box-shadow 0.3s;
-            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
 
-        }
-        .flashcard div:hover{
-            border: 5px solid white;
-            background-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-        .flashcard .back {
-          transform: rotateY(180deg);
-        }
-        .flashcard.flipped .front {
-          transform: rotateY(180deg);
-        }
-        .flashcard.flipped .back {
-          transform: rotateY(0);
-        }
-        .flashcard {
-          transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
-        }
+.flashcard div:hover {
+    border: 5px solid white;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
 
+.flashcard .back {
+    transform: rotateY(180deg);
+}
 
-        #front {
-          font-size: 50px;
-            color: white;
-            font-weight: bold;
-            align-items: center;
-            justify-content: center;
-        }
-        #back {
-          font-size: 30px;
-            color: white;
-            align-items: center;
-            justify-content: center;
-        }
+.flashcard.flipped .front {
+    transform: rotateY(180deg);
+}
+
+.flashcard.flipped .back {
+    transform: rotateY(0);
+}
+
+#front {
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+}
+
+#back {
+    font-size: 30px;
+    color: white;
+}
+
+/* Responsive design */
+@media (max-width: 650px) {
+    .flashcard-container {
+        width: 450px;
+        height: 300px;
+    }
+}
         .count {
             font-size: 20px;
         }

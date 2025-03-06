@@ -144,7 +144,8 @@ getLanguage: () => ipcRenderer.invoke('get-language'),
   openFileDialog: () => ipcRenderer.invoke('dialog:openFile'),
     sendNotification: (title, body) => {
         ipcRenderer.send('send-notification', title, body);
-    }
+    },
+    checkForUpdates: () => ipcRenderer.invoke('check-for-updates'),
 });
 
 // In preload.js

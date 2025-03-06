@@ -1,6 +1,6 @@
 {
   "name": "gpehub",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "productName": "GPE Hub",
   "description": "GPEHub",
   "main": "main.js",
@@ -8,7 +8,10 @@
     "start": "electron .",
     "build": "electron-builder"
   },
-  "repository": "https://github.com/BroWo1/GPE-Hub",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BroWo1/GPE-Hub.git"
+  },
   "keywords": [
     "GPEHub",
     "GPE Club",

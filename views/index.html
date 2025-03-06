@@ -75,6 +75,37 @@
          
       </div>
   </div>
+  <!--<button id="checkUpdateButton" class="button2">Check for Updates</button>-->
+
+<script>
+  document.getElementById('checkUpdateButton').addEventListener('click', async () => {
+    // Show loading indicator
+    const loading = document.createElement("div");
+    loading.className = "load";
+    const spinner = document.createElement("div");
+    spinner.className = "spinner";
+    loading.appendChild(spinner);
+    document.body.appendChild(loading);
+
+    try {
+      // Call the IPC handler we set up
+      const hasUpdate = await window.electron.checkForUpdates();
+      if (!hasUpdate) {
+        // If no update is available, show a message
+        alert('You are using the latest version!');
+      }
+    } catch (error) {
+      console.error('Error checking for updates:', error);
+      alert('Failed to check for updates. Please try again later.');
+    } finally {
+      // Remove loading indicator
+      loading.className = "load exit";
+      setTimeout(() => {
+        loading.remove();
+      }, 300);
+    }
+  });
+</script>
 
     <!-- You can also require other files to run in this process --><script src="../static/js/i18n.js"></script>
 

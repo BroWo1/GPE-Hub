@@ -207,7 +207,7 @@ function setupEventListeners() {
     const random = document.getElementById('random');
     const practiceUnknown = document.getElementById('practiceUnknown');
     const clear = document.getElementById('clear');
-    const toastLiveExample = document.getElementById('liveToast')
+    const toastLiveExample = document.getElementById('liveToast');
 
     let modeUnknown = practiceUnknown.checked;
     let israndom = random.checked;
@@ -215,23 +215,28 @@ function setupEventListeners() {
     let unknownIndex = 0;
     let Index = 0;
 
+    // Apply tilt effect
     applyFlashcardTiltEffect();
 
+    // Set up checkbox event listeners
     random.addEventListener('change', () => {
         israndom = random.checked;
     });
+
     practiceUnknown.addEventListener('change', () => {
         modeUnknown = practiceUnknown.checked;
     });
 
+    // Card flip on click
     flashcard.addEventListener('click', () => {
-        console.log('clicked')
+        console.log('clicked');
         flashcard.classList.toggle('flipped');
     });
+
+    // Keyboard controls
     document.addEventListener('keydown', (event) => {
         if (event.code === 'Space') {
             event.preventDefault();
-            console.log('clicked')
             flashcard.classList.toggle('flipped');
         }
         if (event.code === 'ArrowLeft') {
@@ -247,6 +252,8 @@ function setupEventListeners() {
             unknown.click();
         }
     });
+
+    // Clear data button
     clear.addEventListener('click', () => {
         knownWords = [];
         unknownWords = [];
@@ -255,86 +262,180 @@ function setupEventListeners() {
         getNum();
     });
 
+    // Previous button with improved animation
     prevBtn.addEventListener('click', () => {
-        if (!israndom) {
-            if (currentIndex > 0) {
-                currentIndex--;
-                displayFlashcard(currentIndex);
+        const flashcard = document.getElementById('flashcard');
+
+        // Disable tilt before slide animation
+        flashcard.tiltActive = false;
+
+        // Add a reverse slide-out animation
+        flashcard.style.transform = 'translateX(100%)';
+        flashcard.style.opacity = '0';
+
+        setTimeout(() => {
+            // Update card content here
+            if (!israndom) {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    displayFlashcard(currentIndex);
+                } else {
+                    alert('This is the first flashcard.');
+                    // Reset the card position without animation
+                    flashcard.style.transition = 'none';
+                    flashcard.style.transform = '';
+                    flashcard.style.opacity = '1';
+                    setTimeout(() => {
+                        flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+                    }, 10);
+                    return;
+                }
             } else {
-                alert('This is the first flashcard.');
+                if (!modeUnknown) {
+                    if (viewed.length > 0) {
+                        viewed.pop();
+                        currentIndex = viewed[viewed.length - 1];
+                        displayFlashcard(currentIndex);
+                    } else {
+                        alert('This is the first flashcard.');
+                        // Reset the card position without animation
+                        flashcard.style.transition = 'none';
+                        flashcard.style.transform = '';
+                        flashcard.style.opacity = '1';
+                        setTimeout(() => {
+                            flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+                        }, 10);
+                        return;
+                    }
+                } else {
+                    if (unknownIndex > 0) {
+                        unknownIndex--;
+                        displayFlashcard(unknownWords[unknownIndex]);
+                    } else {
+                        alert('This is the first flashcard.');
+                        // Reset the card position without animation
+                        flashcard.style.transition = 'none';
+                        flashcard.style.transform = '';
+                        flashcard.style.opacity = '1';
+                        setTimeout(() => {
+                            flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+                        }, 10);
+                        return;
+                    }
+                }
+            }
+
+            // Prepare for slide-in from the opposite direction
+            flashcard.style.transition = 'none';
+            flashcard.style.transform = 'translateX(-100%)';
+
+            // Small delay for the browser to recognize the style change
+            setTimeout(() => {
+                // Animate back to normal position
+                flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+                flashcard.style.transform = '';
+                flashcard.style.opacity = '1';
+            }, 10);
+        }, 250); // This should match the duration of the slide animation
+    });
+
+    // Next button with improved animation
+    // Updated next button handler to match the previous button's style
+nextBtn.addEventListener('click', () => {
+    const flashcard = document.getElementById('flashcard');
+
+    // Disable tilt before slide animation
+    flashcard.tiltActive = false;
+
+    // Add slide-out animation - direct style manipulation like in prevBtn
+    flashcard.style.transform = 'translateX(-100%)';
+    flashcard.style.opacity = '0';
+
+    setTimeout(() => {
+        // Update card content here
+        if (!israndom) {
+            if (!modeUnknown) {
+                if (currentIndex < vocabData.length - 1) {
+                    currentIndex++;
+                    if (knownWords !== null) {
+                        while (knownWords.includes(currentIndex) && currentIndex < vocabData.length - 1) {
+                            currentIndex++;
+                        }
+                    }
+                    displayFlashcard(currentIndex);
+                } else {
+                    alert('You have reached the last flashcard.');
+                    // Reset the card position without animation
+                    flashcard.style.transition = 'none';
+                    flashcard.style.transform = '';
+                    flashcard.style.opacity = '1';
+                    setTimeout(() => {
+                        flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+                    }, 10);
+                    return;
+                }
+            } else {
+                if (unknownIndex < unknownWords.length - 1) {
+                    unknownIndex++;
+                    displayFlashcard(unknownWords[unknownIndex]);
+                } else {
+                    alert('You have reached the last flashcard.');
+                    // Reset the card position without animation
+                    flashcard.style.transition = 'none';
+                    flashcard.style.transform = '';
+                    flashcard.style.opacity = '1';
+                    setTimeout(() => {
+                        flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+                    }, 10);
+                    return;
+                }
             }
         } else {
             if (!modeUnknown) {
-                if (viewed.length > 0) {
-                    viewed.pop();
-                    currentIndex = viewed[viewed.length - 1];
-                    displayFlashcard(currentIndex);
-                } else {
-                    alert('This is the first flashcard.');
+                currentIndex = Math.floor(Math.random() * vocabData.length);
+                if (knownWords !== null) {
+                    let attempts = 0;
+                    while (knownWords.includes(currentIndex) && attempts < 100) {
+                        currentIndex = Math.floor(Math.random() * vocabData.length);
+                        attempts++;
+                    }
                 }
+                displayFlashcard(currentIndex);
+                viewed.push(currentIndex);
             } else {
-                if (unknownIndex > 0) {
-                    unknownIndex--;
-                    displayFlashcard(unknownWords[unknownIndex]);
-                } else {
-                    alert('This is the first flashcard.');
-                }
-            }
-        }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        const flashcard = document.getElementById('flashcard');
-        flashcard.classList.add('slide-out');
-        setTimeout(() => {
-            if (!israndom) {
-                if (!modeUnknown) {
-                    if (currentIndex < vocabData.length - 1) {
-                        currentIndex++;
-                        if (knownWords !== null) {
-                            while (knownWords.includes(currentIndex)) {
-                                currentIndex++;
-                            }
-                        }
-                        displayFlashcard(currentIndex);
-                    } else {
-                        alert('You have reached the last flashcard.');
-                    }
-                } else {
-                    if (unknownIndex < unknownWords.length - 1) {
-                        unknownIndex++;
-                        displayFlashcard(unknownWords[unknownIndex]);
-                    } else {
-                        alert('You have reached the last flashcard.');
-                    }
-                }
-            } else {
-                if (!modeUnknown) {
-                    currentIndex = Math.floor(Math.random() * vocabData.length);
-                    if (knownWords !== null) {
-                        while (knownWords.includes(currentIndex)) {
-                            currentIndex = Math.floor(Math.random() * vocabData.length);
-                        }
-                    }
-                    displayFlashcard(currentIndex);
-                    viewed.push(currentIndex);
-                } else {
+                if (unknownWords.length > 0) {
                     unknownIndex = Math.floor(Math.random() * unknownWords.length);
                     displayFlashcard(unknownWords[unknownIndex]);
                     viewed.push(unknownWords[unknownIndex]);
+                } else {
+                    alert('No unknown words to practice.');
+                    // Reset the card position without animation
+                    flashcard.style.transition = 'none';
+                    flashcard.style.transform = '';
+                    flashcard.style.opacity = '1';
+                    setTimeout(() => {
+                        flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+                    }, 10);
+                    return;
                 }
             }
-            flashcard.classList.remove('slide-out');
-            flashcard.classList.add('slide-in');
-            setTimeout(() => {
-                flashcard.classList.remove('slide-in');
-                flashcard.classList.add('slide-in-active');
-                setTimeout(() => {
-                    flashcard.classList.remove('slide-in-active');
-                }, 250);
-            }, 10);
-        }, 250);
-    });
+        }
+
+        // Prepare for slide-in from the opposite direction
+        flashcard.style.transition = 'none';
+        flashcard.style.transform = 'translateX(100%)';
+
+        // Small delay for the browser to recognize the style change
+        setTimeout(() => {
+            // Animate back to normal position
+            flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+            flashcard.style.transform = '';
+            flashcard.style.opacity = '1';
+        }, 10);
+    }, 250); // This should match the duration of the slide animation
+});
+
+    // Known and unknown buttons
     known.addEventListener('click', () => {
         if(!modeUnknown){
             Index = currentIndex;
@@ -351,7 +452,7 @@ function setupEventListeners() {
             }
         }
         getNum();
-        displayProgress()
+        displayProgress();
     });
 
     unknown.addEventListener('click', () => {
@@ -361,12 +462,11 @@ function setupEventListeners() {
             setCookie('unknownWords', JSON.stringify(unknownWords));
             if(knownWords !== null && knownWords.includes(currentIndex)){
                 knownWords = knownWords.filter(index => index !== currentIndex);
-                setCookie('knownWords', JSON.stringify(knownWords))
+                setCookie('knownWords', JSON.stringify(knownWords));
             }
         }
         getNum();
     });
-
 }
 function displayProgress(){
         const progress = document.getElementById(`progress`);
@@ -425,22 +525,24 @@ function applyFlashcardTiltEffect() {
     flashcard.lastRotateX = 0;
     flashcard.lastRotateY = 0;
 
-    // Use this function to apply combined transforms
+    // Use this function to apply combined transforms while preserving slide animations
     function applyTransforms(element, transforms) {
-        let transformString = '';
+        // Check if element has slide animation classes
+        const isSlideOut = element.classList.contains('slide-out');
+        const isSlideIn = element.classList.contains('slide-in');
+        const isSlideInActive = element.classList.contains('slide-in-active');
 
-        // Add any slide transform if present
-        if (transforms.translateX) {
-            transformString += `translateX(${transforms.translateX}) `;
+        // If we're in a slide animation, don't apply tilt transforms
+        if (isSlideOut || isSlideIn || isSlideInActive) {
+            return;
         }
 
-        // Add rotation transforms for tilt
+        // Apply rotation transforms for tilt
         if (transforms.rotateX !== undefined && transforms.rotateY !== undefined) {
-            transformString += `perspective(1200px) rotateX(${transforms.rotateX}deg) rotateY(${transforms.rotateY}deg)`;
+            element.style.transform = `perspective(1200px) rotateX(${transforms.rotateX}deg) rotateY(${transforms.rotateY}deg)`;
+        } else {
+            element.style.transform = '';
         }
-
-        // Apply the combined transform
-        element.style.transform = transformString.trim();
     }
 
     flashcard.addEventListener('mouseenter', function() {
@@ -508,58 +610,50 @@ function applyFlashcardTiltEffect() {
         // Smooth exit animation
         this.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
 
-        // Reset tilt but preserve any existing slide transforms
-        if (this.classList.contains('slide-out')) {
-            applyTransforms(this, {
-                translateX: '-100%',
-                rotateX: 0,
-                rotateY: 0
-            });
-        } else if (this.classList.contains('slide-in')) {
-            applyTransforms(this, {
-                translateX: '100%',
-                rotateX: 0,
-                rotateY: 0
-            });
-        } else {
-            applyTransforms(this, {
-                rotateX: 0,
-                rotateY: 0
-            });
-        }
+        // Reset tilt only if not in a slide animation
+        if (!this.classList.contains('slide-out') &&
+            !this.classList.contains('slide-in') &&
+            !this.classList.contains('slide-in-active')) {
 
-        this.style.boxShadow = '2px 4px 6px rgba(0, 0, 0, 0.3)';
+            applyTransforms(this, {
+                rotateX: 0,
+                rotateY: 0
+            });
+
+            this.style.boxShadow = '2px 4px 6px rgba(0, 0, 0, 0.3)';
+        }
     });
 
-    // Modify the nextBtn click handler to disable tilt before animation
+    // Modify the nextBtn and prevBtn click handlers
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
 
-    // Store the original nextBtn click handler
-    const originalNextClickHandler = nextBtn.onclick;
-
-    // Replace with our modified handler
-    nextBtn.onclick = function(e) {
-        // Disable tilt during animation
+    // Add event listeners to completely disable tilt during transitions
+    nextBtn.addEventListener('click', function() {
         flashcard.tiltActive = false;
+        flashcard.style.transform = ''; // Reset any tilt transforms
         flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+    });
 
-        // Call the original handler
-        if (originalNextClickHandler) {
-            originalNextClickHandler.call(this, e);
-        }
-    };
-
-    // Same for prevBtn
-    const originalPrevClickHandler = prevBtn.onclick;
-    prevBtn.onclick = function(e) {
-        // Disable tilt during animation
+    prevBtn.addEventListener('click', function() {
         flashcard.tiltActive = false;
+        flashcard.style.transform = ''; // Reset any tilt transforms
         flashcard.style.transition = 'transform 0.25s ease-in-out, opacity 0.25s ease-in-out';
+    });
 
-        // Call the original handler
-        if (originalPrevClickHandler) {
-            originalPrevClickHandler.call(this, e);
+    // Event listeners to re-enable tilt after animations complete
+    flashcard.addEventListener('transitionend', function(e) {
+        if (e.propertyName === 'transform' || e.propertyName === 'opacity') {
+            // If we're not in a slide animation anymore, we can re-enable tilt
+            if (!this.classList.contains('slide-in') &&
+                !this.classList.contains('slide-out') &&
+                !this.classList.contains('slide-in-active')) {
+
+                // Delay enabling tilt to ensure all animations are complete
+                setTimeout(() => {
+                    this.tiltActive = true;
+                }, 50);
+            }
         }
-    };
+    });
 }

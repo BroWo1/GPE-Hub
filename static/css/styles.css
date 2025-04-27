@@ -117,7 +117,7 @@ img{
       backdrop-filter: blur(8px);
       background: var(--background3);
       /* transition for the width with delay */
-      transition: width 0.3s ease 0.3s, border-radius 0.3s ease 0.3s, box-shadow 0.3s, border 0.3s;
+      transition: width 0.3s ease 0.3s, border-radius 0.3s ease 0.3s, box-shadow 0.3s, border 0.3s, top 0.3s ease, bottom 0.3s ease;
       /* Rounding and border */
       border-radius: 15px;
       border: 2px solid var(--border);
@@ -137,6 +137,8 @@ img{
       border-radius: 35px;
         border: 2px solid var(--solid);
         box-shadow: var(--glow);
+        top: 5px;
+        bottom: 15px;
     }
 
     /* Navigation items */

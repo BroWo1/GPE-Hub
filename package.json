@@ -1,6 +1,6 @@
 {
   "name": "gpehub",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "productName": "GPE Hub",
   "description": "GPEHub",
   "main": "main.js",
